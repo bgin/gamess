@@ -1,0 +1,3244 @@
+C 29 Sep 14 - YN  - Implement Density-Functional Tight-Binding Method
+C
+C*MODULE DFTBFO    *DECK DFTB_INPUT_FRAG
+C>
+C>    @brief Make fragment information for FMO-DFTB
+C>
+C>    @details Put information for FMO-DFTB, such as the index of
+C>             species, index of atomic orbitals, number of basis
+C>             functions, labels, nuclear charges (consider BDA),
+C>             and number of electrons
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param SPNCST Spin constant array
+C>    @param NSPE Number of species
+C>    @param MAXANG Maximum angular momentum of each species
+C>    @param IW (6)
+C>    @param SPE Name of each species
+C
+      SUBROUTINE DFTB_INPUT_FRAG(NAT0)
+C
+      IMPLICIT NONE
+C
+      INTEGER, INTENT(IN) :: NAT0
+C
+      INTEGER,PARAMETER :: MXATM=2000, MXSPE=10, MXAO=8192
+      INTEGER,PARAMETER :: MXTAB=1500, MXINT=150, MXSH=5000
+      INTEGER,PARAMETER :: MXGTOT=20000
+C
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      DOUBLE PRECISION :: SKHTAB,SKSTAB,SKSELF,SKGRID,SKDIM,SKSPIN,
+     &  HUBBL,QREFL,REPCUT,REPINTV,REPSHORT,REPCOEFF,QREF,HUBB,SKCUT2,
+     &  ZREF,SPNCST
+      INTEGER :: NUMREP
+C
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     &  ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      INTEGER :: NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,IAN
+      DOUBLE PRECISION :: ZAN,C
+C
+      COMMON /NSHEL / EX(MXGTOT),CS(MXGTOT),CP(MXGTOT),CD(MXGTOT),
+     *                CF(MXGTOT),CG(MXGTOT),CH(MXGTOT),CI(MXGTOT),
+     *                KSTART(MXSH),KATOM(MXSH),KTYPE(MXSH),KNG(MXSH),
+     *                KLOC(MXSH),KMIN(MXSH),KMAX(MXSH),NSHELL
+      DOUBLE PRECISION :: EX,CS,CP,CD,CF,CG,CH,CI
+      INTEGER :: KSTART,KATOM,KTYPE,KNG,KLOC,KMIN,KMAX,NSHELL
+C
+      COMMON /RUNLAB/ TITLE(10),ANAM(MXATM),B(MXATM),BFLAB(MXAO)
+      DOUBLE PRECISION :: TITLE,ANAM,B,BFLAB
+C     character*8 a(MXATM) 
+C     EQUIVALENCE (a,anam)
+C
+      INTEGER :: I, J, IZAN
+      CHARACTER(4) :: DUM4
+C
+      DO I = NAT0+1, NAT
+        DO J = 1, NSPE
+          IF (ANAM(I)==SPE(J)) THEN
+            ISPE(I) = J
+            EXIT
+          END IF
+        END DO
+      END DO
+C
+C       CALCULATION OF INDICES FOR MATRICES H AND S
+C
+      IND(1) = 0
+      DO I = NAT0+1, NAT
+        IND(I+1) = IND(I) + MAXANG(ISPE(I))**2
+      END DO
+C
+      NUM  = IND(NAT+1) !! NUMBER OF CARTESIAN BASIS FUNCTIONS
+      NQMT = IND(NAT+1)
+C
+      NSHELL = 0
+      DO I = NAT0+1, NAT
+        NSHELL = NSHELL + MAXANG(ISPE(I))
+      END DO
+C
+C     CALL DFTB_SKTAB
+      I = 1
+      CALL DFTB_SETLAB(I,DUM4)
+C
+C         SET NUCLEAR CHARGES FOR ALL ATOMS
+C
+      DO I = NAT0+1, NAT
+        ZREF(I) = QREF(ISPE(I))
+c     adjust for the BDA
+        izan=int(zan(i)+1.0D-02)
+        if(ian(i).ne.izan) then
+          if(izan.eq.1) then
+            zref(i)=1.0D+00 
+          else
+            zref(i)=zref(i)-1.0D+00 
+          endif
+        endif
+      END DO
+      CALL DCOPY(NAT,ZREF,1,ZAN,1)
+C
+C     ----- CALCULATE NUMBER OF REFERENCE ELECTRONS -----
+C
+      NE = 0
+      DO I = NAT0+1, NAT
+        NE = NE + INT(ZREF(I) + 1.0D-02)
+      END DO
+C
+      END SUBROUTINE DFTB_INPUT_FRAG
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_PREVMUL
+C>
+C>    @brief Manage Mulliken populations
+C>
+C>    @details Save Mulliken charges after energy calculation to .F23
+C>             file by calling with IMODE=1, and  restore Mulliken
+C>             charges before monomer SCF calculations from .F23 to
+C>             use them as initial guess by calling with IMODE=0
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param NFTDFTB Unit No. for storage of Mulliken population (F23)
+C>    @param MATSIZ Size of POPMAT matrix
+C>    @param IMODE (1) Save (2) Restore Mulliken charges
+C>    @param POPMAT Matrix of Mulliken populations
+C>    @param RUNTYP
+C
+      SUBROUTINE DFTB_PREVMUL(NFTDFTB,MATSIZ,IMODE,POPMAT,RUNTYP)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER, INTENT(IN) :: NFTDFTB,MATSIZ,IMODE
+      DOUBLE PRECISION, INTENT(INOUT) :: POPMAT(MATSIZ)
+      CHARACTER(*), INTENT(IN) :: RUNTYP
+      PARAMETER (MXUNIT=299)
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+      COMMON /OPNNFT/ NFTOPN(MXUNIT),NODEXT(MXUNIT),IOSMP(2)
+      LOGICAL :: OPT,GRAD
+      INTEGER, SAVE :: NSERCH
+C
+C     CALL WITH IMODE=0 BEFORE MONOSCF SUBROUTINE TO RESTORE PREVIOUS
+C     FMO-DFTB CHARGES.
+C     CALL WITH IMODE=1 AFTER ALL CALCULATIONS TO SAVE FMO-DFTB
+C     CHARGES TO THE DICTIONATRY FILE
+C
+C     WRITE MULLIKEN CHARGES INTO $SCR/$JOB.F23 FILE
+C
+      OPT  = RUNTYP(1:8).EQ."OPTFMO  ".OR.RUNTYP(1:8).EQ."OPTIMIZE".OR.
+     *       RUNTYP(1:8).EQ."SADPOINT".OR.RUNTYP(1:8).EQ."SURFACE ".OR.
+     *       RUNTYP(1:8).EQ."MD      "
+      GRAD = OPT.OR.RUNTYP(1:8).EQ."GRADIENT"
+C
+      IF (GRAD) THEN
+        IF (IMODE.EQ.1) THEN
+          IF (OPT) THEN
+C           IF (NSERCH.EQ.0) THEN
+            IF (NFTOPN(NFTDFTB).EQ.0) THEN
+           CALL SEQOPN(NFTDFTB,'JKFILE','UNKNOWN',.FALSE.,'UNFORMATTED')
+              NSERCH = 0
+            END IF
+            CALL SEQREW(NFTDFTB)
+            CALL SQWRIT(NFTDFTB,POPMAT,MATSIZ)
+            WRITE (IW,'(" SAVE MULLIKEN POPULATIONS INTO .F23")')
+            WRITE (IW,'(" FOR NSERCH = ",X,I4)') NSERCH
+            NSERCH = NSERCH + 1
+          END IF
+        ELSE IF (IMODE.EQ.0) THEN
+          IF (NSERCH.GT.0) THEN
+            CALL SEQREW(NFTDFTB)
+            CALL SQREAD(NFTDFTB,POPMAT,MATSIZ)
+            WRITE (IW,'(" READ MULLIKEN POPULATIONS FROM .F23")')
+            WRITE (IW,'(" FOR NSERCH = ",X,I4)') NSERCH
+          END IF
+        END IF
+      END IF
+C
+      END SUBROUTINE DFTB_PREVMUL
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESP
+C>
+C>    @brief Calculate ESP in FMO-DFTB
+C>
+C>    @details Calculate electrostatic potential (ESP) in FMO-DFTB.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param LAYFRG Layer of each fragment
+C>    @param IAGLOB Global atom index
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param POPMAT Matrix of Mulliken population
+C>    @param SS Overlap matrix
+C>    @param FAO Fock (Hamilton) matrix
+C>    @param ISPEFMO ISPE (Index of species) for all NATFMO
+C>    @param FMOC Coordinates for all NATFMO
+C>    @param GAMMA3 Gamma of DFTB3
+C
+CD    SUBROUTINE DFTB_ESP(layfrg,iaglob,natfrg,indfrg,iatfrg,popmat,
+CD   *  ss,fao,ISPEFMO,FMOC,gamma3)
+      SUBROUTINE DFTB_ESP(iaglob,natfrg,indfrg,iatfrg,popmat,
+     *  ss,fao,ISPEFMO,FMOC,gamma3)
+c
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10,MXTAB=1500,MXINT=150
+      DOUBLE PRECISION, PARAMETER :: ZERO=0.0D+00,HALF=5.0D-01,
+     * ONE_THIRD=1.0D+00/3.0D+00
+C
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+      COMMON /FMCOM / X(1)
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      common /fmorun/ espscf,e0scf(2),emp2s,IDAFMO,icurfg,jcurfg,kcurfg,
+     *                icurlay,icurunt,nat1e,ncursh,ngau,icurpop,ifmostp,
+     *                moncor,needr,modrst,norbproj,nunesp,iskipesp,
+     *                IESDPPC,idoprop,mp2run,icurit,idmfmo,iddfmo,
+     *                iddcur,nddleft,ivmfmo,nzmtfmo,ifmobas
+C
+      double precision popmat(maxnat,nfg),ss(*),fao(*)
+C     integer layfrg(*)
+C
+      INTEGER :: IAGLOB(*),NATFRG(*),INDFRG(*),IATFRG(*),ISPEFMO(*)
+      DOUBLE PRECISION :: SHIFT(NAT),FMOC(3,NATFMO),TMP(12,NSPE,NSPE),
+     * SHIFT2(NAT*2),TMP3(10,NSPE,NSPE),GAMMA3(NATFMO,NATFMO)
+C
+C     ------ ADD ESP for FMO-DFTB corresponding to the
+C     SECOND-ORDER HAMILTONIAN term in DFTB -----
+C
+      ifg=icurfg
+      jfg=jcurfg
+      kfg=kcurfg
+C
+      CALL VCLR(SHIFT,1,NAT)
+      IF (DFTB3) THEN
+        CALL VCLR(SHIFT2,1,NAT*2)
+        IF (ABS(MODGAMMA).LE.1)
+     *    CALL DCOPY(10*NSPE*NSPE,X(LGAMMA3),1,TMP3,1)
+      END IF
+C
+C     LOOP FOR ENVIRONMENTAL FRAGMENTS
+C
+      IF (MODGAMMA.EQ.0) THEN
+        CALL DCOPY(12*NSPE*NSPE,X(LGAMMA),1,TMP,1)
+        DO LFG = 1, NFG
+          IF (LFG.NE.IFG.AND.LFG.NE.JFG.AND.LFG.NE.KFG) THEN
+            NATJ = NATFRG(LFG)
+            INDJ = INDFRG(LFG)
+            JJ = INDJ - 1
+            DO J = 1, NATJ !! ENVIRONMENTAL FRAGMENTS
+              JJ = JJ + 1
+              CHAMUL = POPMAT(J,LFG) - X(LZREF+JJ-1)
+              IF (CHAMUL.EQ.ZERO) CYCLE
+              JAG = IATFRG(JJ)
+              JSP = ISPEFMO(JAG)
+              DO I = 1, NAT !! FRAGMNET TO BE CONSIDERED
+                IAG = IAGLOB(I)
+                ISP = ISPEFMO(IAG)
+                DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *               + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *               + (FMOC(3,IAG)-FMOC(3,JAG))**2
+                DIST = SQRT(DIST)
+                GAMMAV = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *            DAMPXHE,SPE(ISP),SPE(JSP))
+                SHIFT(I) = SHIFT(I) + CHAMUL * GAMMAV
+                IF (DFTB3) THEN
+                  CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *             SPE(ISP),SPE(JSP))
+                  GAMI = GAMI * HUBDER(ISP)
+                  GAMJ = GAMJ * HUBDER(JSP)
+                  SHIFT2(I) = SHIFT2(I)
+     *              + CHAMUL * GAMI !! 2/3 coefficiets later multiplied
+                  SHIFT2(I+NAT) = SHIFT2(I+NAT)
+     *              + CHAMUL * CHAMUL * GAMJ
+                END IF
+              END DO
+            END DO
+          END IF
+        END DO
+      END IF
+C
+      IF (ABS(MODGAMMA).EQ.1) THEN
+        DO LFG = 1, NFG
+          IF (LFG.NE.IFG.AND.LFG.NE.JFG.AND.LFG.NE.KFG) THEN
+            NATJ = NATFRG(LFG)
+            INDJ = INDFRG(LFG)
+            JJ = INDJ - 1
+            DO J = 1, NATJ !! ENVIRONMENTAL FRAGMENTS
+              JJ = JJ + 1
+              CHAMUL = POPMAT(J,LFG) - X(LZREF+JJ-1)
+              IF (CHAMUL.EQ.ZERO) CYCLE
+              JAG = IATFRG(JJ)
+              DO I = 1, NAT !! FRAGMNET TO BE CONSIDERED
+                IAG = IAGLOB(I)
+c               CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+                IF (IAG.GE.JAG) THEN
+                  NSEQ = IAG*(IAG-1)/2 + JAG
+                ELSE
+                  NSEQ = JAG*(JAG-1)/2 + IAG
+                END IF
+                GAMMAV = X(LGAMMA+NSEQ-1)
+                SHIFT(I) = SHIFT(I) + CHAMUL * GAMMAV
+                IF (DFTB3) THEN
+                  ISP = ISPEFMO(IAG)
+                  JSP = ISPEFMO(JAG)
+                  DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *                 + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *                 + (FMOC(3,IAG)-FMOC(3,JAG))**2
+                  DIST = SQRT(DIST)
+                  CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *              SPE(ISP),SPE(JSP))
+                  GAMI = GAMI * HUBDER(ISP)
+                  GAMJ = GAMJ * HUBDER(JSP)
+                  SHIFT2(I) = SHIFT2(I)
+     *              + CHAMUL * GAMI !! 2/3 coefficiets later multiplied
+                  SHIFT2(I+NAT) = SHIFT2(I+NAT)
+     *              + CHAMUL * CHAMUL * GAMJ
+                END IF
+              END DO
+            END DO
+          END IF
+        END DO
+      END IF
+C
+      IF (ABS(MODGAMMA).EQ.2) THEN
+        IF (DFTB3) THEN
+          DO LFG = 1, NFG
+            IF (LFG.NE.IFG.AND.LFG.NE.JFG.AND.LFG.NE.KFG) THEN
+              NATJ = NATFRG(LFG)
+              INDJ = INDFRG(LFG)
+              JJ = INDJ - 1
+              DO J = 1, NATJ !! ENVIRONMENTAL FRAGMENTS
+                JJ = JJ + 1
+                CHAMUL = POPMAT(J,LFG) - X(LZREF+JJ-1)
+                IF (CHAMUL.EQ.ZERO) CYCLE
+                JAG = IATFRG(JJ)
+                DO I = 1, NAT !! FRAGMNET TO BE CONSIDERED
+                  IAG = IAGLOB(I)
+                  CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+                  GAMMAV = X(LGAMMA+NSEQ-1)
+                  SHIFT(I) = SHIFT(I) + CHAMUL * GAMMAV
+C                 GAMI = X(LGAMMA3+IAG-1+(JAG-1)*NATFMO) !! G_ac
+C                 GAMJ = X(LGAMMA3+JAG-1+(IAG-1)*NATFMO) !! G_ca
+                  GAMI = GAMMA3(IAG,JAG)
+                  GAMJ = GAMMA3(JAG,IAG)
+                  SHIFT2(I) = SHIFT2(I)
+     *              + CHAMUL * GAMI !! 2/3 coefficiets later multiplied
+                  SHIFT2(I+NAT) = SHIFT2(I+NAT)
+     *              + CHAMUL * CHAMUL * GAMJ
+                END DO
+              END DO
+            END IF
+          END DO
+        ELSE
+          DO LFG = 1, NFG
+            IF (LFG.NE.IFG.AND.LFG.NE.JFG.AND.LFG.NE.KFG) THEN
+              NATJ = NATFRG(LFG)
+              INDJ = INDFRG(LFG)
+              JJ = INDJ - 1
+              DO J = 1, NATJ !! ENVIRONMENTAL FRAGMENTS
+                JJ = JJ + 1
+                CHAMUL = POPMAT(J,LFG) - X(LZREF+JJ-1)
+                IF (CHAMUL.EQ.ZERO) CYCLE
+                JAG = IATFRG(JJ)
+                DO I = 1, NAT !! FRAGMNET TO BE CONSIDERED
+                  IAG = IAGLOB(I)
+                  CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+                  GAMMAV = X(LGAMMA+NSEQ-1)
+                  SHIFT(I) = SHIFT(I) + CHAMUL * GAMMAV
+                END DO
+              END DO
+            END IF
+          END DO
+        END IF
+      END IF
+C
+C     ----- SAVE THE ARRAY FOR GRADIENT CALCULATION -----
+C
+C     SAVE THE SHIFT ARRAY.  THIS WILL BE USED TO CALCULATE THE NCC
+C     ENERGY IN DFTBX SUBROUTINE TO SUBTRACT THE SCC CONTRIBUTION.
+C     SHIFT MATRIX IS THEN USED TO CALCULATE ESP ENERGY DURING
+C     SCF CALCULATIONS.
+C
+      IF (DFTB3) THEN
+        !! COEFFICIENTS ARE MULTIPLIED LATER IN dftbx
+        DO I = 1, NAT*2
+          SHIFT2(I) = SHIFT2(I) * ONE_THIRD
+        END DO
+        CALL DAWRIT(IDAF,IODA,SHIFT2,NAT*2,567,0)
+      END IF
+      CALL DAWRIT(IDAF,IODA,SHIFT,NAT,566,0)
+C
+      DO I = 1, NAT
+        SHIFTI = SHIFT(I)
+        DO K = 1, MAXANG(ISPE(I))**2
+          M = IND(I)+K
+          DO J = 1, I
+            SHIFTJ = SHIFT(J)
+            SHIFTIJ = SHIFTI + SHIFTJ
+            SHIFTIJ = SHIFTIJ * HALF
+            DO L = 1, MAXANG(ISPE(J))**2
+              N = IND(J)+L
+              CALL DFTB_CNVSQ(M,N,NSEQ)
+              FAO(NSEQ)=FAO(NSEQ) + SS(NSEQ)*SHIFTIJ
+            END DO
+          END DO
+        END DO
+      END DO
+c
+      RETURN
+
+      END SUBROUTINE DFTB_ESP
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_GAMFMO
+C>
+C>    @brief Calculate gamma values in FMO-DFTB
+C>
+C>    @details Calculate gamma (DFTB2 and DFTB3) values in FMO-DFTB.
+C>             IF MODGAMMA.EQ.0, ONLY "TMP" ARRAY IS CALCULATED.  THE
+C>             ARRAY WILL BE USED WHEN GAMMA VALUES ARE CALCULATED.
+C>             THIS IMPLMENTATION IS FOR THE PROBLEM OF MEMORY.
+C>             IF MODGAMMA.EQ.1, ALL GAMMA VALUES ARE CALCULATED IN THIS
+C>             SUBROUTINE.  THE PROBLEM IS THAT TOO MUCH MEMORY IS USED
+C>             FOR TRULY LARGE MOLECULES.
+C>             ALSO, IF NDER=1 (GRADIENT), "TMPD" MATRIX IS CALCULATED.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param MODGAMMA Which values are stored (see above)
+C>    @param NDER Order of derivatives to be calculated
+C>    @param LAYFRG Layer of each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param IANFRG Global atom index
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param FMOZAN Nuclear charges of all atoms
+C>    @param ZANFRG Nuclear charges in terms of NATFMOB?
+C>    @param FMOC Coordinates for all NATFMO
+C>           --- OUTPUT ---
+C>    @param ISPEFMO ISPE (Index of species) for all NATFMO
+C>    @param GAMMAFMO Array of (MODGAMMA=0) TMP (MODGAMMA=1) DFTB2 gamma
+C>    @param GAMMAFMOD Array of TMPD for DFTB2
+C>    @param ZREFMO DFTB nuclear charges in terms of NATFMOB?
+C>    @param GAMMA3 Array of (MODGAMMA=0,1) TMP (MODGAMMA=2) DFTB3 gamma
+C>    @param GAMMA3D Array of TMPD for DFTB3
+C
+      SUBROUTINE DFTB_GAMFMO(MODGAMMA,NDER,INDFRG,IANFRG,IATFRG,
+     *  NATFRG,ISPEFMO,FMOZAN,ZANFRG,GAMMAFMO,GAMMAFMOD,ZREFFMO,FMOC,
+     *  GAMMA3,GAMMA3D)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+C
+      INTEGER,PARAMETER :: MXATM=2000, MXSPE=10,
+     *                     MXTAB=1500,MXINT=150
+C
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+C
+      INTEGER INDFRG(*),IANFRG(*),IATFRG(*),
+     * NATFRG(*),ISPEFMO(*)
+      DOUBLE PRECISION GAMMAFMO(*),ZREFFMO(*),FMOC(3,*),FMOZAN(*),
+     * ZANFRG(*),ZREFTMP,TMP(12,NSPE,NSPE),TMPD(10,NSPE,NSPE),
+     * GAMMAFMOD(*),GAMMA3(NATFMO,NATFMO),GAMMA3D(*),
+     * TMP3(10,NSPE,NSPE),TMPD3(11,NSPE,NSPE)
+C     CHARACTER(4) :: ATOMTMP
+      CHARACTER(8) :: C8DUM = '        '!, ATOMNM
+      DOUBLE PRECISION C8/8H        /
+C
+      DOUBLE PRECISION, PARAMETER :: ZERO=0.0D+00,HALF=0.5D+00,
+     * ONE=1.0D+00,TWO=2.0D+00,THREE=3.0D+00,ONE_48=ONE/4.8D+01
+      DOUBLE PRECISION, PARAMETER :: HUBTOL = 1.0D-04
+      LOGICAL :: TDFTB3
+C
+      ATOMNM = C8
+      DO I = 1, NATFMO
+        IMODE = INT(FMOZAN(I))
+        CALL ZSYMNUM(C8DUM,ATOMNM,IMODE)
+C       CALL ZSYMNUM(C8DUM,ATOMTMP,IMODE)
+C       WRITE (UNIT=ATOMNM,FMT='(A4,A4)') ATOMTMP,'    '
+        DO J = 1, NSPE
+          IF (ATOMNM==SPE(J)) THEN
+            ISPEFMO(I) = J
+            EXIT
+          END IF
+        END DO
+      END DO
+C
+      DO IFG = 1, NFG
+        INDI = INDFRG(IFG)
+        NATI = NATFRG(IFG)
+        DO I = 1, NATI
+          IAG = IATFRG(INDI+I-1)
+          ZREFTMP = QREF(ISPEFMO(IAG))
+          ZANTMP = ZANFRG(INDI+I-1)
+          izan = int(ZANTMP+1.0D-02)
+          IANTMP = IANFRG(INDI+I-1)
+          if (IANTMP.ne.izan) then
+            if (izan.eq.1) then
+              ZREFTMP=1.0D+00 
+            else
+              ZREFTMP=ZREFTMP-1.0D+00 
+            endif
+          endif
+          ZREFFMO(INDI+I-1) = ZREFTMP
+        END DO
+      END DO
+C
+      IF (.NOT.SCC) RETURN
+C
+      CALL CPU_TIME(T0)
+      DO ISP = 1, NSPE
+        DO JSP = ISP, NSPE
+          TAUA    = 3.2D+00 * HUBBL(1,ISP)
+          TAUB    = 3.2D+00 * HUBBL(1,JSP)
+          TAUMEAN = HALF * (TAUA + TAUB)
+          TAUA2   = TAUA**2
+          TAUB2   = TAUB**2
+          TAUA4   = TAUA2**2
+          TAUB4   = TAUB2**2
+          TAUA6   = TAUA2*TAUA4
+          TAUB6   = TAUB2*TAUB4
+          IF (ISP.EQ.JSP) THEN
+            TAUAB2I = ZERO
+            TAUAB3I = ZERO
+          ELSE
+            TAUAB2I = HALF / (TAUA2-TAUB2)**2
+            TAUAB3I = ONE / (TAUA2-TAUB2)**3
+          END IF
+          TMP( 1,ISP,JSP) = TAUA
+          TMP( 2,ISP,JSP) = TAUB
+          TMP( 3,ISP,JSP) = TAUMEAN
+          TMP( 4,ISP,JSP) = 0.6875D+00*TAUMEAN
+          TMP( 5,ISP,JSP) = 0.1875D+00*(TAUMEAN**2)
+          TMP( 6,ISP,JSP) = 0.0208333333333D+00*(TAUMEAN**3)
+          TMP( 7,ISP,JSP) = TAUB4*TAUA*TAUAB2I
+          TMP( 8,ISP,JSP) = TAUA4*TAUB*TAUAB2I
+          TMP( 9,ISP,JSP) = TAUB6-THREE*TAUB4*TAUA2
+          TMP(10,ISP,JSP) = TAUA6-THREE*TAUA4*TAUB2
+          TMP(11,ISP,JSP) = TAUAB3I
+          TMP(12,ISP,JSP) = 0.15625D+00*(TAUA+TAUB)
+          IF (ISP.NE.JSP) THEN
+            CALL DCOPY(12,TMP(1,ISP,JSP),1,TMP(1,JSP,ISP),1)
+            TMP( 1,JSP,ISP) =  TMP( 2,ISP,JSP)
+            TMP( 2,JSP,ISP) =  TMP( 1,ISP,JSP)
+            TMP( 7,JSP,ISP) =  TMP( 8,ISP,JSP)
+            TMP( 8,JSP,ISP) =  TMP( 7,ISP,JSP)
+            TMP( 9,JSP,ISP) =  TMP(10,ISP,JSP)
+            TMP(10,JSP,ISP) =  TMP( 9,ISP,JSP)
+            TMP(11,JSP,ISP) = -TMP(11,ISP,JSP)
+          END IF
+        END DO
+      END DO
+C
+      IF (DFTB3) THEN
+        DO I = 1, NSPE
+          TAUA = 3.2D+00*HUBB(I)
+          TAUA2 = TAUA**2
+          TAUA3 = TAUA*TAUA2
+          TAUA4 = TAUA2**2
+          TAUA6 = TAUA2*TAUA4
+          DO J = 1, NSPE
+            TAUB = 3.2D+00*HUBB(J)
+            TAUB2 = TAUB**2
+            TAUB3 = TAUB*TAUB2
+            TAUB4 = TAUB2**2
+            TAUB6 = TAUB2*TAUB4
+            IF (ABS(HUBB(I)-HUBB(J)).LE.HUBTOL) THEN
+              TMP3( 1,I,J) = TAUA
+              TMP3( 2,I,J) = TAUB
+              TMP3( 3,I,J) = -3.125D-01
+              TMP3( 4,I,J) = -3.125D-01*TAUA
+              TMP3( 5,I,J) = -1.25D-01*TAUA2
+              TMP3( 6,I,J) = -ONE_48*TAUA3
+              TMP3( 7,I,J) = 6.875D-01*TAUA
+              TMP3( 8,I,J) = 1.875D-01*TAUA2
+              TMP3( 9,I,J) = ONE_48*TAUA3
+              TMP3(10,I,J) = ZERO
+            ELSE
+              TAUAB = TAUA2 - TAUB2
+              TAUABI = ONE/TAUAB
+              TAUABI2 = TAUABI**2
+              TAUABI3 = TAUABI**3
+              TAUABI4 = TAUABI**4
+              TMP3( 1,I,J) = TAUA
+              TMP3( 2,I,J) = TAUB
+              TMP3( 3,I,J) = -HALF*(TAUB6+THREE*TAUA2*TAUB4)*TAUABI3
+              TMP3( 4,I,J) = -1.2D+01*TAUB4*TAUA3*TAUABI4
+              TMP3( 5,I,J) = HALF*TAUA*TAUB4*TAUABI2
+              TMP3( 6,I,J) = -(TAUB6-THREE*TAUA2*TAUB4)*TAUABI3
+              TMP3( 7,I,J) = -TWO*TAUA3*TAUB3*TAUABI3
+              TMP3( 8,I,J) = 1.2D+01*TAUB4*TAUA3*TAUABI4
+              TMP3( 9,I,J) = HALF*TAUB*TAUA4*TAUABI2
+              TMP3(10,I,J) = (TAUA6-THREE*TAUB2*TAUA4)*TAUABI3
+            END IF
+          END DO
+        END DO
+      END IF
+C
+      TDFTB3 = DFTB3 .AND. ABS(MODGAMMA).EQ.2
+      IF (DFTB3.AND..NOT.TDFTB3) THEN
+        CALL DCOPY(10*NSPE*NSPE,TMP3,1,GAMMA3,1)
+      END IF
+C
+      IF (MODGAMMA.EQ.0) THEN
+        WRITE (IW,'(" PREPARE CONSTANTS FOR GAMMA CALCULATION")')
+        CALL DCOPY(12*NSPE*NSPE,TMP,1,GAMMAFMO,1)
+      ELSE IF (ABS(MODGAMMA).GE.1) THEN
+        WRITE (IW,'(" ALL GAMMA VALUES ARE CALCULATED HERE")')
+        NSEQ = 0
+        IF (TDFTB3) THEN !! CALCULATE DFTB3 GAMMA SIMULTANEOUSLY
+          DO I = 1, NATFMO
+            ISP = ISPEFMO(I)
+            DO J = 1, I-1
+              JSP = ISPEFMO(J)
+              NSEQ = NSEQ + 1
+              DIST = (FMOC(1,I)-FMOC(1,J))**2
+     *             + (FMOC(2,I)-FMOC(2,J))**2
+     *             + (FMOC(3,I)-FMOC(3,J))**2
+              DIST = SQRT(DIST)
+              GAMMAFMO(NSEQ) = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *          DAMPXHE,SPE(ISP),SPE(JSP))
+              CALL DFTB_GAM3(DIST,VAL1,VAL2,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMMA3(I,J) = VAL1 * HUBDER(ISP)
+              GAMMA3(J,I) = VAL2 * HUBDER(JSP)
+            END DO
+            JSP = ISPEFMO(I)
+            NSEQ = NSEQ + 1
+            GAMMAFMO(NSEQ) = TMP(12,ISP,JSP)
+            GAMMA3(I,I) = HALF*HUBDER(ISP)
+          END DO
+        ELSE !! CALCULATE ONLY DFTB2 GAMMA
+          DO I = 1, NATFMO
+            ISP = ISPEFMO(I)
+            DO J = 1, I-1
+              JSP = ISPEFMO(J)
+              NSEQ = NSEQ + 1
+              DIST = (FMOC(1,I)-FMOC(1,J))**2
+     *             + (FMOC(2,I)-FMOC(2,J))**2
+     *             + (FMOC(3,I)-FMOC(3,J))**2
+              DIST = SQRT(DIST)
+              GAMMAFMO(NSEQ) = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *          DAMPXHE,SPE(ISP),SPE(JSP))
+            END DO
+            JSP = ISPEFMO(I)
+            NSEQ = NSEQ + 1
+            GAMMAFMO(NSEQ) = TMP(12,ISP,JSP)
+          END DO
+        END IF
+        CALL CPU_TIME(T1)
+        WRITE (IW,'(" CPU TIME FOR GAMMA PREPARATION = ",F10.5)') T1-T0
+      END IF
+C
+C     CALCULATE "TMPD" ARRAY IF GRADIENT CALCULATION IS SPECIFIED.
+C
+      IF (NDER.GT.0) THEN
+        DO ISP = 1, NSPE
+          DO JSP = ISP, NSPE
+            TAUA     = 3.2D+00 * HUBBL(1,ISP)
+            TAUB     = 3.2D+00 * HUBBL(1,JSP)
+            TAUMEAN  = HALF * (TAUA + TAUB)
+            TAUMEAN2 = TAUMEAN*TAUMEAN
+            TAUMEAN3 = TAUMEAN*TAUMEAN2
+            TAUA2   = TAUA**2
+            TAUB2   = TAUB**2
+            TAUA4   = TAUA2**2
+            TAUB4   = TAUB2**2
+            TAUA6   = TAUA2*TAUA4
+            TAUB6   = TAUB2*TAUB4
+            IF (ISP.EQ.JSP) THEN
+              TAUAB2I = ZERO
+              TAUAB3I = ZERO
+            ELSE
+              TAUAB2I = HALF / (TAUA2-TAUB2)**2
+              TAUAB3I = ONE / (TAUA2-TAUB2)**3
+            END IF
+            TMPD( 1,ISP,JSP) = TAUA
+            TMPD( 2,ISP,JSP) = TAUB
+            TMPD( 3,ISP,JSP) = TAUMEAN
+            TMPD( 4,ISP,JSP) = 0.6875D+00*TAUMEAN
+            TMPD( 5,ISP,JSP) = 0.1875D+00*TAUMEAN2
+            TMPD( 6,ISP,JSP) = 0.0208333333333D+00*TAUMEAN3
+            TMPD( 7,ISP,JSP) = (TAUB6-THREE*TAUA2*TAUB4)*TAUAB3I
+            TMPD( 8,ISP,JSP) = -(TAUA6-THREE*TAUB2*TAUA4)*TAUAB3I
+            TMPD( 9,ISP,JSP) = TAUB4*TAUA*TAUAB2I
+            TMPD(10,ISP,JSP) = TAUA4*TAUB*TAUAB2I
+            IF (ISP.NE.JSP) THEN
+              CALL DCOPY(10,TMPD(1,ISP,JSP),1,TMPD(1,JSP,ISP),1)
+              TMPD( 1,JSP,ISP) = TMPD( 2,ISP,JSP)
+              TMPD( 2,JSP,ISP) = TMPD( 1,ISP,JSP)
+              TMPD( 7,JSP,ISP) = TMPD( 8,ISP,JSP)
+              TMPD( 8,JSP,ISP) = TMPD( 7,ISP,JSP)
+              TMPD( 9,JSP,ISP) = TMPD(10,ISP,JSP)
+              TMPD(10,JSP,ISP) = TMPD( 9,ISP,JSP)
+            END IF
+          END DO
+        END DO
+        CALL DCOPY(10*NSPE*NSPE,TMPD,1,GAMMAFMOD,1)
+C       WRITE (*,*) GAMMAFMOD
+C
+        IF (DFTB3) THEN
+          TWELVE = 1.2D+01
+          ONE_15 = ONE/1.5D+01
+          ONE_24 = ONE/2.4D+01
+          DO ISP = 1, NSPE
+C           HUBA = HUBBL(1,ISP)
+C           TAUA = 3.2D+00*HUBA
+            TAUA = 3.2D+00*HUBBL(1,ISP)
+            TAUA2 = TAUA**2
+            TAUA3 = TAUA*TAUA2
+            TAUA4 = TAUA2**2
+            TAUA6 = TAUA2*TAUA4
+            DO JSP = 1, NSPE
+C             HUBB = HUBBL(1,JSP)
+C             TAUB = 3.2D+00*HUBB
+              TAUB = 3.2D+00*HUBBL(1,JSP)
+              TAUB2 = TAUB**2
+              TAUB3 = TAUB*TAUB2
+              TAUB4 = TAUB2**2
+              TAUB6 = TAUB2*TAUB4
+              IF (ABS(HUBBL(1,ISP)-HUBBL(1,JSP)).LE.HUBTOL) THEN
+                TMPD3(1,ISP,JSP) = 1.875D-01*TAUA2       !! 3/16 a^2
+                TMPD3(2,ISP,JSP) = ONE_24*TAUA3          !! 1/24 a^3
+                TMPD3(3,ISP,JSP) = 6.875D-01*TAUA        !! 11/16 a
+                TMPD3(4,ISP,JSP) = HALF*TMPD3(2,ISP,JSP) !! 1/48 a^3
+                TMPD3(5,ISP,JSP) = -6.0D-01*TAUA
+                TMPD3(6,ISP,JSP) = 2.0D-01*TAUA2
+                TMPD3(7,ISP,JSP) = 2.0D-01*TAUA3
+                TMPD3(8,ISP,JSP) = TAUA4*ONE_15
+                IF (DAMPXH) THEN
+                  TMPD3(9,ISP,JSP)  = -TAUA
+                  TMPD3(10,ISP,JSP) = -4.0D-01*TAUA2
+                  TMPD3(11,ISP,JSP) = -TAUA3*ONE_15
+                END IF
+              ELSE
+                TAUAB = TAUA2 - TAUB2
+                TAUABI = ONE/TAUAB
+                TAUABI2 = TAUABI**2
+                TAUABI3 = TAUABI**3
+                TAUABI4 = TAUABI**4
+                TMPD3(1,ISP,JSP) =  (TAUB6-THREE*TAUA2*TAUB4)*TAUABI3
+                TMPD3(2,ISP,JSP) = HALF*TAUA*TAUB4*TAUABI2
+                TMPD3(3,ISP,JSP) = -(TAUA6-THREE*TAUB2*TAUA4)*TAUABI3
+                TMPD3(4,ISP,JSP) = HALF*TAUB*TAUA4*TAUABI2
+                TMPD3(5,ISP,JSP)=-HALF*(TAUB6+THREE*TAUA2*TAUB4)*TAUABI3
+                TMPD3(6,ISP,JSP) = -TWELVE*TAUA3*TAUB4*TAUABI4
+                TMPD3(7,ISP,JSP) = -TWO*TAUB3*TAUA3*TAUABI3
+                TMPD3(8,ISP,JSP) =  TWELVE*TAUB4*TAUA3*TAUABI4
+              END IF
+            END DO
+          END DO
+          CALL DCOPY(11*NSPE*NSPE,TMPD3,1,GAMMA3D,1)
+        END IF
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_GAMFMO
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_DCFMO
+C>
+C>    @brief Dispersion correction for FMO-DFTB
+C>
+C>    @details Prepare dispersion correction for FMO-DFTB
+C>             If called with MODGAM>=0, only constants are calculated
+C>             here and returned them as DCTMP.
+C>             If called with MODGAM<0, dispersion interaction between
+C>             each atom is calculated here, however this does not
+C>             improve performance and efficiency.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param MODGAM Whether only constants are calculated or each
+C>           atom pair interaction is calculated.
+C>    @param NATFMO Number of atoms
+C>    @param ISPEFMO ISPE (Index of species) for all NATFMO,
+C>           prepared in DFTB_GAMFMO subroutine
+C>    @param C Coordinate
+C>           --- OUTPUT ---
+C>    @param DCTMP (MODGAM>=0) Constants used for dispersion correction
+C>                 (MODGAM<0) each potential
+C>
+C
+      SUBROUTINE DFTB_DCFMO(MODGAM,NATFMO,DCTMP,ISPEFMO,C)
+C
+      IMPLICIT NONE
+C
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10
+      DOUBLE PRECISION, PARAMETER :: TWO=2.0D+00
+C
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+      INTEGER :: MODGAM,NATFMO,I,J,NSEQ,NSP1,NSP2,ISPEFMO(*),IW=6
+      DOUBLE PRECISION :: CR0,RI,RJ,DI,DJ,RIJ,DIJ,R0,PA,R0A,NEA,C6A,
+     * PB,R0B,NEB,C6B,C6AB,R0AB,R0AB7I,DIST,R6,R12,TMP,R5,R10,DISTI,
+     * DIST6I,DIST7,VEXP,DAMP1,DAMP4,C0,C1,C2,T0,T1
+      DOUBLE PRECISION :: WRK(3,NSPE,NSPE),DCTMP(*),C(3,*)
+C
+      CALL CPU_TIME(T0)
+      IF (IDFTBD.EQ.1) THEN
+        DO I = 1, NSPE
+          CR0 = 8.908987181D-01
+          RI = DFTBDP(I*2-1)
+          DI = DFTBDP(I*2  )
+          DO J = I, NSPE
+            RJ = DFTBDP(J*2-1)
+            DJ = DFTBDP(J*2  )
+            RIJ = SQRT(RI*RJ) !! van der Waals distance
+            DIJ = SQRT(DI*DJ) !! well depth
+            R0 = CR0*RIJ
+            WRK(1,I,J) = R0
+            WRK(2,I,J) = RIJ
+            WRK(3,I,J) = DIJ
+            WRK(1,J,I) = R0
+            WRK(2,J,I) = RIJ
+            WRK(3,J,I) = DIJ
+          END DO
+        END DO
+      ELSE IF (IDFTBD.EQ.2) THEN
+        DO I = 1, NSPE
+          PA  = DFTBDP(I*3-2)
+          R0A = DFTBDP(I*3-1)
+          NEA = DFTBDP(I*3  )
+          C6A = 7.5D-01*SQRT(NEA*PA*PA*PA)
+          DO J = I, NSPE
+            PB  = DFTBDP(J*3-2)
+            R0B = DFTBDP(J*3-1)
+            NEB = DFTBDP(J*3  )
+            C6B = 7.5D-01*SQRT(NEB*PB*PB*PB)
+C
+            C6AB = (2.0D+00*C6A*C6B*PA*PB) / (PA*PA*C6B+PB*PB*C6A)
+            R0AB = (R0A**3 + R0B**3) / (R0A**2 + R0B**2)
+            R0AB7I = 1.0D+00 / R0AB**7
+            WRK(1,I,J) = C6AB
+            WRK(2,I,J) = R0AB7I
+            WRK(1,J,I) = C6AB
+            WRK(2,J,I) = R0AB7I
+          END DO
+        END DO
+      END IF
+C
+      IF (MODGAM.GE.0) THEN
+        CALL DCOPY(3*NSPE*NSPE,WRK,1,DCTMP,1)
+        RETURN
+      END IF
+C
+      IF (IDFTBD.EQ.1) THEN
+        !! CALCULATE DISPERSION CORRECTION
+        C0 = 1.584D+01 !! 396/25
+        C1 = 4.78947150872246D+01 !! 2^(5/6)*672/25
+        C2 = 3.50498152274578D+01 !! 2^(2/3)*552/25
+        DO I = 1, NATFMO
+          NSP1 = ISPEFMO(I)
+          DO J = I+1, NATFMO
+            NSP2 = ISPEFMO(J)
+            R0  = WRK(1,NSP1,NSP2)
+            RIJ = WRK(2,NSP1,NSP2)
+            DIJ = WRK(3,NSP1,NSP2)
+            DIST = SQRT( (C(1,I)-C(1,J))**2
+     &                 + (C(2,I)-C(2,J))**2
+     &                 + (C(3,I)-C(3,J))**2 )
+            IF (DIST.GE.R0) THEN !! ATTRACTIVE POTENTIAL
+              TMP = RIJ/DIST
+              R6 = TMP**6
+              R12 = R6**2
+              TMP = DIJ*(-TWO*R6+R12)
+            ELSE !! REPULSIVE POTENTIAL
+              TMP = DIST/RIJ
+              R5 = TMP**5
+              R10 = R5**2
+              TMP = DIJ*(C0-C1*R5+C2*R10)
+            END IF
+            CALL DFTB_CNVSQ(I,J,NSEQ)
+            DCTMP(NSEQ) = TMP
+          END DO
+        END DO
+      ELSE IF (IDFTBD.EQ.2) THEN
+        DO I = 1, NATFMO
+          NSP1 = ISPEFMO(I)
+          DO J = I+1, NATFMO
+            NSP2 = ISPEFMO(J)
+            C6AB   = WRK(1,NSP1,NSP2)
+            R0AB7I = WRK(2,NSP1,NSP2)
+            DIST = SQRT( (C(1,I)-C(1,J))**2
+     &                 + (C(2,I)-C(2,J))**2
+     &                 + (C(3,I)-C(3,J))**2 )
+            DISTI = 1.0D+00 / DIST
+            DIST6I = DISTI**6
+            DIST7  = DIST**7
+            VEXP = EXP(-3.0D+00*R0AB7I*DIST7)
+            DAMP1 = 1.0D+00 - VEXP
+            DAMP4 = DAMP1**4 !! THIS IS THE DAMPING FUNCTION (f(R))
+            TMP = -1.0D+00 * DAMP4 * C6AB * DIST6I
+            CALL DFTB_CNVSQ(I,J,NSEQ)
+            DCTMP(NSEQ) = TMP
+          END DO
+        END DO
+      END IF
+      CALL CPU_TIME(T1)
+      WRITE (IW,'(" CPU TIME FOR DISP. PREPARATION = ",F10.5)') T1-T0
+C
+      END SUBROUTINE DFTB_DCFMO
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate electrostatic dimer (ES-DIM) contribution to
+C>             energy at FMO-DFTB.  This is used only for MODESD=0,
+C>             which is slowest ES-DIM option, but useful to get
+C>             complete dimer energy table.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param NDER Order of dervative to be calculated
+C>    @param IFG,JFG I and J fragment index
+C>    @param POPMAT Mulliken population
+C>           --- OUTPUT ---
+C>    @param DFTB_ESDIM ES-DIM energy contribution
+C>
+C
+C     DOUBLE PRECISION FUNCTION DFTB_ESDIM(nder,ifg,jfg,LAYFRG,
+C    *  IAGLOB,POPMAT)
+      DOUBLE PRECISION FUNCTION DFTB_ESDIM(nder,ifg,jfg,POPMAT,
+     *  ilay,ESDREP)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10,MXTAB=1500,MXINT=150
+C
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+c     COMMON /ENRGYS/ ENUCR,EELCT,ETOT,SZ,SZZ,ECORE,ESCF,EERD,E1,E2,
+c    *                VEN,VEE,EPOT,EKIN,ESTATE(MXRT),STATN,EDFT(2),EDISP
+      COMMON /FMCOM / X(1)
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      common /fmopnt/ lichfg,lmulfg,lidmrec,lfrgnam,llayfrg,lindat,
+     *                lnCBS,lfmozan,lfmoc,lfmomas,lizbas,liaglob,libdgh,
+     *                liabdfg,ljabdfg,lnCAO,lidxCAO,liaprjo,ljaprjo,
+     *                lCoreAO,lOccCor,lshiftb,liodfmo,lfmoda,lfmodb,
+     *                lfmoespa,lfmoespb,llocfmo,lscffrg,lfmoscf,lrij,
+     *                lpopmul,lpopmat,lialoc,lindbd,liatfrg,lindfrg,
+     *                lindgfrg,lnatfrg,lnat0frg,lianfrg,lzanfrg,lcfrg,
+     *                llibish,llibnsh,llibng,lindatg,lfmobuf(3),lfmode,
+     *                lnumfrg,lloctat,liaoglob,lloadm,lfmoge,ldgrid,
+     *                liodcfmo,ljob2grp,lfmopg,lemocdr,luntxyz,luntrot,
+     *                lstonep,lmapsu,lfrgmul,lclmo,lialmo,lindlmo,
+     *                latclmo,llmobdf,lfgflmo,lnfglmo,llfglmo,lpfglmo,
+     *                LPOPDMAT,lidmpnt,liddpnt,livmpnt,liactfg,lcrfrg,
+     *                lzlmfrgv,lYlmfrgv,lndtfrg,lf_mm,lg_mm
+      common /fmorun/ espscf,e0scf(2),emp2s,IDAFMO,icurfg,jcurfg,kcurfg,
+     *                icurlay,icurunt,nat1e,ncursh,ngau,icurpop,ifmostp,
+     *                moncor,needr,modrst,norbproj,nunesp,iskipesp,
+     *                IESDPPC,idoprop,mp2run,icurit,idmfmo,iddfmo,
+     *                iddcur,nddleft,ivmfmo,nzmtfmo,ifmobas
+      common /GRAD  / DE(3,MXATM)
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+      LOGICAL GOPARR,DSKWRK,MASWRK
+C
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      DOUBLE PRECISION popmat(maxnat,nfg)
+      LOGICAL, INTENT(IN) :: ESDREP
+C     integer layfrg(*)
+C
+C     ----- FIRST CALCULATE EREP -----
+C
+      IF (ESDREP) THEN
+        call makemol(ifg,jfg,0,ilay,0,0,0,0,0,0,0,.false.)
+        CALL VALFM(LOADFM)
+        LWRK = LOADFM + 1
+        LAST = LWRK   + NAT*(NAT+1)/2
+        NEED = LAST - LOADFM - 1
+        CALL GETFM(NEED)
+C       do i = 1, nat
+C         write (*,'(i3,3(x,f20.10))') i,(c(j,i),j=1,3)
+C       end do
+C       CALL DFTB_EREP(NAT,C,ISPE,NSPE,NUMREP,REPCUT,REPINTV,
+C    &         REPSHORT,REPCOEFF,ENUCR,X(LWRK),ZREF,QREF)
+        CALL DFTB_EREP(NAT,C(1:3,1:MXATM),ISPE,NSPE,
+     *         NUMREP(1:NSPE,1:NSPE),REPCUT(1:NSPE,1:NSPE),
+     '         REPINTV(1:2,1:MXINT,1:NSPE,1:NSPE),
+     &         REPSHORT(1:3,1:NSPE,1:NSPE),
+     &         REPCOEFF(1:6,1:MXINT,1:NSPE,1:NSPE),ENUCR,X(LWRK),ZREF,
+     *         QREF)
+        CALL RETFM(NEED)
+      END IF
+C
+C     ----- CALCULATE ESD ENERGY -----
+C
+      DFTB_ESDIM = 0.0D+00
+C
+C     DE HAS THE GRADIENT IN THE PREVIOUS CYCLE, SO IT HAS TO BE
+C     INITIALIZED.
+C
+C     ----- NOTHING TO BE DONE FOR NCC CALCULATION -----
+C
+      IF (.NOT.SCC) THEN
+        CALL VCLR(DE,1,3*NAT)
+C       IF (DC) THEN
+C         EDISP = 0.0D+00
+C         CALL DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAMMA,X(LNATFRG),
+C    *    X(LINDFRG),X(LIATFRG),X(LISPE),X(LDCTMP),
+C    *    X(LFMOC),X(LFMODE),X(LZREF),EDISP)
+C       END IF
+        RETURN
+      END IF
+C
+C     ----- CALCULATE ESP ENERGY FOR SEPARATED DIMER -----
+C
+      CALL DFTB_ESDIM2(IFG,JFG,MODGAMMA,X(LNATFRG),X(LINDFRG),
+     *  X(LIATFRG),MAXNAT,X(LISPE),NSPE,X(LGAMMA),X(LZREF),POPMAT,
+     *  X(LFMOC),DFTB_ESDIM,DFTB3,HUBDER,X(LGAMMA3),NATFMO,HUBB,DAMPXH,
+     *  DAMPXHE,SPE)
+C     IF (DC) THEN
+C       EDISP = 0.0D+00
+C       CALL DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAMMA,X(LNATFRG),
+C    *  X(LINDFRG),X(LIATFRG),X(LISPE),X(LDCTMP),
+C    *  X(LFMOC),X(LFMODE),X(LZREF),EDISP)
+C     END IF
+C
+      IF (NDER.EQ.0) RETURN
+C
+C     ----- CALCULATE GRADIENTS -----
+C
+      lpopmati=lpopmat+(maxnat*nfg)*(icurpop-1)
+      CALL VCLR(DE,1,3*NAT)
+      IF (MASWRK) CALL DFTB_ESDGRAD(IFG,JFG,X(LISPE),X(LPOPMATI),
+     *  X(LINDFRG),X(LNATFRG),X(LIATFRG),X(LGAMMAD),
+     *  X(LSHIFTG+NATFMO+NBDFG),X(LFMOC),X(LFMODE),X(LGAMMA3D))
+C
+      RETURN
+
+      END FUNCTION DFTB_ESDIM
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM_DC
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate dispersion correction in calculating the
+C>             electrostatic dimer (ES-DIM) contribution to
+C>             energy at FMO-DFTB.  This is called from
+C>             DFTB_ESDIM_DC_HELP subroutine.
+C>             For MODESD=0, initial EDISP is zero, however in other
+C>             cases, EDISP should have certain value.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param NDER Order of dervative to be calculated
+C>    @param NATFMO Number of atoms in the system
+C>    @param MODGAM How gamma values are calculated
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param ISPEFMO ISPE for all atoms (NATFMO)
+C>    @param DCTMP Constants for dispersion correction, see DFTB_DCFMO
+C>    @param FMOC Coordinates of allatoms (NATFMO)
+C>    @param ZREFFMO ZREF for all atoms (NATFMO)
+C>           --- IN/OUTPUT ---
+C>    @param EDISP Dispersion energy
+C>
+C
+      SUBROUTINE DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAM,NATFRG,INDFRG,
+     *  IATFRG,ISPEFMO,DCTMP,FMOC,FMODE,ZREFFMO,EDISP)
+C
+      IMPLICIT NONE
+C
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10,MXTAB=1500,MXINT=150
+      DOUBLE PRECISION, PARAMETER :: TWO=2.0D+00
+C
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      DOUBLE PRECISION :: SKHTAB,SKSTAB,SKSELF,SKGRID,SKDIM,SKSPIN,
+     &  HUBBL,QREFL,REPCUT,REPINTV,REPSHORT,REPCOEFF,QREF,HUBB,SKCUT2,
+     &  ZREF,SPNCST
+      INTEGER :: NUMREP
+C
+      INTEGER, INTENT(IN) :: IFG,JFG,NDER,NATFRG(*),INDFRG(*),
+     *  IATFRG(*),ISPEFMO(*),NATFMO,MODGAM
+      DOUBLE PRECISION, INTENT(IN) :: DCTMP(*),FMOC(3,*),
+     *  ZREFFMO(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: FMODE(3,NATFMO,*)
+      DOUBLE PRECISION, INTENT(INOUT) :: EDISP
+C
+      INTEGER :: NATI,NATJ,INDI,INDJ,IAG,JAG,I,J,K,ISP,JSP,NSEQ
+      DOUBLE PRECISION :: R0,RIJ,DIJ,DIST,TMP,R6,R12,R5,R10,VAL,
+     * C0,C1,C2,CI,CJ,C6AB,R0AB7I,DISTI,DIST6I,DIST7I,DIST7,DAMP1,
+     * DAMP3,DAMP4,VEXP
+      DOUBLE PRECISION :: RDMAT(3,NSPE,NSPE)
+C
+      NATI = NATFRG(IFG)
+      NATJ = NATFRG(JFG)
+      INDI = INDFRG(IFG)
+      INDJ = INDFRG(JFG)
+C
+      IF (MODGAM.LT.0) THEN
+        CI = 1.0D+00
+        CJ = 1.0D+00
+        DO I = 1, NATI
+          IAG = IATFRG(INDI+I-1)
+          ISP = ISPEFMO(IAG)
+          IF (QREF(ISP).NE.ZREFFMO(INDI+I-1)) THEN
+            CI = ZREFFMO(INDI+I-1)/QREF(ISP)
+          ELSE
+            CI = 1.0D+00
+          END IF
+          DO J = 1, NATJ
+            JAG = IATFRG(INDJ+J-1)
+            JSP = ISPEFMO(JAG)
+            IF (QREF(JSP).NE.ZREFFMO(INDJ+J-1)) THEN
+              CJ = ZREFFMO(INDJ+J-1)/QREF(JSP)
+            ELSE
+              CJ = 1.0D+00
+            END IF
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            TMP = DCTMP(NSEQ)
+            EDISP = EDISP + TMP*CI*CJ
+          END DO
+        END DO
+        RETURN
+      END IF
+C
+C     EDISP = 0.0D+00 !! DO NOT INITIALIZE INSIDE
+      CALL DCOPY(3*NSPE*NSPE,DCTMP,1,RDMAT,1)
+      IF (IDFTBD.EQ.1) THEN
+        C0 = 1.584D+01 !! 396/25
+        C1 = 4.78947150872246D+01 !! 2^(5/6)*672/25
+        C2 = 3.50498152274578D+01 !! 2^(2/3)*552/25
+        DO I = 1, NATI
+          IAG = IATFRG(INDI+I-1)
+          ISP = ISPEFMO(IAG)
+          CI = ZREFFMO(INDI+I-1)/QREF(ISP)
+          DO J = 1, NATJ
+            JAG = IATFRG(INDJ+J-1)
+            JSP = ISPEFMO(JAG)
+            CJ = ZREFFMO(INDJ+J-1)/QREF(JSP)
+            R0  = RDMAT(1,ISP,JSP)
+            RIJ = RDMAT(2,ISP,JSP)
+            DIJ = RDMAT(3,ISP,JSP)
+            DIST = SQRT( (FMOC(1,IAG)-FMOC(1,JAG))**2
+     &                 + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     &                 + (FMOC(3,IAG)-FMOC(3,JAG))**2 )
+            DIJ = DIJ * CI * CJ
+            IF (DIST.GE.R0) THEN !! ATTRACTIVE POTENTIAL
+              TMP = RIJ/DIST
+              R6 = TMP**6
+              R12 = R6**2
+              TMP = DIJ*(-TWO*R6+R12)
+              IF (NDER.NE.0) THEN
+                VAL = 1.2D+01*DIJ*(R6-R12)/(DIST**2)
+                DO K = 1, 3
+                  FMODE(K,IAG,2) = FMODE(K,IAG,2)
+     *                             + (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+                  FMODE(K,JAG,2) = FMODE(K,JAG,2)
+     *                             - (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+                END DO
+              END IF
+            ELSE !! REPULSIVE POTENTIAL
+              TMP = DIST/RIJ
+              R5 = TMP**5
+              R10 = R5**2
+              TMP = DIJ*(C0-C1*R5+C2*R10)
+              IF (NDER.NE.0) THEN
+                VAL = DIJ*(-C1*R5*5.0D+00+C2*R10*1.0D+01)/(DIST**2)
+                DO K = 1, 3
+                  FMODE(K,IAG,2) = FMODE(K,IAG,2)
+     *                             + (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+                  FMODE(K,JAG,2) = FMODE(K,JAG,2)
+     *                             - (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+                END DO
+              END IF
+            END IF
+            EDISP = EDISP + TMP
+          END DO
+        END DO
+      ELSE IF (IDFTBD.EQ.2) THEN
+        DO I = 1, NATI
+          IAG = IATFRG(INDI+I-1)
+          ISP = ISPEFMO(IAG)
+          CI = ZREFFMO(INDI+I-1)/QREF(ISP)
+          DO J = 1, NATJ
+            JAG = IATFRG(INDJ+J-1)
+            JSP = ISPEFMO(JAG)
+            CJ = ZREFFMO(INDJ+J-1)/QREF(JSP)
+            C6AB   = RDMAT(1,ISP,JSP)
+            R0AB7I = RDMAT(2,ISP,JSP)
+            DIST = SQRT( (FMOC(1,IAG)-FMOC(1,JAG))**2
+     &                 + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     &                 + (FMOC(3,IAG)-FMOC(3,JAG))**2 )
+            C6AB = C6AB * CI * CJ
+            DISTI = 1.0D+00 / DIST
+            DIST6I = DISTI**6
+            DIST7  = DIST**7
+            DIST7I = DIST6I*DISTI
+            VEXP = EXP(-3.0D+00*R0AB7I*DIST7)
+            DAMP1 = 1.0D+00 - VEXP
+            DAMP4 = DAMP1**4 !! THIS IS THE DAMPING FUNCTION (f(R))
+            TMP = -1.0D+00 * DAMP4 * C6AB * DIST6I
+            EDISP = EDISP + TMP
+            IF (NDER.NE.0) THEN
+              DAMP3 = DAMP1**3
+              VAL = 8.4D+01 * R0AB7I * VEXP - 6.0D+00 * DAMP1 * DIST7I
+              VAL = -VAL * C6AB * DAMP3 * DISTI
+              DO K = 1, 3
+                FMODE(K,IAG,2) = FMODE(K,IAG,2)
+     *                             + (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+                FMODE(K,JAG,2) = FMODE(K,JAG,2)
+     *                             - (FMOC(K,IAG)-FMOC(K,JAG))*VAL
+              END DO
+            END IF
+          END DO
+        END DO
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM_DC
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM2
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate electrostatic dimer (ES-DIM) contribution to
+C>             energy at FMO-DFTB.  This is actual subroutine.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param MODGAMMA How gamma values are calculated
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param IAGLOB Global atom index
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param MAXNAT Max atom
+C>    @param ISPEFMO ISPE for all atoms (NATFMO)
+C>    @param NSPE Number of species in the system
+C>    @param GAMMA DFTB2 gamma values
+C>    @param ZREF Nuclear charges of a given atom.  In FMO-DFTB, ZREF
+C>           of BDA or BAA is differet from QREF
+C>    @param POPMAT Mulliken population
+C>    @param FMOC Coordinates of allatoms (NATFMO)
+C>    @parma DFTB3 Whether DFTB3 or not
+C>    @param HUBDER Hubbard derivatives
+C>    @param GAMMA3 DFTB3 gamma values
+C>    @param NATFMO Number of atoms in the system
+C>    @param HUBB Atom-resolved Hubbard values
+C>    @param DAMPXH Whether X-H damping is used or not
+C>    @param DAMPXHE Exponent of X-H damping
+C>    @param SPE Name of species
+C>           --- IN/OUTPUT ---
+C>    @param ESDIM ES-DIM contribution
+C>
+C
+      SUBROUTINE DFTB_ESDIM2(IFG,JFG,MODGAMMA,NATFRG,INDFRG,
+     *  IATFRG,MAXNAT,ISPEFMO,NSPE,GAMMA,ZREF,POPMAT,FMOC,ESDIM,
+     *  DFTB3,HUBDER,GAMMA3,NATFMO,HUBB,DAMPXH,DAMPXHE,SPE)
+C
+      IMPLICIT NONE
+C
+      DOUBLE PRECISION, PARAMETER :: ZERO = 0.0D+00
+C
+      INTEGER, INTENT(IN) :: IFG,JFG,NATFRG(*),INDFRG(*),
+     *  IATFRG(*),MAXNAT,MODGAMMA,ISPEFMO(*),NSPE,NATFMO
+      DOUBLE PRECISION, INTENT(IN) :: GAMMA(*),ZREF(*),
+     *  POPMAT(MAXNAT,*),FMOC(3,*),HUBDER(*),GAMMA3(*),HUBB(*),DAMPXHE,
+     *  SPE(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: ESDIM
+      LOGICAL,INTENT(IN) :: DFTB3,DAMPXH
+C
+      INTEGER :: NATI,NATJ,INDI,INDJ,IAG,JAG,I,J,NSEQ,ISP,JSP
+      DOUBLE PRECISION :: CHAMUL1, CHAMUL2, GAMTMP, TMP(12,NSPE,NSPE),
+     * DFTB_GAM2,DIST,TMP3(10,NSPE,NSPE),GAMI,GAMJ,ESDIM3
+C
+      NATI = NATFRG(IFG)
+      NATJ = NATFRG(JFG)
+      INDI = INDFRG(IFG)
+      INDJ = INDFRG(JFG)
+      ESDIM3=ZERO
+C
+      IF (DFTB3.AND.ABS(MODGAMMA).LE.1)
+     * CALL DCOPY(10*NSPE*NSPE,GAMMA3,1,TMP3,1)
+C
+      IF (ABS(MODGAMMA).EQ.0) THEN
+        CALL DCOPY(12*NSPE*NSPE,GAMMA,1,TMP,1)
+        DO I = 1, NATI
+          CHAMUL1 = POPMAT(I,IFG) - ZREF(INDI+I-1)
+          IF (CHAMUL1.EQ.ZERO) CYCLE
+          IAG = IATFRG(INDI+I-1)
+          ISP = ISPEFMO(IAG)
+          DO J = 1, NATJ
+            CHAMUL2 = POPMAT(J,JFG) - ZREF(INDJ+J-1)
+            IF (CHAMUL2.EQ.ZERO) CYCLE
+            JAG = IATFRG(INDJ+J-1)
+            JSP = ISPEFMO(JAG)
+            DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *           + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *           + (FMOC(3,IAG)-FMOC(3,JAG))**2
+            DIST = SQRT(DIST)
+            GAMTMP = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *        DAMPXHE,SPE(ISP),SPE(JSP))
+            ESDIM = ESDIM + GAMTMP*CHAMUL1*CHAMUL2
+            IF (DFTB3) THEN
+              CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMI = GAMI * HUBDER(ISP)
+              GAMJ = GAMJ * HUBDER(JSP)
+              ESDIM3 = ESDIM3
+     *          + CHAMUL1*CHAMUL1*CHAMUL2*GAMI
+     *          + CHAMUL1*CHAMUL2*CHAMUL2*GAMJ
+            END IF
+          END DO
+        END DO
+      ELSE IF (ABS(MODGAMMA).GE.1) THEN
+        DO I = 1, NATI
+          CHAMUL1 = POPMAT(I,IFG) - ZREF(INDI+I-1)
+          IF (CHAMUL1.EQ.ZERO) CYCLE
+          IAG = IATFRG(INDI+I-1)
+          DO J = 1, NATJ
+            CHAMUL2 = POPMAT(J,JFG) - ZREF(INDJ+J-1)
+            IF (CHAMUL2.EQ.ZERO) CYCLE
+            JAG = IATFRG(INDJ+J-1)
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            GAMTMP = GAMMA(NSEQ)
+            ESDIM = ESDIM + GAMTMP*CHAMUL1*CHAMUL2
+            IF (DFTB3) THEN
+              IF (ABS(MODGAMMA).EQ.1) THEN
+                ISP = ISPEFMO(IAG)
+                JSP = ISPEFMO(JAG)
+                DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *               + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *               + (FMOC(3,IAG)-FMOC(3,JAG))**2
+                DIST = SQRT(DIST)
+                CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *            TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *            SPE(ISP),SPE(JSP))
+                GAMI = GAMI * HUBDER(ISP)
+                GAMJ = GAMJ * HUBDER(JSP)
+              ELSE IF (ABS(MODGAMMA).EQ.2) THEN
+                GAMI = GAMMA3(IAG+(JAG-1)*NATFMO) !! G_ac
+                GAMJ = GAMMA3(JAG+(IAG-1)*NATFMO) !! G_ca
+              END IF
+              ESDIM3 = ESDIM3
+     *          + CHAMUL1*CHAMUL1*CHAMUL2*GAMI
+     *          + CHAMUL1*CHAMUL2*CHAMUL2*GAMJ
+            END IF
+          END DO
+        END DO
+      END IF
+C
+      IF (DFTB3) ESDIM = ESDIM + ESDIM3/3.0D+00
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM2
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM_DC_HELP
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Helper of dispersion correction during ES-DIM calculation
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param NDER Order of derivative to be calculated
+C>
+C
+      SUBROUTINE DFTB_ESDIM_DC_HELP(IFG,JFG,NDER)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER,PARAMETER :: MXRT=100
+C
+      INTEGER :: IFG,JFG,NDER
+C
+      COMMON /ENRGYS/ ENUCR,EELCT,ETOT,SZ,SZZ,ECORE,ESCF,EERD,E1,E2,
+     *                VEN,VEE,EPOT,EKIN,ESTATE(MXRT),STATN,EDFT(2),EDISP
+      COMMON /FMCOM / X(1)
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      common /fmopnt/ lichfg,lmulfg,lidmrec,lfrgnam,llayfrg,lindat,
+     *                lnCBS,lfmozan,lfmoc,lfmomas,lizbas,liaglob,libdgh,
+     *                liabdfg,ljabdfg,lnCAO,lidxCAO,liaprjo,ljaprjo,
+     *                lCoreAO,lOccCor,lshiftb,liodfmo,lfmoda,lfmodb,
+     *                lfmoespa,lfmoespb,llocfmo,lscffrg,lfmoscf,lrij,
+     *                lpopmul,lpopmat,lialoc,lindbd,liatfrg,lindfrg,
+     *                lindgfrg,lnatfrg,lnat0frg,lianfrg,lzanfrg,lcfrg,
+     *                llibish,llibnsh,llibng,lindatg,lfmobuf(3),lfmode,
+     *                lnumfrg,lloctat,liaoglob,lloadm,lfmoge,ldgrid,
+     *                liodcfmo,ljob2grp,lfmopg,lemocdr,luntxyz,luntrot,
+     *                lstonep,lmapsu,lfrgmul,lclmo,lialmo,lindlmo,
+     *                latclmo,llmobdf,lfgflmo,lnfglmo,llfglmo,lpfglmo,
+     *                LPOPDMAT,lidmpnt,liddpnt,livmpnt,liactfg,lcrfrg,
+     *                lzlmfrgv,lYlmfrgv,lndtfrg,lf_mm,lg_mm
+C
+      CALL DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAMMA,X(LNATFRG),
+     *  X(LINDFRG),X(LIATFRG),X(LISPE),X(LDCTMP),
+     *  X(LFMOC),X(LFMODE),X(LZREF),EDISP)
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM_DC_HELP
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM3
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Helper of dispersion correction during ES-DIM calculation
+C>             This subroutine is used when MODESD=1 or 2.  In terms of
+C>             algorithm, the calculation is similar to that of shift
+C>             contribution in normal DFTB calculation.  This only
+C>             calculates SHIFT(A)=\sum_I \sum_B \gamma_{AB} \Delta q_B,
+C>             and in the end by calling DFTB_ESDIM5 with IFG=0, actual
+C>             energy contribution, \sum_A \Delta q_A * shift(A) will be
+C>             calculated.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param NDER Order of derivative to be calculated
+C>           --- OUTPUT ---
+C>    @param ESDIMTMP ES-DIM contribution
+C>
+C
+      SUBROUTINE DFTB_ESDIM3(IFG,JFG,NDER,ESDIMTMP)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10,MXRT=100,MXTAB=1500,
+     *  MXINT=150
+C
+      INTEGER :: IFG, JFG
+      DOUBLE PRECISION :: ESDIMTMP(*)
+      LOGICAL :: DC,DCCHG,DCABC
+C
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      COMMON /DFTDC / DC,IDCVER,DCCHG,DCABC,DCSR,DCS6,DCS8,DCALP
+      COMMON /ENRGYS/ ENUCR,EELCT,ETOT,SZ,SZZ,ECORE,ESCF,EERD,E1,E2,
+     *                VEN,VEE,EPOT,EKIN,ESTATE(MXRT),STATN,EDFT(2),EDISP
+      COMMON /FMCOM / X(1)
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      common /fmopnt/ lichfg,lmulfg,lidmrec,lfrgnam,llayfrg,lindat,
+     *                lnCBS,lfmozan,lfmoc,lfmomas,lizbas,liaglob,libdgh,
+     *                liabdfg,ljabdfg,lnCAO,lidxCAO,liaprjo,ljaprjo,
+     *                lCoreAO,lOccCor,lshiftb,liodfmo,lfmoda,lfmodb,
+     *                lfmoespa,lfmoespb,llocfmo,lscffrg,lfmoscf,lrij,
+     *                lpopmul,lpopmat,lialoc,lindbd,liatfrg,lindfrg,
+     *                lindgfrg,lnatfrg,lnat0frg,lianfrg,lzanfrg,lcfrg,
+     *                llibish,llibnsh,llibng,lindatg,lfmobuf(3),lfmode,
+     *                lnumfrg,lloctat,liaoglob,lloadm,lfmoge,ldgrid,
+     *                liodcfmo,ljob2grp,lfmopg,lemocdr,luntxyz,luntrot,
+     *                lstonep,lmapsu,lfrgmul,lclmo,lialmo,lindlmo,
+     *                latclmo,llmobdf,lfgflmo,lnfglmo,llfglmo,lpfglmo,
+     *                LPOPDMAT,lidmpnt,liddpnt,livmpnt,liactfg,lcrfrg,
+     *                lzlmfrgv,lYlmfrgv,lndtfrg,lf_mm,lg_mm
+      common /fmorun/ espscf,e0scf(2),emp2s,IDAFMO,icurfg,jcurfg,kcurfg,
+     *                icurlay,icurunt,nat1e,ncursh,ngau,icurpop,ifmostp,
+     *                moncor,needr,modrst,norbproj,nunesp,iskipesp,
+     *                IESDPPC,idoprop,mp2run,icurit,idmfmo,iddfmo,
+     *                iddcur,nddleft,ivmfmo,nzmtfmo,ifmobas
+      common /GRAD  / DE(3,MXATM)
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /IOFILE/ IR,IW,IP,IS,IPK,IDAF,NAV,IODA(950)
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+      LOGICAL GOPARR,DSKWRK,MASWRK
+C
+C     ----- NOTHING TO BE DONE FOR NCC CALCULATION -----
+C
+      IF (.NOT.SCC) THEN
+        IF (DC) THEN
+C         CALL DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAMMA,X(LNATFRG),
+C    *    X(LINDFRG),X(LIATFRG),X(LISPE),X(LDCTMP),
+C    *    X(LFMOC),X(LFMODE),X(LZREF),EDISP)
+          IF (IFG.EQ.0) THEN
+            WRITE (IW,'(  2X,"TOTAL EDISP      = ",F15.10,/)') EDISP
+            IF(MASWRK)
+     *      WRITE(IW,FMT='('' ...... END OF LUMP ESD ......'')')
+            CALL TIMIT(1)
+          END IF
+        END IF
+        RETURN
+      END IF
+C
+      IF (IFG.EQ.0) THEN
+        CALL DFTB_ESDIM5(JFG,X(LNATFRG),X(LINDFRG),
+     *         MAXNAT,X(LPOPMAT),X(LZREF),ESDIMTMP)
+        IF (DC) THEN
+          WRITE (IW,'(/,2X,"TOTAL ESD2 ENERGY= ",F15.10)') ESDIMTMP(1)
+          WRITE (IW,'(2X,"TOTAL EDISP      = ",F15.10,/)') EDISP
+        ELSE
+          WRITE (IW,'(/,2X,"TOTAL ESD2 ENERGY= ",F15.10,/)') ESDIMTMP(1)
+        END IF
+        IF(MASWRK)
+     *    WRITE(IW,FMT='('' ...... END OF LUMP ESD ......'')')
+        CALL TIMIT(1)
+        RETURN
+      END IF
+C
+      CALL DFTB_ESDIM4(IFG,JFG,MODGAMMA,X(LNATFRG),
+     * X(LINDFRG),X(LIATFRG),MAXNAT,X(LISPE),NSPE,X(LPOPMAT),X(LGAMMA),
+     * X(LZREF),X(LFMOC),ESDIMTMP,DFTB3,HUBDER,X(LGAMMA3),NATFMO,HUBB,
+     * DAMPXH,DAMPXHE,SPE)
+C
+C     IF (DC) THEN
+C       CALL DFTB_ESDIM_DC(IFG,JFG,NDER,NATFMO,MODGAMMA,X(LNATFRG),
+C    *  X(LINDFRG),X(LIATFRG),X(LISPE),X(LDCTMP),
+C    *  X(LFMOC),X(LFMODE),X(LZREF),EDISP)
+C     END IF
+C
+      IF (NDER.GT.0) THEN
+      lpopmati=lpopmat+(maxnat*nfg)*(icurpop-1)
+      CALL VCLR(DE,1,3*NAT)
+      CALL DFTB_ESDGRAD(IFG,JFG,X(LISPE),X(LPOPMATI),
+     *  X(LINDFRG),X(LNATFRG),X(LIATFRG),X(LGAMMAD),
+     *  X(LSHIFTG+NATFMO+NBDFG),X(LFMOC),X(LFMODE),X(LGAMMA3D))
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM3
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM5
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate electrostatic dimer (ES-DIM) contribution to
+C>             energy at FMO-DFTB.  This should be calculated in the
+C>             end of ES-DIM calculation.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param NFG Number of fragments
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param MAXNAT Max atom
+C>    @param POPMAT Mulliken population
+C>    @param ZREF Nuclear charges of a given atom.  In FMO-DFTB, ZREF
+C>           of BDA or BAA is differet from QREF
+C>           --- IN/OUTPUT ---
+C>    @param ESDIM ES-DIM contribution.  On entry, this has
+C>           atom-resolve shift contribution, and on exit, the first
+C>           element will contain the sum of all ES-DIM contribution.
+C>
+C
+      SUBROUTINE DFTB_ESDIM5(NFG,NATFRG,INDFRG,MAXNAT,
+     *  POPMAT,ZREF,ESDIMTMP)
+C
+      IMPLICIT NONE
+C
+      DOUBLE PRECISION, PARAMETER :: ZERO = 0.0D+00
+C
+      INTEGER :: NFG, NATFRG(*), INDFRG(*), MAXNAT
+      DOUBLE PRECISION :: POPMAT(MAXNAT,*), ZREF(*), ESDIMTMP(*)
+C
+      INTEGER :: NATI, INDI, I, LFG
+      DOUBLE PRECISION :: CHAMUL1, TMP
+C
+      TMP = ZERO
+      DO LFG = 1, NFG
+        NATI = NATFRG(LFG)
+        INDI = INDFRG(LFG)
+        DO I = 1, NATI
+          IF (ESDIMTMP(INDI+I-1).EQ.ZERO) CYCLE
+          CHAMUL1 = POPMAT(I,LFG) - ZREF(INDI+I-1)
+          TMP = TMP + ESDIMTMP(INDI+I-1) * CHAMUL1
+C         write (*,*) esdimtmp(indi+i-1),chamul1
+        END DO
+      END DO
+      ESDIMTMP(1) = TMP
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM5
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDIM4
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate electrostatic dimer (ES-DIM) contribution to
+C>             energy at FMO-DFTB.  This calculates only shift-like
+C>             terms.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param MODGAMMA How gamma values are calculated
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param MAXNAT Max atom
+C>    @param ISPEFMO ISPE for all atoms (NATFMO)
+C>    @param NSPE Number of species in the system
+C>    @param POPMAT Mulliken population
+C>    @param GAMMA DFTB2 gamma values
+C>    @param ZREF Nuclear charges of a given atom.  In FMO-DFTB, ZREF
+C>           of BDA or BAA is differet from QREF
+C>    @param FMOC Coordinates of allatoms (NATFMO)
+C>    @parma DFTB3 Whether DFTB3 or not
+C>    @param HUBDER Hubbard derivatives
+C>    @param GAMMA3 DFTB3 gamma values
+C>    @param NATFMO Number of atoms in the system
+C>    @param HUBB Atom-resolved Hubbard values
+C>    @param DAMPXH Whether X-H damping is used or not
+C>    @param DAMPXHE Exponent of X-H damping
+C>    @param SPE Name of species
+C>           --- IN/OUTPUT ---
+C>    @param ESDIM ES-DIM contribution
+C>
+C
+      SUBROUTINE DFTB_ESDIM4(IFG,JFG,MODGAMMA,NATFRG,INDFRG,
+     *  IATFRG,MAXNAT,ISPEFMO,NSPE,POPMAT,GAMMA,ZREF,FMOC,ESDIMTMP,
+     *  DFTB3,HUBDER,GAMMA3,NATFMO,HUBB,DAMPXH,DAMPXHE,SPE)
+C
+      IMPLICIT NONE
+C
+      DOUBLE PRECISION, PARAMETER :: ZERO = 0.0D+00
+C
+      INTEGER, INTENT(IN) :: IFG,JFG,NATFRG(*),INDFRG(*),
+     *  IATFRG(*),MAXNAT,MODGAMMA,ISPEFMO(*),NSPE,NATFMO
+      DOUBLE PRECISION, INTENT(IN) :: POPMAT(MAXNAT,*),GAMMA(*),
+     *  ZREF(*),FMOC(3,*),HUBDER(*),GAMMA3(*),HUBB(*),DAMPXHE,SPE(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: ESDIMTMP(*)
+      LOGICAL,INTENT(IN) :: DFTB3,DAMPXH
+C
+      INTEGER :: NATI,NATJ,INDI,INDJ,IAG,JAG,I,J,NSEQ,ISP,JSP
+      DOUBLE PRECISION :: CHAMUL1,CHAMUL2,GAMTMP,TMPSH,DFTB_GAM2,DIST,
+     *  TMP(12,NSPE,NSPE),TMP3(10,NSPE,NSPE),GAMI,GAMJ,TMPSH3
+C
+C     ALWAYS IFG > JFG
+      NATI = NATFRG(IFG)
+      NATJ = NATFRG(JFG)
+      INDI = INDFRG(IFG)
+      INDJ = INDFRG(JFG)
+      IF (DFTB3.AND.ABS(MODGAMMA).LE.1)
+     * CALL DCOPY(10*NSPE*NSPE,GAMMA3,1,TMP3,1)
+C
+      IF (MODGAMMA.EQ.0) THEN
+        CALL DCOPY(12*NSPE*NSPE,GAMMA,1,TMP,1)
+        DO I = 1, NATI
+          TMPSH = ZERO
+          TMPSH3 = ZERO
+          IAG = IATFRG(INDI+I-1)
+          ISP = ISPEFMO(IAG)
+          DO J = 1, NATJ
+            CHAMUL2 = POPMAT(J,JFG) - ZREF(INDJ+J-1)
+            IF (CHAMUL2.EQ.ZERO) CYCLE
+            JAG = IATFRG(INDJ+J-1)
+            JSP = ISPEFMO(JAG)
+            DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *           + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *           + (FMOC(3,IAG)-FMOC(3,JAG))**2
+            DIST = SQRT(DIST)
+            GAMTMP = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *        DAMPXHE,SPE(ISP),SPE(JSP))
+            TMPSH = TMPSH + GAMTMP * CHAMUL2
+            IF (DFTB3) THEN
+              CHAMUL1 = POPMAT(I,IFG) - ZREF(INDI+I-1)
+              CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMI = GAMI * HUBDER(ISP)
+              GAMJ = GAMJ * HUBDER(JSP)
+              !! no advantage ...
+              TMPSH3 = TMPSH3 + CHAMUL1*CHAMUL2*GAMI
+     *                        + CHAMUL2*CHAMUL2*GAMJ
+            END IF
+          END DO
+          TMPSH = TMPSH + TMPSH3/3.0D+00
+          ESDIMTMP(INDI+I-1) = ESDIMTMP(INDI+I-1) + TMPSH
+        END DO
+      ELSE IF (ABS(MODGAMMA).EQ.1) THEN
+        DO I = 1, NATI
+          TMPSH = ZERO
+          TMPSH3 = ZERO
+          IAG = IATFRG(INDI+I-1)
+          DO J = 1, NATJ
+            CHAMUL2 = POPMAT(J,JFG) - ZREF(INDJ+J-1)
+            IF (CHAMUL2.EQ.ZERO) CYCLE
+            JAG = IATFRG(INDJ+J-1)
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            GAMTMP = GAMMA(NSEQ)
+            TMPSH = TMPSH + GAMTMP * CHAMUL2
+            IF (DFTB3) THEN
+              CHAMUL1 = POPMAT(I,IFG) - ZREF(INDI+I-1)
+              ISP = ISPEFMO(IAG)
+              JSP = ISPEFMO(JAG)
+              DIST = (FMOC(1,IAG)-FMOC(1,JAG))**2
+     *             + (FMOC(2,IAG)-FMOC(2,JAG))**2
+     *             + (FMOC(3,IAG)-FMOC(3,JAG))**2
+              DIST = SQRT(DIST)
+              CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMI = GAMI * HUBDER(ISP)
+              GAMJ = GAMJ * HUBDER(JSP)
+              TMPSH3 = TMPSH3 + CHAMUL1*CHAMUL2*GAMI
+     *                        + CHAMUL2*CHAMUL2*GAMJ
+            END IF
+          END DO
+          TMPSH = TMPSH + TMPSH3/3.0D+00
+          ESDIMTMP(INDI+I-1) = ESDIMTMP(INDI+I-1) + TMPSH
+        END DO
+      ELSE IF (ABS(MODGAMMA).EQ.2) THEN
+        DO I = 1, NATI
+          TMPSH = ZERO
+          TMPSH3 = ZERO
+          IAG = IATFRG(INDI+I-1)
+          DO J = 1, NATJ
+            CHAMUL2 = POPMAT(J,JFG) - ZREF(INDJ+J-1)
+            IF (CHAMUL2.EQ.ZERO) CYCLE
+            JAG = IATFRG(INDJ+J-1)
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            GAMTMP = GAMMA(NSEQ)
+            TMPSH = TMPSH + GAMTMP * CHAMUL2
+            IF (DFTB3) THEN
+              CHAMUL1 = POPMAT(I,IFG) - ZREF(INDI+I-1)
+              GAMI = GAMMA3(IAG+(JAG-1)*NATFMO) !! G_ac
+              GAMJ = GAMMA3(JAG+(IAG-1)*NATFMO) !! G_ca
+              TMPSH3 = TMPSH3 + CHAMUL1*CHAMUL2*GAMI
+     *                        + CHAMUL2*CHAMUL2*GAMJ
+            END IF
+          END DO
+          TMPSH = TMPSH + TMPSH3/3.0D+00
+          ESDIMTMP(INDI+I-1) = ESDIMTMP(INDI+I-1) + TMPSH
+        END DO
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDIM4
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK EESPFMO
+C>
+C>    @brief ES-DIM for FMO-DFTB
+C>
+C>    @details Calculate ESP energy during SCF calculation
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param CHAMUL Mulliken charges of the fragment under SCF
+C>    @param GAMMAV Shift contribution from environmetanl fragments
+C>           --- IN/OUTPUT ---
+C>    @param EESPFMO ESP energy contribution
+C>
+C
+      DOUBLE PRECISION FUNCTION EESPFMO(CHAMUL,GAMMAV,NAT)
+C      
+      IMPLICIT NONE
+C
+      DOUBLE PRECISION, PARAMETER :: ZERO = 0.0D+00
+C
+      DOUBLE PRECISION, INTENT(IN) :: CHAMUL(*),GAMMAV(*)
+      INTEGER, INTENT(IN) :: NAT
+C
+      INTEGER :: I
+      DOUBLE PRECISION :: CHAMUL1,GAMTMP
+C
+C     ----- CALCULATE ESP SCC ENERGY ----
+C     THE SHIFT ARRAY CALCULATED IN DFTBESP IS USED.
+C
+      EESPFMO = ZERO
+C
+      DO I = 1, NAT
+        CHAMUL1 = CHAMUL(I)
+        IF (CHAMUL1.EQ.ZERO) CYCLE
+        GAMTMP = GAMMAV(I)
+        EESPFMO = EESPFMO + GAMTMP * CHAMUL1
+      END DO
+C
+      RETURN
+C
+      END FUNCTION EESPFMO
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DETMOMFL
+C>
+C>    @brief Determin whether MOM is used or not
+C>
+C>    @details Experimental subroutine.  This subroutine determins
+C>             whether RSTRCT/MOM is used in FMO-DFTB dimer
+C>             calculations.   If the HOMO of a fragment is higher than
+C>             the LUMO of another fragment, MOMFL will be true.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param NFG Number of fragments
+C>    @param IFG,JFG Fragment index of i and j fragments
+C>    @param EAIP Electron affinity and ionization potential
+C>           --- OUTPUT ---
+C>    @param MOMFL FLAG FOR RSTRCT/MOM
+C>
+C
+      SUBROUTINE DETMOMFL(MOMFL,NFG,IFG,JFG,EAIP)
+C
+      IMPLICIT NONE
+C
+      LOGICAL MOMFL
+      INTEGER NFG,IFG,JFG
+      DOUBLE PRECISION EAIP(NFG,*)
+C
+      DOUBLE PRECISION HOMOI,HOMOJ,LUMOI,LUMOJ
+C
+      IF (JFG.EQ.0) THEN
+        MOMFL = .FALSE.
+        RETURN
+      END IF
+C
+C     EAIP(*,1) :: ELECTRON AFFINITY (-1 * LUMO)
+C     EAIP(*,2) :: IONIZATION POTENTIAL (-1 * HOMO)
+      HOMOI = -EAIP(IFG,2)
+      HOMOJ = -EAIP(JFG,2)
+      LUMOI = -EAIP(IFG,1)
+      LUMOJ = -EAIP(JFG,1)
+C
+      IF (HOMOI.GT.LUMOJ) THEN
+        MOMFL = .TRUE.
+      ELSE IF (HOMOJ.GT.LUMOI) THEN
+        MOMFL = .TRUE.
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DETMOMFL
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK GIVEEAIP
+C>
+C>    @brief Pass electron affinity and ionization potential
+C>
+C>    @details Experimental subroutine.  This subroutine passes the
+C>             pointer to electron affinity and ionization potential
+C>             after monomer SCF convergence.  This information is used
+C>             in DETMOMFL subroutine (see above)
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param LOCEAIP Pointer to EA and IP
+C
+      SUBROUTINE GIVEEAIP(LOCEAIP)
+
+      IMPLICIT NONE
+
+      INTEGER LOCEAIP
+
+      COMMON /EAIPCM/ LEAIP
+      INTEGER LEAIP
+
+      LEAIP = LOCEAIP
+
+      END SUBROUTINE GIVEEAIP
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_FMOGRAD
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Helper of gradient calculation in FMO-DFTB.  Actual
+C>             calculation is done in DFTB_FMOGRAD2.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param LAYFRG Layer of each fragment
+C>    @param FMODE Cartesian geometrical gradient of monomers and dimers
+C>    @param IDMREC0
+C>    @param NUMFRG Nuber of basis functions in each fragment
+C>    @param IODFMO 
+C>    @param ORBXCH Whether eigenvectors are exchanged or not
+C>
+C
+      SUBROUTINE DFTB_FMOGRAD(LAYFRG,FMODE,IDMREC0,NUMFRG,IODFMO,ORBXCH)
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      
+      DOUBLE PRECISION, PARAMETER :: ZERO = 0.0D+00
+C
+      COMMON /FMCOM / X(1)
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      common /fmopnt/ lichfg,lmulfg,lidmrec,lfrgnam,llayfrg,lindat,
+     *                lnCBS,lfmozan,lfmoc,lfmomas,lizbas,liaglob,libdgh,
+     *                liabdfg,ljabdfg,lnCAO,lidxCAO,liaprjo,ljaprjo,
+     *                lCoreAO,lOccCor,lshiftb,liodfmo,lfmoda,lfmodb,
+     *                lfmoespa,lfmoespb,llocfmo,lscffrg,lfmoscf,lrij,
+     *                lpopmul,lpopmat,lialoc,lindbd,liatfrg,lindfrg,
+     *                lindgfrg,lnatfrg,lnat0frg,lianfrg,lzanfrg,lcfrg,
+     *                llibish,llibnsh,llibng,lindatg,lfmobuf(3),lfmode,
+     *                lnumfrg,lloctat,liaoglob,lloadm,lfmoge,ldgrid,
+     *                liodcfmo,ljob2grp,lfmopg,lemocdr,luntxyz,luntrot,
+     *                lstonep,lmapsu,lfrgmul,lclmo,lialmo,lindlmo,
+     *                latclmo,llmobdf,lfgflmo,lnfglmo,llfglmo,lpfglmo,
+     *                LPOPDMAT,lidmpnt,liddpnt,livmpnt,liactfg,lcrfrg,
+     *                lzlmfrgv,lYlmfrgv,lndtfrg,lf_mm,lg_mm
+      COMMON /IOFILE/ IR,IW,IP,IS,IPK,IDAF,NAV,IODA(950)
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+      LOGICAL GOPARR,DSKWRK,MASWRK
+      LOGICAL ORBXCH
+
+      INTEGER :: LAYFRG(*),IDMREC0(*),IODFMO(*)
+      DOUBLE PRECISION :: FMODE(3,NATFMO,*)
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+
+      TIM0 = ZERO
+C     TIM1 = ZERO
+      CALL TSECND(TIM0)
+C     TLEFTS = TIMLIM - TIM0
+C
+      CALL DFTB_FMOGRAD2(LAYFRG,X(LNATFRG),
+     *  X(LIATFRG),X(LINDFRG),
+     *  FMODE,IDMREC0,NUMFRG,IODFMO,X(LISPE),X(LFMOC),
+     *  ORBXCH)
+C
+      IF(MASWRK) THEN
+        WRITE (IW,*)
+        WRITE(IW,FMT='('' ...... END OF FMO-DFTB GRADIENT ......'')')
+      END IF
+      CALL TIMIT(1)
+C
+      END SUBROUTINE DFTB_FMOGRAD
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_FMOGRAD2
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Gradient calculation in FMO-DFTB.  It uses two shift
+C>             contributions, X(LSHIFTG) and X(LSHIFTCT).  Some details
+C>             can be found as comments below.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param LAYFRG Layer of each fragment
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param FMODE Cartesian geometrical gradient of monomers and dimers
+C>    @param IDMREC0
+C>    @param NUMFRG Nuber of basis functions in each fragment
+C>    @param IODFMO 
+C>    @param ISPEFMO ISPE for all atoms (NATFMO)
+C>    @param FMOC Coordinates for all NATFMO
+C>    @param ORBXCH Whether eigenvectors are exchanged or not
+C>
+C
+      SUBROUTINE DFTB_FMOGRAD2(LAYFRG,NATFRG,IATFRG,INDFRG,
+     * FMODE,IDMREC0,NUMFRG,IODFMO,ISPEFMO,FMOC,ORBXCH)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER,PARAMETER :: MXATM=2000, MXSPE=10
+      DOUBLE PRECISION, PARAMETER :: ONE=1.0D+00,TWO=2.0D+00
+      logical GOPARR,DSKWRK,MASWRK
+      integer ddi_world,ddi_group
+      Parameter(ddi_world=0,ddi_group=1)
+      COMMON /FMCOM / X(1)
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      common /fmorun/ espscf,e0scf(2),emp2s,IDAFMO,icurfg,jcurfg,kcurfg,
+     *                icurlay,icurunt,nat1e,ncursh,ngau,icurpop,ifmostp,
+     *                moncor,needr,modrst,norbproj,nunesp,iskipesp,
+     *                IESDPPC,idoprop,mp2run,icurit,idmfmo,iddfmo,
+     *                iddcur,nddleft,ivmfmo,nzmtfmo,ifmobas
+      COMMON /GDDI/   ISCOPE,NGROUPS,MYGROUP,MEGLOB,npglob,nnglob,JBTYP,
+     *                ISGDDI,PAROUT,INITGDDI,wasgddi
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+      INTEGER INDFRG(*),IATFRG(*),NATFRG(*),LAYFRG(*),IDMREC0(*),
+     *  NUMFRG(*)
+      DOUBLE PRECISION FMODE(3,NATFMO,*),FMOC(3,NATFMO)
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+C
+      INTEGER :: IAGLOBDUM(MAXNAT),ISPEFMO(*),IODFMO(*)
+      LOGICAL :: MYJOB,ISGDDI,PAROUT,INITGDDI,WASGDDI
+      LOGICAL ORBXCH
+C
+C     THIS SUBROUTINE PERFORMS THE LOOP FOR ALL MONOMERS TO CALCULATE
+C     GRADIENTS.  ALL DIMER GRADIENTS ARE CALCULATED SOMEWHERE.
+C
+      L1  = MAXL1
+      L2  = (L1*L1+L1)/2
+      L3  = L1 * L1
+C
+C     ----- ALLOCATE MEMORY -----
+C
+      CALL VALFM(LOADFM)
+      CALL GOTFM(NGOTMX)
+      LWRK    = LOADFM  + 1
+      LWRK1   = LWRK    + L1
+      LWRK2   = LWRK1   + L3
+      LWRK3   = LWRK2   + L3
+      LOCC    = LWRK3   + L3
+      LD      = LOCC    + L1
+      LS      = LD      + L2
+      LDS     = LS      + L2
+      LPS     = LDS     + L3 !! D SQUARE
+      LSHIFT  = LPS     + L2*MAXNAT*3
+      LSHIFT2 = LSHIFT  + MAXNAT
+      LAST    = LSHIFT2 + MAXNAT
+      NEED    = LAST - LOADFM - 1
+C
+C     ----- GET MEMORY -----
+C
+      CALL GETFM(NEED)
+C
+      DO I = 1, MAXNAT
+        IAGLOBDUM(I) = I
+      END DO
+C
+C     ----- RESET GLOBAL COUNTER -----
+C
+      IF (ISGDDI) THEN
+C       if(nproc.gt.1) then
+C         call dscal((NATFMO+NBDFG)*2,1.0D+00/NPROC,X(LSHIFTG),1)
+C         call dscal(NATFMO+NBDFG,1.0D+00/NPROC,X(LSHIFTCT),1)
+C       endif
+        CALL GDDI_SCOPE(DDI_WORLD)
+        CALL DDI_GSUMF(2424,X(LSHIFTG),(NATFMO+NBDFG)*2)
+        CALL DDI_GSUMF(2424,X(LSHIFTCT),NATFMO+NBDFG)
+        CALL GDDI_SCOPE(DDI_GROUP)
+C       write(6,1234) (X(LSHIFTG+i-1),i=1,(NATFMO+NBDFG)*2)
+C       write(6,1234) (X(LSHIFTCT+i-1),i=1,NATFMO+NBDFG)
+C1234 format(6F12.8)
+        CALL GDDICOUNT(-1,LGROUP,MYJOB)
+      END IF
+C
+      DO IFG = 1, NFG
+        IF (ISGDDI) THEN
+          call GDDICOUNT(0,LGROUP,MYJOB)
+          IF (.NOT.MYJOB) CYCLE
+        END IF
+C
+C     ----- RESTORE DENSITY MATRIX FOR MONOMER IFG -----
+C
+        CALL VCLR(X(LD),1,L2)
+        ilay=layfrg(ifg)
+        L1L = IAND(NUMFRG(IFG),65535)
+        L2L = (L1L*L1L+L1L)/2
+        L3L = L1L*L1L
+        NAT = NATFRG(IFG)
+        NAL = ISHFT(NUMFRG(IFG),-16)
+        NBL = NAL
+        irec0=idmrec0(ilay)
+        IF (ORBXCH) THEN
+          !! RESTORE VECTOR (PUT INTO X(LWRK1)), THEN CONVERT TO
+          !! DENSITY MATRIX
+          CALL rareads(IDAFMO,iodfmo,X(LWRK1),L3L,irec0+ifg,0)
+          CALL VCLR(X(LOCC),1,L1L)
+          IF (NAL.EQ.NBL) THEN
+            DO I = 1, NAL
+              X(LOCC-1+I) = TWO
+            END DO
+          ELSE
+            DO I = 1, NBL
+              X(LOCC-1+I) = TWO
+            END DO
+            DO I = NBL+1, NAL
+              X(LOCC-1+I) = ONE
+            END DO
+          END IF
+          CALL DFTB_DMTOCC(X(LD),X(LWRK1),X(LOCC),X(LWRK2),L1L,L1L)
+        ELSE
+          CALL rareads(IDAFMO,iodfmo,X(LD),l2l,irec0+ifg,0)
+        END IF
+C       write (*,*) "ifg = ",ifg
+C       CALL PRTRIL(X(LD),L1L)
+C
+C     ----- PREPARE INFORMATION (INSTEAD OF CALLING MAKEMOL) -----
+C
+        INDI = INDFRG(IFG)
+        IND(1) = 0
+        DO I = 1, NAT
+          IAG = IATFRG(INDI+I-1)
+          CALL DCOPY(3,FMOC(1,IAG),1,C(1,I),1)
+          ISPE(I) = ISPEFMO(IAG)
+          IND(I+1) = IND(I) + MAXANG(ISPE(I))**2
+        END DO
+C
+C     ----- MAKE SHIFT AND SHIFT2 ARRAYS -----
+C
+C     X(LSHIFTG ~ LSHIFTG+NATFMO+NBDFG) CONTAINS THE SUM OF CHARGE
+C     CONTRIBUTIONS FROM ENVIRONMENTAL FRAGMENTS.  IN TERMS OF
+C     EQUATIONS, IT IS USED FOR CALCULATING THE GRADIENTS FOR DIMER
+C     IFG AND JFG WITHOUT ESD APPROXIMATION.  ALIAS IS THE ELECTRON
+C     EMBEDDING, WHICH IS CALCULATED IN DFTBESP SUBROUTINE.
+C     \SUM^K_{K \NE I,J} \SUM^{M_K}_{C \IN K} \GAMMA_{AC} \DELTA q_C^K
+C
+C     X(LSHIFTG+NATFMO+NBDFG ~ LSHIFTG+2(NATFMO+NBDFG)) CONTAINS THE
+C     CONTRIBUTIONS WHICH COME FROM ESD APPROXIMATION.  WE CAN SIMPLY
+C     ADD THE CONTRIBUTION TO THE X(LSHIFT) ARRAY, AND CAN BE
+C     CALCULATED IN ONE TIME.
+C     \SUM^{M_J}_{B \NE J} \GAMMA_{AB} \DELTA q_B^J
+C
+C     ABOVE TWO ARRAYS ARE USED FOR D*(DS/DR) CONTRIBUTION
+C
+C     WE NEED ANOTHER TERM, THE LAGRANGIAN-LIKE TERM (WS).
+C     WE NEED ONE MORE SHIFT CONTRIBUTION, X(LSHIFTG), TO CALCULATE
+C     THE WS TERM.  THIS COMES FROM THE DIMER CALCULATIONS, BUT IT
+C     HAS NOT CALCULATED YET WHEN \DELTA WS IS CALCULATED.  THAT IS,
+C       \DELTA WS(IJ) = WS(IJ) - WS(I) (+) WS(J)
+C     THE SECOND AND THIRD TERMS ARE CALCULATED HERE, BUT THE FIRST
+C     TERM HAS BEEN CALCULATED IN DFTB_LAG SUBROUTINE.
+C     THE CONTRIBUTION HAS TO BE SUBTRACTED, BECAUSE THE SIGN IN ABOVE
+C     EQUATION IS MINUS.
+C
+        CALL VCLR(X(LSHIFT),1,MAXNAT)
+        CALL DCOPY(NAT,X(LSHIFTCT+INDI-1),1,X(LSHIFT),1)
+        CALL DAXPY(NAT,ONE,X(LSHIFTG+NATFMO+NBDFG+INDI-1),1,
+     *                         X(LSHIFT),1)
+        CALL DCOPY(NAT,X(LSHIFT),1,X(LSHIFT2),1)
+        CALL DAXPY(NAT,-ONE,X(LSHIFTG+INDI-1),1,
+     *                         X(LSHIFT),1)
+C
+C     ----- CALCULATE OVERLAP DERIVATIVES -----
+C
+        CALL DFTB_EXTSDER(X(LPS),L2L,1,NAT)
+C
+C     ----- CALCULATE OVERLAP INTEGRAL FOR MONOMER IFG -----
+C
+        CALL VCLR(X(LS),1,L2)
+        CALL DFTB_HAM_OVER(1,NAT,X(LWRK1),X(LS),.FALSE.,.TRUE.)
+C
+C     ----- CALCULATE LAGRANGIAN-LIKE TERMS -----
+C
+        ITYPE = 1
+        CALL CPYTSQ(X(LD),X(LDS),L1L,1)
+        CALL CPYTSQ(X(LS),X(LWRK2),L1L,1)
+        !! X(LWRK3) = X(LWRK2) * X(LDS) = LS * LD
+        CALL MRARBR(X(LWRK2),L1L,L1L,L1L,X(LDS),L1L,L1L,X(LWRK3),L1L) !! (SD)
+        CALL DS_SHIFT(L1L,1,NAT,IAGLOBDUM,X(LDS),X(LSHIFT))
+        !! X(LWRK2) = X(LDS) * X(LWRK3) = (LD*SHIFT) * (LS*LD)
+        CALL MRARBR(X(LDS),L1L,L1L,L1L,X(LWRK3),L1L,L1L,X(LWRK2),L1L) !! (DSD+SHIFT)
+        IF (MASWRK) CALL ADD_LAG_GRAD(L1L,L2L,1,NAT,NATFMO,IATFRG(INDI),
+     *                    FMODE(1,1,2),X(LPS),X(LWRK2),X(LWRK1),ITYPE)
+C
+C     ----- CALCULATE \DELTA D * (DS/DR) TERMS FOR MONOMER -----
+C
+        CALL CPYTSQ(X(LD),X(LDS),L1L,1)
+        CALL DS_SHIFT(L1L,1,NAT,IAGLOBDUM,X(LDS),X(LSHIFT2))
+        IF (MASWRK) CALL ADD_LAG_GRAD(L1L,L2L,1,NAT,NATFMO,IATFRG(INDI),
+     *                    FMODE(1,1,2),X(LPS),X(LDS),X(LWRK1),0)
+      END DO
+      IF (ISGDDI) CALL GDDICOUNT( 1,LGROUP,MYJOB)
+C
+      CALL RETFM(NEED)
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_FMOGRAD2
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESPGRAD
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Calculate gradient of ESP contribution in FMO-DFTB.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>    @date Nov, 2014- Yoshio Nishimoto
+C>    - Changes for FMO-DFTB3 gradient
+C>
+C>           --- INPUT ---
+C>    @param DM      Difference density matrix (\Delta D_{\mu \nu}^{IJ})
+C>    @param DM2     Current density matrix (D_{\mu \nu}^{IJ})
+C>    @param CTIJ    Charge transfer (CTIJ(A) = q_A^{IJ} - q_A^I - q_A^J)
+C>    @param POPMAT  Mulliken population of monomer
+C>    @param IAGLOB  Global atom index
+C>    @param INDFRG  First atom of each fragment in terms of NATFMOB?
+C>    @param NATFRG  Number of atoms in each fragment
+C>    @param IATFRG  Global atom index with NBDFG?
+C>    @param ZREFFMO ZREF for all atoms (NATFMOB length)
+C>    @param GAMMA   DFTB2 gamma values
+C>    @param FMOC    Coordinates for all NATFMO
+C>    @param ISPEFMO ISPE for all atoms (NATFMOB length)
+C>    @param INDBD   Something about BDA or BAA
+C>    @param IALOC
+C>    @param INDAT
+C>    @param CTIJ2   Square charge transfer used in FMO-DFTB3
+C>    @param CHAMUL  Mulliken charges of dimer IJ (for FMO-DFTB3)
+C>           --- IN/OUTPUT ---
+C>    @param FMODE   Cartesian geometrical gradient of monomers and dimers
+C>    @param SHIFTCT Shift contribution of charge transfer
+C>    @param SHIFTG  Global shift contribution
+C>
+C
+      SUBROUTINE DFTB_ESPGRAD(DM,DM2,FMODE,CTIJ,POPMAT,iaglob,INDFRG,
+     * NATFRG,IATFRG,SHIFTCT,ZREFFMO,GAMMA,GAMMAD,SHIFTG,
+     * FMOC,ISPEFMO,INDBD,IALOC,INDAT,CTIJ2,CHAMUL)
+c
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      INTEGER,PARAMETER :: MXATM=2000,MXSPE=10,MXTAB=1500,MXINT=150
+      DOUBLE PRECISION, PARAMETER :: ZERO=0.0D+00,
+     * TWO=2.0D+00,ONE_THIRD=1.0D+00/3.0D+00
+C
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      LOGICAL GOPARR,DSKWRK,MASWRK
+C
+      COMMON /FMCOM / X(1)
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /IOFILE/ IR,IW,IP,IS,IPK,IDAF,NAV,IODA(950)
+      common /fmorun/ espscf,e0scf(2),emp2s,IDAFMO,icurfg,jcurfg,kcurfg,
+     *                icurlay,icurunt,nat1e,ncursh,ngau,icurpop,ifmostp,
+     *                moncor,needr,modrst,norbproj,nunesp,iskipesp,
+     *                IESDPPC,idoprop,mp2run,icurit,idmfmo,iddfmo,
+     *                iddcur,nddleft,ivmfmo,nzmtfmo,ifmobas
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+C
+      double precision popmat(maxnat,nfg),fmode(3,NATfmo,*),CTIJ(MXATM),
+     * CTIJ2(*),SHIFTCT(*),GAMMA(*),GAMMAD(*),SHIFT(NAT),SHIFTG(*),
+     * SHIFT3(NAT*2),FMOC(3,NATFMO),ZREFFMO(*),CHAMUL(*),
+     *                 DM(*), !! DIFFERENCE DENSITY MATRIX
+     *                 DM2(*) !! CURRENT DENSITY MATRIX
+      integer iaglob(*),indfrg(*),natfrg(*),iatfrg(*),
+     * INDBD(MAXABD,*),IALOC(*),INDAT(*),ISPEFMO(*)
+C
+      DOUBLE PRECISION :: VEC(3),SHIFTMP(NAT),TMPD(10,NSPE,NSPE),
+     * TMP(12,NSPE,NSPE),TMP3(10,NSPE,NSPE),TMPD3(11,NSPE,NSPE)
+C
+C     ------ ADD GRADIENT for FMO-DFTB corresponding to the
+C     SECOND-ORDER HAMILTONIAN term in DFTB -----
+C
+      IF (.NOT.SCC) RETURN
+C
+C     TIM0 = ZERO
+C     TIM1 = ZERO
+C     CALL TSECND(TIM0)
+C     TLEFTS = TIMLIM - TIM0
+C
+      ifg=icurfg
+      jfg=jcurfg
+      kfg=kcurfg
+      CALL DCOPY(10*NSPE*NSPE,GAMMAD,1,TMPD,1)
+      IF (DFTB3) THEN
+        IF (ABS(MODGAMMA).LE.1)
+     *    CALL DCOPY(10*NSPE*NSPE,X(LGAMMA3),1,TMP3,1)
+        CALL DCOPY(11*NSPE*NSPE,X(LGAMMA3D),1,TMPD3,1)
+      END IF
+C
+      IF (.NOT.MASWRK) GO TO 100
+      IF (MODGAMMA.EQ.0) THEN
+        CALL DCOPY(12*NSPE*NSPE,GAMMA,1,TMP,1)
+        DO lfg = 1, nfg
+          if(lfg.ne.ifg.and.lfg.ne.jfg.and.lfg.ne.kfg) then
+            NATJ = NATFRG(LFG)
+            INDJ = INDFRG(LFG)
+            DO J = 1, NATJ
+              TMPSH  = ZERO
+              TMPSH2 = ZERO
+              TMPSH3 = ZERO
+              VALTMP = ZERO
+              JAG = IATFRG(INDJ+J-1)
+              JSP = ISPEFMO(JAG)
+              CHAMUL2 = POPMAT(J,LFG) - ZREFFMO(INDJ+J-1) !! CHARGE OF J FRAGMENT
+              DO I = 1, NAT
+                CHAMUL1 = CTIJ(I)
+                IF (CHAMUL1.EQ.ZERO) CYCLE
+                IAG = IAGLOB(I)
+                ISP = ISPEFMO(IAG)
+                VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+                VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+                VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+                DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+                GAMTMP = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *            DAMPXHE,SPE(ISP),SPE(JSP))
+                TMPSH  = TMPSH + GAMTMP*CHAMUL1
+                IF (DFTB3) THEN
+                  CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *              SPE(ISP),SPE(JSP))
+                  GAMI = GAMI * HUBDER(ISP)
+                  GAMJ = GAMJ * HUBDER(JSP)
+                  TMPSH2 = TMPSH2 + CTIJ2(I)*GAMI
+                  TMPSH3 = TMPSH3 + CHAMUL2*CHAMUL1*GAMJ
+                  CALL DFTB_GAMD3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              HUBDER(ISP),HUBDER(JSP),TMPD3(1,ISP,JSP),
+     *              TMPD3(1,JSP,ISP),DAMPXH,DAMPXHE,SPE(ISP),SPE(JSP))
+                  VALTMP = ONE_THIRD
+     *              *(CTIJ2(I)*CHAMUL2*GAMI+CHAMUL1*CHAMUL2**2*GAMJ)
+                END IF
+                IF (DIST.EQ.ZERO) CYCLE
+                GAMMAV = GAMD_FMO2(DIST,TMPD(1,ISP,JSP),DAMPXH,
+     *                             DAMPXHE,SPE(ISP),SPE(JSP))
+                VAL = (CHAMUL1*CHAMUL2*GAMMAV+VALTMP)/DIST
+                DO K = 1, 3
+                  FMODE(K,IAG,2) = FMODE(K,IAG,2) - VEC(K)*VAL
+                  FMODE(K,JAG,2) = FMODE(K,JAG,2) + VEC(K)*VAL
+                END DO
+              END DO
+              SHIFTCT(INDJ+J-1) = SHIFTCT(INDJ+J-1) + TMPSH
+     *          + ONE_THIRD*(TMPSH2+TMPSH3*TWO)
+            END DO
+          END IF
+        END DO
+      ELSE IF (MODGAMMA.EQ.1) THEN
+        DO lfg = 1, nfg
+          if(lfg.ne.ifg.and.lfg.ne.jfg.and.lfg.ne.kfg) then
+            NATJ = NATFRG(LFG)
+            INDJ = INDFRG(LFG)
+            DO J = 1, NATJ
+              TMPSH = ZERO
+              TMPSH2 = ZERO
+              TMPSH3 = ZERO
+              JAG = IATFRG(INDJ+J-1)
+              JSP = ISPEFMO(JAG)
+              CHAMUL2 = POPMAT(J,LFG) - ZREFFMO(INDJ+J-1) !! CHARGE OF J FRAGMENT
+              DO I = 1, NAT
+                CHAMUL1 = CTIJ(I)
+                IF (CHAMUL1.EQ.ZERO) CYCLE
+                IAG = IAGLOB(I)
+                ISP = ISPEFMO(IAG)
+                CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+                GAMTMP = GAMMA(NSEQ)
+                TMPSH = TMPSH + GAMTMP*CHAMUL1
+C
+                VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+                VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+                VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+                DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+                IF (DFTB3) THEN
+                  CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *              SPE(ISP),SPE(JSP))
+                  GAMI = GAMI * HUBDER(ISP)
+                  GAMJ = GAMJ * HUBDER(JSP)
+                  TMPSH2 = TMPSH2 + CTIJ2(I)*GAMI
+                  TMPSH3 = TMPSH3 + CHAMUL2*CTIJ(I)*GAMJ
+                  CALL DFTB_GAMD3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              HUBDER(ISP),HUBDER(JSP),TMPD3(1,ISP,JSP),
+     *              TMPD3(1,JSP,ISP),DAMPXH,DAMPXHE,SPE(ISP),SPE(JSP))
+                  VALTMP = ONE_THIRD
+     *              *(CTIJ2(I)*CHAMUL2*GAMI+CHAMUL1*CHAMUL2**2*GAMJ)
+                END IF
+                IF (DIST.EQ.ZERO) CYCLE
+                GAMMAV = GAMD_FMO2(DIST,TMPD(1,ISP,JSP),DAMPXH,DAMPXHE,
+     *                             SPE(ISP),SPE(JSP))
+                VAL = (CHAMUL1*CHAMUL2*GAMMAV+VALTMP)/DIST
+                DO K = 1, 3
+                  FMODE(K,IAG,2) = FMODE(K,IAG,2) - VEC(K)*VAL
+                  FMODE(K,JAG,2) = FMODE(K,JAG,2) + VEC(K)*VAL
+                END DO
+              END DO
+              SHIFTCT(INDJ+J-1) = SHIFTCT(INDJ+J-1) + TMPSH
+     *          + ONE_THIRD*(TMPSH2+TMPSH3*TWO)
+            END DO
+          END IF
+        END DO
+      ELSE IF (MODGAMMA.EQ.2) THEN
+        DO lfg = 1, nfg
+          if(lfg.ne.ifg.and.lfg.ne.jfg.and.lfg.ne.kfg) then
+            NATJ = NATFRG(LFG)
+            INDJ = INDFRG(LFG)
+            DO J = 1, NATJ
+              TMPSH = ZERO
+              TMPSH2 = ZERO
+              TMPSH3 = ZERO
+              JAG = IATFRG(INDJ+J-1)
+              JSP = ISPEFMO(JAG)
+              CHAMUL2 = POPMAT(J,LFG) - ZREFFMO(INDJ+J-1) !! CHARGE OF J FRAGMENT
+              DO I = 1, NAT
+                CHAMUL1 = CTIJ(I)
+                IF (CHAMUL1.EQ.ZERO) CYCLE
+                IAG = IAGLOB(I)
+                ISP = ISPEFMO(IAG)
+                CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+                GAMTMP = GAMMA(NSEQ)
+                TMPSH = TMPSH + GAMTMP*CHAMUL1
+C
+                VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+                VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+                VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+                DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+                IF (DFTB3) THEN
+                  GAMI = X(LGAMMA3+IAG-1+(JAG-1)*NATFMO) !! G_ac
+                  GAMJ = X(LGAMMA3+JAG-1+(IAG-1)*NATFMO) !! G_ca
+                  TMPSH2 = TMPSH2 + CTIJ2(I)*GAMI
+                  TMPSH3 = TMPSH3 + CHAMUL2*CTIJ(I)*GAMJ
+                  CALL DFTB_GAMD3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *              HUBDER(ISP),HUBDER(JSP),TMPD3(1,ISP,JSP),
+     *              TMPD3(1,JSP,ISP),DAMPXH,DAMPXHE,SPE(ISP),SPE(JSP))
+                  VALTMP = ONE_THIRD
+     *              *(CTIJ2(I)*CHAMUL2*GAMI+CHAMUL1*CHAMUL2**2*GAMJ)
+                END IF
+                IF (DIST.EQ.ZERO) CYCLE
+                GAMMAV = GAMD_FMO2(DIST,TMPD(1,ISP,JSP),DAMPXH,DAMPXHE,
+     *                             SPE(ISP),SPE(JSP))
+                VAL = (CHAMUL1*CHAMUL2*GAMMAV+VALTMP)/DIST
+                DO K = 1, 3
+                  FMODE(K,IAG,2) = FMODE(K,IAG,2) - VEC(K)*VAL
+                  FMODE(K,JAG,2) = FMODE(K,JAG,2) + VEC(K)*VAL
+                END DO
+              END DO
+              SHIFTCT(INDJ+J-1) = SHIFTCT(INDJ+J-1) + TMPSH
+     *          + ONE_THIRD*(TMPSH2+TMPSH3*TWO)
+            END DO
+          END IF
+        END DO
+      END IF
+C
+C     ---- CALCULATE LAGRANGIAN TERMS FOR I AND J -----
+C     SHIFTMP WILL HAVE A PART OF DFTB3 CONTRIBUTION:
+C       SHIFTMP(A) = \Delta q_A^{IJ} * \sum_K \sum_C \Delta q_C^K
+C                  * \Gamma_{AC}
+C     
+  100 CONTINUE
+      CALL VCLR(SHIFT,1,NAT)
+      CALL DAREAD(IDAF,IODA,SHIFT,NAT,566,0)
+      IF (DFTB3) THEN
+        CALL DAREAD(IDAF,IODA,SHIFT3,NAT*2,567,0)
+        CALL VCLR(SHIFTMP,1,NAT)
+        DO I = 1, NAT
+          SHIFTMP(I) = TWO*CHAMUL(I)*SHIFT3(I)
+        END DO
+        CALL DAXPY(NAT,1.0D+00,SHIFTMP,1,SHIFT,1)
+        DO I = 1, NAT
+          SHIFT(I) = SHIFT(I) + SHIFT3(NAT+I)
+        END DO
+      END IF
+      CALL DFTB_LAG(IAGLOB,FMODE,SHIFT,SHIFTMP,DM,DM2,MASWRK,DFTB3)
+      IF (.NOT.MASWRK) RETURN
+C
+C     ----- ACCUMULATE SHIFT CONTRIBUTIONS -----
+C     THE SIGN OF DFTB3 CONTRIBUTION IS OPPOSITE.  THE LATTER HALF OF
+C     SHIFTG IS ORIGINALLY USED FOR ESD GRADIENT WHOSE SIGN IS PLUS.
+C     NOW, DFTB3 CONTRIBUTION IS ONLY APPLIED FOR - (W(I) (+) W(J))
+C     AND - (DS(I) (+) DS(J)) WHOSE SIGNS ARE MINUS.  THEREFORE,
+C     THE SIGN OF DFTB3 CONTRIBUTION BELOW SHOULD BE MINUS.
+C
+      NATFMOB = NATFMO + NBDFG
+      DO I = 1, NAT
+        IAG = IAGLOB(I)
+        IATFG = INDAT(IAG)
+        IATLOC = IAND(IALOC(IAG),65535)
+        INDI = INDFRG(IATFG)
+        ILOC = INDI + IATLOC
+        SHIFTG(ILOC-1) = SHIFTG(ILOC-1) + SHIFT(I)
+        IF (DFTB3) SHIFTG(NATFMOB+ILOC-1) = SHIFTG(NATFMOB+ILOC-1)
+     *    - TWO*SHIFT3(I)*(POPMAT(IATLOC,IATFG)-ZREFFMO(ILOC-1))
+        IF (NBDFG.NE.0) THEN
+          DO IABD = 1, MAXABD
+            IBDFG = INDBD(IABD,IAG)
+            IF (IBDFG.EQ.0) CYCLE
+            JATFG = ISHFT(IALOC(NATFMO+IBDFG),-16)
+            INDJ =  INDFRG(JATFG)
+            JATLOC = IAND(IALOC(NATFMO+IBDFG),65535)
+            IF ((JATFG.EQ.IFG.OR.JATFG.EQ.JFG).AND.JATFG.NE.IATFG) THEN
+              JLOC = INDJ + JATLOC
+              SHIFTG(JLOC-1) = SHIFTG(JLOC-1) + SHIFT(I)
+              IF (DFTB3) SHIFTG(NATFMOB+JLOC-1) = SHIFTG(NATFMOB+JLOC-1)
+     *          - TWO*SHIFT3(I)*(POPMAT(JATLOC,JATFG)-ZREFFMO(JLOC-1))
+              IF (IATFG.NE.IFG.AND.IATFG.NE.JFG) THEN !! AVOID DOUBLE COUNT
+                SHIFTG(ILOC-1) = SHIFTG(ILOC-1) - SHIFT(I)
+                IF (DFTB3) THEN
+                  SHIFTG(NATFMOB+ILOC-1) = SHIFTG(NATFMOB+ILOC-1)
+     *            + TWO*SHIFT3(I)*(POPMAT(IATLOC,IATFG)-ZREFFMO(ILOC-1))
+                END IF
+              END IF
+            END IF
+          END DO
+        END IF
+      END DO
+C
+C     IF(MASWRK)
+C    *   WRITE(IW,FMT='('' ...... END OF ESP GRADIENT ......'')')
+C     CALL TIMIT(1)
+C
+      RETURN
+
+      END SUBROUTINE DFTB_ESPGRAD
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_LAG
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Calculate gradient of contributions of Lagrangian-like
+C>             terms in FMO-DFTB.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>    @date Nov, 2014- Yoshio Nishimoto
+C>    - Changes for FMO-DFTB3 gradient
+C>
+C>           --- INPUT ---
+C>    @param IAGLOB  Global atom index
+C>    @param SHIFT   Shift contribution of current SCF calculation
+C>    @param SHIFTMP A part of DFTB3 contribution, 2/3*\Delta q_A^IJ*
+C>                   \Delta q_C^K* \Gamma_{AC}, see DFTB_ESPGRAD.
+C>    @param DM      Difference density matrix (\Delta D_{\mu \nu}^{IJ})
+C>    @param DM2     Current density matrix
+C>    @param MASWRK  Master or not
+C>    @param DFTB3   DFTB3 or not
+C>           --- IN/OUTPUT ---
+C>    @param FMODE   Cartesian geometrical gradient of monomers and dimers
+C>
+C
+      SUBROUTINE DFTB_LAG(IAGLOB,FMODE,SHIFT,SHIFTMP,DM,DM2,
+     *  MASWRK,DFTB3)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER,PARAMETER :: MXATM=2000
+C
+      COMMON /FMCOM / X(1)
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      COMMON /INFOA / NAT,ICH,MUL,NUM,NQMT,NE,NA,NB,
+     *                ZAN(MXATM),C(3,MXATM),IAN(MXATM)
+      COMMON /IOFILE/ IR,IW,IP,IS,IPK,IDAF,NAV,IODA(950)
+C
+      INTEGER :: IAGLOB(*)
+      DOUBLE PRECISION :: FMODE(3,NATFMO,*),SHIFT(*),SHIFTMP(*),
+     *                    DM(*), !! DIFFERENCE DENSITY MATRIX
+     *                    DM2(*) !! CURRENT DENSITY MATRIX
+      LOGICAL :: MASWRK,DFTB3
+C
+      INTEGER :: IAGLOBDUM(NAT)
+C
+C     THIS SUBROUTINE CALCULATES PARTS OF FMO-DFTB DIMER GRADIENTS.
+C     IT CALCULATES ONLY TWO TERMS:
+C     W_{\MU\NU}^{IJ,\ALPHA} S_{\MU\NU}^{IJ}
+C        AND
+C     \DELTA D_{\MU\NU}^{IJ} \FRAC{\PARTIAL S_{\MU\NU}^{IJ}}{\PARTIAL R}
+C     NOTE THAT \DELTA WS = WS(IJ) - W(I) (+) W(J)
+C
+C     OTHER TERMS SUCH AS THE GRADIENTS OF ENVIRONMENTAL MONOMERS AND
+C     MONOMER -WS TERMS, NEEDED FOR \DELTA WS, WILL BE CALCULATED IN
+C     THE DFTB_FMOGRAD SUBROUTINE.
+C
+      L1  = MAX(MAXL1,NUM)
+      L2  = (L1*L1+L1)/2
+      L3  = L1 * L1
+      DO I = 1, NAT
+        IAGLOBDUM(I) = I
+      END DO
+C
+C     ----- ALLOCATE MEMORY -----
+C
+      CALL VALFM(LOADFM)
+      CALL GOTFM(NGOTMX)
+      LWRK1   = LOADFM  + 1
+      LWRK2   = LWRK1   + L3
+      LWRK3   = LWRK2   + L3
+      LS      = LWRK3   + L3
+      LDS     = LS      + L2
+      LPS     = LDS     + L3 !! D SQUARE
+      LAST    = LPS     + L2*NAT*3
+      NEED    = LAST - LOADFM - 1
+C
+C     ----- GET MEMORY -----
+C
+      CALL GETFM(NEED)
+C
+C     ---- MAKE FRAGMENTS AND RESTORE DENSITY MATRIX -----
+C
+      L1L = NUM
+      L2L = (L1L*L1L+L1L)/2
+C
+C     ----- CALCULATE OVERLAP DERIVATIVES -----
+C
+      CALL DFTB_EXTSDER(X(LPS),L2L,1,NAT)
+C
+C     ----- RESTOR OVERLAP INTEGRAL FOR FRAGMENT I OR J FROM DICT. -----
+C
+      CALL VCLR(X(LS),1,L2)
+      CALL DAREAD(IDAF,IODA,X(LS),L2L,12,0)
+C
+C     ----- CALCULATE LAGRANGIAN TERM GRADIENTS -----
+C       \DELTA W = W(IJ) - W(I) (+) W(J)
+C     ONLY THE FIRST W(IJ) TERM IS CALCULATED HERE.  THE LATTER TERM IS
+C     CALCULATED IN DFTB_FMOGRAD2.  DFTB_ESPGRAD ACCUMULATES
+C     CONTRIBUTION.
+C
+      ITYPE = 1
+      CALL CPYTSQ(DM2,X(LDS),L1L,1)
+      CALL CPYTSQ(X(LS),X(LWRK2),L1L,1)
+      CALL MRARBR(X(LWRK2),L1L,L1L,L1L,X(LDS),L1L,L1L,X(LWRK3),L1L) !! (SD)
+      CALL DS_SHIFT(L1L,1,NAT,IAGLOBDUM,X(LDS),SHIFT)
+      CALL MRARBR(X(LDS),L1L,L1L,L1L,X(LWRK3),L1L,L1L,X(LWRK2),L1L) !! (DSD+SHIFT)
+      IF (MASWRK) CALL ADD_LAG_GRAD(L1L,L2L,1,NAT,NATFMO,IAGLOB,
+     *  FMODE(1,1,2),X(LPS),X(LWRK2),X(LWRK1),ITYPE)
+C
+C     ----- CALCULATE \DELTA D * (DS/DR) TERMS -----
+C     ONLY FOR I-J DIMER.  
+C     \DELTA D (DM) IS COPIED TO X(LDS), AND THEN INSIDE DS_SHIFT,
+C     SHIFT MATRIX IS MULTIPLIED.
+C
+C     FOR DFTB3, BELOW CALCULATES THE FIRST TERM OF
+C       \DELTA DS = DS(IJ) - DS(I) (+) DS(J).
+C     OTHER TERMS ARE CALCULATED LATER IN DFTB_FMOGRAD2.
+C     DFTB_ESPGRAD ACCUMULATES THE TERM NEEDED TO CALCULATE MONOMER
+C     CONTRIBUTIONS AS THE LATTER PART OF SHIFTG MATRIX.
+C
+      IF (DFTB3) THEN
+        CALL DAXPY(NAT,-1.0D+00,SHIFTMP,1,SHIFT,1)
+      END IF
+      CALL CPYTSQ(DM,X(LDS),L1L,1) !! USE DIFFERENCE DM
+      CALL DS_SHIFT(L1L,1,NAT,IAGLOBDUM,X(LDS),SHIFT)
+      IF (DFTB3) THEN
+        CALL CPYTSQ(DM2,X(LWRK2),L1L,1)
+        CALL DS_SHIFT(L1L,1,NAT,IAGLOBDUM,X(LWRK2),SHIFTMP)
+        CALL VADD(X(LDS),1,X(LWRK2),1,X(LDS),1,L1L*L1L)
+      END IF
+      IF (MASWRK) CALL ADD_LAG_GRAD(L1L,L2L,1,NAT,NATFMO,IAGLOB,
+     *  FMODE(1,1,2),X(LPS),X(LDS),X(LWRK1),0)
+C
+      CALL RETFM(NEED)
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_LAG
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DFTB_ESDGRAD
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Calculate gradient of ES-DIM contribution in FMO-DFTB.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param IFG,JFG I and J fragment index
+C>    @param ISPEFMO ISPE for all atoms (NATFMO)
+C>    @param POPMAT Mulliken population of monomer
+C>    @param INDFRG First atom of each fragment in terms of NATFMOB?
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param IATFRG Global atom index with NBDFG?
+C>    @param GAMMAD Derivatives of DFTB2 gamma values
+C>    @param FMOC Coordinates for all NATFMO
+C>    @param GAMMAD3 Derivatives of DFTB3 gamma values
+C>           --- OUTPUT ---
+C>    @param SHIFTG Global shift contribution
+C>    @param FMODE Cartesian geometrical gradient of monomers and dimers
+C>
+C
+      SUBROUTINE DFTB_ESDGRAD(IFG,JFG,ISPEFMO,POPMAT,
+     * INDFRG,NATFRG,IATFRG,GAMMAD,SHIFTG,FMOC,FMODE,
+     * GAMMAD3)
+c
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER,PARAMETER :: MXATM=2000, MXSPE=10,
+     *                     MXTAB=1500,MXINT=150
+      DOUBLE PRECISION, PARAMETER :: ZERO=0.0D+00,TWO=2.0D+00
+C
+      COMMON /FMCOM / X(1)
+      common /fmodim/ maxbnd,maxknd,maxcbs,maxcao,maxvec,maxl1,maxnat,
+     *                maxabd,maxbas,maxbbd,maxlmo,maxslo,maxabd2
+      COMMON /DFTB  / DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      LOGICAL DFTBFL,SCC,SRSCC,DFTB3,DAMPXH,LRDFTB
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+      COMMON /DFTBSK/ SKHTAB(10,MXTAB,MXSPE,MXSPE),
+     &                SKSTAB(10,MXTAB,MXSPE,MXSPE),SKSELF(3,MXSPE),
+     &                SKGRID(MXSPE,MXSPE),SKDIM(MXSPE,MXSPE),
+     *                SKSPIN(MXSPE),REPCOEFF(6,MXINT,MXSPE,MXSPE),
+     *                REPINTV(2,MXINT,MXSPE,MXSPE),
+     &                REPSHORT(3,MXSPE,MXSPE),REPCUT(MXSPE,MXSPE),
+     &                QREFL(3,MXSPE),HUBBL(3,MXSPE),QREF(MXSPE),
+     &                HUBB(MXSPE),SKCUT2,ZREF(MXATM),SPNCST(6,MXSPE),
+     *                NUMREP(MXSPE,MXSPE)
+C
+      COMMON /FMOINF/ NFG,NLAYER,NATFMO,NBDFG,NAOTYP,NBODY
+      COMMON /FMODTB/ LGAMMA,LZREF,LISPE,LSHIFTG,LSHIFTCT,
+     *                LGAMMAD,MODESD,MODGAMMA,LDCTMP,LGAMMA3,LGAMMA3D
+C
+      DOUBLE PRECISION :: VEC(3), DIST
+      DOUBLE PRECISION :: TMPD(10,NSPE,NSPE),
+     * POPMAT(MAXNAT,NFG),GAMMAD(*),SHIFTG(*),FMOC(3,*),
+     * FMODE(3,NATFMO,*),TMP(12,NSPE,NSPE),TMP3(10,NSPE,NSPE),
+     * TMPD3(11,NSPE,NSPE)
+      INTEGER :: ISPEFMO(*),NATFRG(*),IATFRG(*),INDFRG(*)
+C
+C     CALCULATE THE GRADIENT OF ELECTROSTATIC DIMER APPROXIMATION.
+C     THIS SUBROUTINE CALCULATES PART OF GRADIENTS.  THE FIRST BLOCK
+C     CALCULATES THE INTER-FRAGMENT GRADIENT, WHICH IS CALCULATED WITH
+C     DERIVATIVES OF GAMMA.  ANOTHER TERMS ARE CALCULATED IN THE
+C     DFTB_FMOGRAD SUBROUTINE.  LATTER BLOCK CALCULATES THE SHIFT
+C     (\DELTA Q * \GAMMA) AND THIS WILL USED LATER IN DFTB_FMOGRAD.
+C
+C     ----- CALCULATE INTER-FRAGMENT GRADIENTS OF ENERGY -----
+C
+C     CALL VCLR(DE,1,3*NAT)
+      CALL DCOPY(10*NSPE*NSPE,GAMMAD,1,TMPD,1)
+      IF (DFTB3) CALL DCOPY(11*NSPE*NSPE,GAMMAD3,1,TMPD3,1)
+C
+      NATI = NATFRG(IFG)
+      NATJ = NATFRG(JFG)
+      INDI = INDFRG(IFG)
+      INDJ = INDFRG(JFG)
+      ONE_THIRD = 1.0D+00/3.0D+00
+      DO I = 1, NATI
+        IAG = IATFRG(INDI+I-1)
+        ISP = ISPEFMO(IAG)
+        CHAMUL1 = POPMAT(I,IFG) - X(LZREF+INDI+I-2) !! CHARGE OF I FRAGMENT
+        DO J = 1, NATJ
+          JAG = IATFRG(INDJ+J-1)
+          JSP = ISPEFMO(JAG)
+          VALTMP = ZERO
+          CHAMUL2 = POPMAT(J,JFG) - X(LZREF+INDJ+J-2) !! CHARGE OF J FRAGMENT
+          VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+          VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+          VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+          DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+          GAMMAV = GAMD_FMO2(DIST,TMPD(1,ISP,JSP),DAMPXH,DAMPXHE,
+     *                       SPE(ISP),SPE(JSP))
+          IF (DFTB3) THEN
+            CALL DFTB_GAMD3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *        HUBDER(ISP),HUBDER(JSP),TMPD3(1,ISP,JSP),
+     *        TMPD3(1,JSP,ISP),DAMPXH,DAMPXHE,SPE(ISP),SPE(JSP))
+            VALTMP = ONE_THIRD*(CHAMUL1*GAMI+CHAMUL2*GAMJ)
+            GAMMAV = GAMMAV + VALTMP
+          END IF
+          VAL = CHAMUL1 * CHAMUL2 * GAMMAV/DIST
+          DO K = 1, 3
+            FMODE(K,IAG,2) = FMODE(K,IAG,2) - VEC(K)*VAL
+            FMODE(K,JAG,2) = FMODE(K,JAG,2) + VEC(K)*VAL
+          END DO
+        END DO
+      END DO
+C
+C     ----- PUT SHIFT -----
+C     THE FIRST LOCATION OF SHIFTG IS X(LSHIFTG+NATFMO+NBDFG).
+C     mysterious behavior, somehow i and j seem to be opposite?
+C     However the gradient is correct, compared with ESP calculations.
+C     Maybe definition of direction is differet.
+C
+      IF (DFTB3) THEN
+        IF (MODGAMMA.LE.1)CALL DCOPY(10*NSPE*NSPE,X(LGAMMA3),1,TMP3,1)
+      END IF
+C
+      IF (MODGAMMA.EQ.0) THEN
+        CALL DCOPY(12*NSPE*NSPE,X(LGAMMA),1,TMP,1)
+        DO J = 1, NATJ
+          TMPJ = ZERO
+          JAG = IATFRG(INDJ+J-1)
+          JSP = ISPEFMO(JAG)
+          CHAMUL2 = POPMAT(J,JFG) - X(LZREF+INDJ+J-2) !! CHARGE OF J FRAGMENT
+          DO I = 1, NATI
+            IAG = IATFRG(INDI+I-1)
+            ISP = ISPEFMO(IAG)
+            CHAMUL1 = POPMAT(I,IFG) - X(LZREF+INDI+I-2) !! CHARGE OF I FRAGMENT
+            VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+            VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+            VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+            DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+            GAMTMPI = DFTB_GAM2(DIST,TMP(1,ISP,JSP),DAMPXH,
+     *        DAMPXHE,SPE(ISP),SPE(JSP))
+            GAMTMPJ = GAMTMPI
+            IF (DFTB3) THEN
+              CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMI = GAMI * HUBDER(ISP)
+              GAMJ = GAMJ * HUBDER(JSP)
+              GAMTMPI = GAMTMPI
+     *                + ONE_THIRD*(TWO*CHAMUL1*GAMI+CHAMUL2*GAMJ)
+              GAMTMPJ = GAMTMPJ
+     *                + ONE_THIRD*(CHAMUL1*GAMI+TWO*CHAMUL2*GAMJ)
+            END IF
+            TMPI = GAMTMPI*CHAMUL2
+            TMPJ = TMPJ + GAMTMPJ*CHAMUL1
+            SHIFTG(INDI+I-1) = SHIFTG(INDI+I-1) + TMPI
+          END DO
+          SHIFTG(INDJ+J-1) = SHIFTG(INDJ+J-1) + TMPJ
+        END DO
+      ELSE IF (MODGAMMA.EQ.1) THEN
+        DO J = 1, NATJ
+          TMPJ = ZERO
+          JAG = IATFRG(INDJ+J-1)
+          JSP = ISPEFMO(JAG)
+          CHAMUL2 = POPMAT(J,JFG) - X(LZREF+INDJ+J-2) !! CHARGE OF J FRAGMENT
+          DO I = 1, NATI
+            IAG = IATFRG(INDI+I-1)
+            CHAMUL1 = POPMAT(I,IFG) - X(LZREF+INDI+I-2) !! CHARGE OF I FRAGMENT
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            GAMTMPI = X(LGAMMA+NSEQ-1)
+            GAMTMPJ = GAMTMPI
+            IF (DFTB3) THEN
+              VEC(1) = FMOC(1,JAG) - FMOC(1,IAG)
+              VEC(2) = FMOC(2,JAG) - FMOC(2,IAG)
+              VEC(3) = FMOC(3,JAG) - FMOC(3,IAG)
+              DIST = SQRT(VEC(1)**2+VEC(2)**2+VEC(3)**2)
+              CALL DFTB_GAM3(DIST,GAMI,GAMJ,HUBB(ISP),HUBB(JSP),
+     *          TMP3(1,ISP,JSP),TMP3(1,JSP,ISP),DAMPXH,DAMPXHE,
+     *          SPE(ISP),SPE(JSP))
+              GAMI = GAMI * HUBDER(ISP)
+              GAMJ = GAMJ * HUBDER(JSP)
+              GAMTMPI = GAMTMPI
+     *                + ONE_THIRD*(TWO*CHAMUL1*GAMI+CHAMUL2*GAMJ)
+              GAMTMPJ = GAMTMPJ
+     *                + ONE_THIRD*(CHAMUL1*GAMI+TWO*CHAMUL2*GAMJ)
+            END IF
+            TMPI = GAMTMPI*CHAMUL2
+            TMPJ = TMPJ + GAMTMPJ*CHAMUL1
+            SHIFTG(INDI+I-1) = SHIFTG(INDI+I-1) + TMPI
+          END DO
+          SHIFTG(INDJ+J-1) = SHIFTG(INDJ+J-1) + TMPJ
+        END DO
+      ELSE IF (MODGAMMA.EQ.2) THEN
+        DO J = 1, NATJ
+          TMPJ = ZERO
+          JAG = IATFRG(INDJ+J-1)
+          CHAMUL2 = POPMAT(J,JFG) - X(LZREF+INDJ+J-2) !! CHARGE OF J FRAGMENT
+          DO I = 1, NATI
+            IAG = IATFRG(INDI+I-1)
+            CHAMUL1 = POPMAT(I,IFG) - X(LZREF+INDI+I-2) !! CHARGE OF I FRAGMENT
+            CALL DFTB_CNVSQ(IAG,JAG,NSEQ)
+            GAMTMPI = X(LGAMMA+NSEQ-1)
+            GAMTMPJ = GAMTMPI
+            IF (DFTB3) THEN
+              GAMI = X(LGAMMA3+IAG-1+(JAG-1)*NATFMO) !! G_ac
+              GAMJ = X(LGAMMA3+JAG-1+(IAG-1)*NATFMO) !! G_ca
+              GAMTMPI = GAMTMPI
+     *                + ONE_THIRD*(TWO*CHAMUL1*GAMI+CHAMUL2*GAMJ)
+              GAMTMPJ = GAMTMPJ
+     *                + ONE_THIRD*(CHAMUL1*GAMI+TWO*CHAMUL2*GAMJ)
+            END IF
+            TMPI = GAMTMPI*CHAMUL2
+            TMPJ = TMPJ + GAMTMPJ*CHAMUL1
+            SHIFTG(INDI+I-1) = SHIFTG(INDI+I-1) + TMPI
+          END DO
+          SHIFTG(INDJ+J-1) = SHIFTG(INDJ+J-1) + TMPJ
+        END DO
+      END IF
+C
+      RETURN
+C
+      END SUBROUTINE DFTB_ESDGRAD
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK ADD_LAG_GRAD
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Add Lagrangian-like term contribution in FMO-DFTB.
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param L1 Number of basis functions
+C>    @param L2 L1*(L1+1)/2
+C>    @param NSTART,NLAST Lower and upper bound to be calculated
+C>    @param NATFRG Number of atoms in each fragment
+C>    @param IAGLOB Global atom index
+C>    @param DSINT Maybe dS_{\mu \nu}/da
+C>    @param DSD Lagrangian-like term
+C>    @param WRK Maybe working array
+C>    @param ITYPE Decide coefficients
+C>           --- OUTPUT ---
+C>    @param FMODE Cartesian geometrical gradient of monomers and dimers
+C>
+C
+      SUBROUTINE ADD_LAG_GRAD(L1,L2,NSTART,NLAST,NATFMO,IAGLOB,FMODE,
+     *                        DSINT,DSD,WRK,ITYPE)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      PARAMETER (MXATM=2000, MXSPE=10)
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+      DOUBLE PRECISION :: DSINT(L2,3,*),DSD(L1,L1),FMODE(3,NATFMO),
+     * WRK(L1,L1)
+      INTEGER :: IAGLOB(*)
+C
+C     ----- CALCULATE (DSD)*(DS/DR) AND ADD GRADIENT -----
+C
+      DO I = 1, L1
+        DO J = I+1, L1
+          VAL = DSD(I,J) + DSD(J,I)
+C     SCALE DSD MATRIX AT FIRST.
+C     NOTE THAT THIS IS THE COEFFICIENT OF LAGRANGIAN.
+C     DO NOT SCALE IF ITYPE = 0
+          IF (ITYPE.EQ.1) THEN
+            VAL = -VAL*5.0D-01
+          ELSE IF (ITYPE.EQ.-1) THEN
+            VAL =  VAL*5.0D-01
+          END IF
+          DSD(I,J) = VAL
+          DSD(J,I) = VAL
+        END DO
+      END DO
+C
+      NSHIFT = IND(NSTART)
+      CALL VCLR(WRK ,1,L1*L1)
+      DO II = NSTART, NLAST
+        IG = IAGLOB(II)
+        L1L = IND(II+1) - IND(II)
+        J   = IND(II) - NSHIFT
+        DO K = 1, 3
+          CALL CPYTSQ(DSINT(1,K,II-NSTART+1),WRK,L1,1)
+          SUM = 0.00D+00
+          DO L = 1, L1L
+            M = J + L
+            SUM = SUM + DDOT(L1,DSD(1,M),1,WRK(1,M),1)
+          END DO
+          FMODE(K,IG) = FMODE(K,IG) + SUM
+        END DO
+      END DO
+C
+      RETURN
+C
+      END SUBROUTINE ADD_LAG_GRAD
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK GAMD_FMO2
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Calculate derivatives of DFTB2 gamma values
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param DIST Distance between atom A and B
+C>    @param VALUE Constants
+C>    @param DAMPXH Whether X-H damping is used or not
+C>    @param DAMPXHE Exponent of X-H damping
+C>    @param SPE1,SPE2 Name of atom A and B
+C>
+C
+      DOUBLE PRECISION FUNCTION GAMD_FMO2(DIST,VALUE,DAMPXH,DAMPXHE,
+     * SPE1,SPE2)
+C
+      IMPLICIT NONE
+C
+      DOUBLE PRECISION,INTENT(IN) :: DIST,VALUE(10),DAMPXHE,SPE1,SPE2
+      LOGICAL,INTENT(IN) :: DAMPXH
+C
+      DOUBLE PRECISION :: TAUA,TAUB,TAUMEAN,EXP_UR,
+     * DISTI,DISTI2,DIST2,HUBMEAN,GA,DGA_DR,DS_DR,GAMTMP,
+     * GAMTMP2,HUBMEANEXP,EXPH,EXPA,EXPB,FAB,FBA,DFAB_DR,DFBA_DR
+      DOUBLE PRECISION, PARAMETER :: DISTTOL=1.0D-08,HUBTOL=1.0D-04,
+     * TWO=2.0D+00
+      DOUBLE PRECISION H/8HH       /
+C
+C     --- Here calculates THE DERIVATIVE OF \gamma_{\alpha \beta} values ---
+C
+C     write (*,*) value( 1)
+C     write (*,*) value( 2)
+C     write (*,*) value( 3)
+C     write (*,*) value( 4)
+C     write (*,*) value( 5)
+C     write (*,*) value( 6)
+C     write (*,*) value( 7)
+C     write (*,*) value( 8)
+C     write (*,*) value( 9)
+C     write (*,*) value(10)
+      TAUA = VALUE(1)*1.0D+00
+      TAUB = VALUE(2)*1.0D+00
+      GAMTMP=0.0D+00
+      GAMTMP2=0.0D+00
+C     write (*,*) "taua, taub = ", taua,taub
+      IF (DIST.LE.DISTTOL) THEN
+        GAMD_FMO2 = 0.0D+00
+        RETURN
+      ELSE IF (ABS(TAUA-TAUB).LE.HUBTOL) THEN
+        TAUMEAN = VALUE(3)
+        EXP_UR = EXP(-TAUMEAN*DIST)
+        DIST2 = DIST*DIST
+        DISTI = 1.0D+00/DIST
+        DISTI2 = DISTI*DISTI
+        GA = DISTI+VALUE(4)+VALUE(5)*DIST+VALUE(6)*DIST2
+        DGA_DR = -DISTI2+VALUE(5)+TWO*VALUE(6)*DIST
+        DS_DR = EXP_UR*DGA_DR - TAUA*EXP_UR*GA
+        GAMTMP = -DS_DR
+        IF (DAMPXH) THEN
+          IF (SPE1.EQ.H.OR.SPE2.EQ.H) THEN
+            HUBMEAN = TAUA*3.125D-01
+            HUBMEANEXP = HUBMEAN**DAMPXHE
+            EXPH = EXP(-HUBMEANEXP*DIST2)
+            GAMTMP = GAMTMP*EXPH
+            GAMTMP2 = EXP_UR*GA
+            GAMTMP2 = GAMTMP2*HUBMEANEXP*TWO*DIST*EXPH
+          END IF
+        END IF
+      ELSE
+        DISTI = 1.0D+00/DIST
+        DISTI2 = DISTI*DISTI
+        EXPA = EXP(-TAUA*DIST)
+        EXPB = EXP(-TAUB*DIST)
+        FAB = VALUE(9) - VALUE(7)*DISTI
+        FBA = VALUE(10) - VALUE(8)*DISTI
+        DFAB_DR = VALUE(7)*DISTI2
+        DFBA_DR = VALUE(8)*DISTI2
+        DS_DR = EXPA*DFAB_DR - TAUA*EXPA*FAB
+     *        + EXPB*DFBA_DR - TAUB*EXPB*FBA
+        GAMTMP = -DS_DR
+        IF (DAMPXH) THEN
+          IF (SPE1.EQ.H.OR.SPE2.EQ.H) THEN
+            DIST2 = DIST*DIST
+            HUBMEAN = (TAUA+TAUB)*1.5625D-01
+            HUBMEANEXP = HUBMEAN**DAMPXHE
+            EXPH = EXP(-HUBMEANEXP*DIST2)
+            GAMTMP = GAMTMP * EXPH !! -h*dSf/dR
+            GAMTMP2 = EXPA*FAB + EXPB*FBA
+            GAMTMP2 = GAMTMP2*HUBMEANEXP*TWO*DIST*EXPH
+          END IF
+        END IF
+      END IF
+      GAMD_FMO2 = -DISTI2 + GAMTMP + GAMTMP2
+C     WRITE (*,'(2I4,2F20.10)') I,J,GAMD_FMO,-1.0/(DIST**2)
+C
+      RETURN
+
+      END FUNCTION GAMD_FMO2
+C
+C-----------------------------------------------------------------------
+C*MODULE DFTBFO    *DECK DS_SHIFT
+C>
+C>    @brief Gradient in FMO-DFTB
+C>
+C>    @details Add shift contribution toe array D*S
+C>
+C>    @author Yoshio Nishimoto
+C>    - Sep, 2014- Subroutine written
+C>
+C>           --- INPUT ---
+C>    @param L1 Number of basis functions
+C>    @param L2 L1*(L1+1)/2
+C>    @param NSTART,NLAST Lower and upper bound to be calculated
+C>    @param IAGLOB Global atom index
+C>    @param SHIFT Shiftcontribution
+C>           --- IN/OUTPUT ---
+C>    @param DS (density matrix)*(overlap)
+C>
+C
+      SUBROUTINE DS_SHIFT(L1,NSTART,NLAST,IAGLOB,DS,SHIFT)
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C
+      DIMENSION DS(L1,L1), SHIFT(*), IAGLOB(*)
+C
+      PARAMETER (MXSPE=10,MXATM=2000)
+      COMMON /DFTBPR/ ETEMP,DFTBDP(MXSPE*14),DAMPXHE,HUBDER(MXSPE),
+     *                SPE(MXATM),NSPE,MAXANG(MXATM),ISPE(MXATM),
+     *                IND(MXATM+1),IDFTBD
+      DOUBLE PRECISION :: ETEMP,DFTBDP,DAMPXHE,HUBDER,SPE
+      INTEGER :: NSPE,MAXANG,ISPE,IND,IDFTBD
+C
+C     THIS SUBROUTINE ADDS THE SHIFT CONTRIBUTION TO THE ARRAY DS.
+C     NOTE THAT SHIFT IS THE CONTRIBUTION ON AN ATOM. 
+C
+      K = 0
+      DO I = NSTART, NLAST
+        IG = IAGLOB(I)
+        DO J = 1, IND(I+1)-IND(I)
+          K = K + 1
+          DO L = 1, L1
+            DS(L,K) = DS(L,K) * SHIFT(IG)
+          END DO
+        END DO
+      END DO
+C
+      RETURN
+C
+      END SUBROUTINE DS_SHIFT

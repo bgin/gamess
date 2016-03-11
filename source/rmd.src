@@ -1,0 +1,175 @@
+! 18 Mar 14 - SRP - Created source file for FMO/RMD multistate method
+!
+!*MODULE RMD  *DECK RMDINP
+!> @brief      Routine sets up RMD molecular dynamics runs
+!>
+!> @author     Spencer R. Pruitt
+!>             -2014
+!>
+!> @details    Routine reads in user options from $RMD
+!>
+!> @date : March 18, 2014 - Spencer R. Pruitt
+!>         Created subroutine
+!>
+      SUBROUTINE RMDINP(dormd)
+
+      USE RMDDAT
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+
+      LOGICAL GOPARR,DSKWRK,MASWRK,dormd
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+      COMMON /PAR   / ME,MASTER,NPROC,IBTYP,IPTIM,GOPARR,DSKWRK,MASWRK
+      PARAMETER (NNAM=3)
+      DIMENSION QNAM(NNAM),KQNAM(NNAM)
+      DATA RMDGRP /8HRMD     /
+      DATA QNAM/8HNHOPS   ,8HHOPDST  , 8HNSCHMS  /
+      DATA KQNAM /1,1,1/
+
+      !SET DEFAULT VALUES FOR RMD OPTIONS
+
+      dormd=IRMDRUN.ne.0 
+      if(IRMDRUN.eq.0) return
+c
+      NHOPS=5
+      HOPDST=1
+      NSCHMS=1
+      ISCHM=1
+
+      !READ IN OPTIONS FROM $RMD
+      
+      CALL NAMEIO(IR,JRET,RMDGRP,NNAM,QNAM,
+     *            KQNAM,NHOPS,HOPDST,
+     *            NSCHMS,0,0,0,0, 0,0,0,0,0,
+     *            0,0,0,0,0, 0,0,0,0,0,
+     *            0,0,0,0,0, 0,0,0,0,0,
+     *            0,0,0,0,0, 0,0,0,0,0,
+     *            0,0,0,0,0, 0,0,0,0,0,
+     *            0,0,0,0,0, 0,0,0,0,0,0,0)
+
+      !CHECK TO SEE OPTIONS WERE READ IN
+
+      IF(IRMDRUN.GT.0.AND.MASWRK) THEN
+         WRITE(IW,9000)
+         WRITE(IW,9200) NHOPS,HOPDST
+      ENDIF
+
+ 9000 FORMAT(1X,' '/
+     *       1X,29(1H>),/,
+     *       1X,'MULTI-STATE REACTIVE DYNAMICS'/
+     *       1X,'WRITTEN BY ADRIAN LANGE,     '/
+     *       1X,'OLASENI SODE                 '/
+     *       1X,'AND                          '/
+     *       1X,'SPENCER R PRUITT             '/
+     *       1X,29(1H>))
+ 9200 FORMAT(1X,' '/
+     *       1X,16(1H>),/,
+     *       1X,'RMD USER OPTIONS        '/
+     *       1X,16(1H>),/,
+     *       1X,'NHOPS = ',I2,/
+     *       1X,'HOPDST = ',I2,/
+     *       1X,16(1H>))
+
+      RETURN
+      END
+!
+!*MODULE RMD  *DECK GETRMDDAT
+!> @brief      Fill indat and charge arrays
+!>
+!> @author     Spencer R. Pruitt
+!>             -2014
+!>
+!> @details    Routine retrieves relevant fragmentation scheme and charges
+!>             and saves it to the appropriate FMO arrays
+!>
+!> @date : March 18, 2014 - Spencer R. Pruitt
+!>         Created subroutine
+!>
+      SUBROUTINE GETRMDDAT(NAT,NFG,INDAT,ICHFG)
+c     SUBROUTINE GETRMDDAT(IRMD,NAT,NFG,INDAT,ICHFG)
+
+      USE RMDDAT
+
+      IMPLICIT NONE
+
+      INTEGER :: IRMD, NAT, NFG, LEN, I
+      INTEGER :: INDAT(*)
+      INTEGER :: ICHFG(*)
+
+!     INDAT RUNS OVER ATOMS
+
+      IF(IRMDRUN.eq.0) return
+
+      irmd=ISCHM
+ 
+      IF(IRMD.EQ.1) THEN
+         DO I=1,NAT
+            INDAT(I)=IRMDDAT(I)
+         ENDDO
+      ELSE
+         DO I=1,NAT
+            INDAT(I)=IRMDDAT(I+NAT*(IRMD-1))
+         ENDDO
+      ENDIF 
+
+!     ICHFG RUNS OVER FRAGMENTS
+
+      IF(IRMD.EQ.1) THEN
+         DO I=1,NFG
+            ICHFG(I)=IRMDCHG(I)
+         ENDDO
+      ELSE
+         DO I=1,NFG
+            ICHFG(I)=IRMDCHG(I+NFG*(IRMD-1))
+         ENDDO
+      ENDIF 
+
+      RETURN
+      END
+
+!*MODULE RMD  *DECK checkrmd
+      SUBROUTINE checkrmd(nfg)
+
+      USE RMDDAT
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+
+      IRMDRUN=0
+      IF(NFG.GT.0) THEN
+         CALL SEQREW(IR)
+         CALL FNDGRP(IR,' $RMD   ',IEOF)
+         IF(IEOF.EQ.0) IRMDRUN=1
+      ENDIF
+
+      RETURN
+      END
+
+!*MODULE RMD  *DECK SETRMDIND
+      SUBROUTINE SETRMDIND(nfg,natfmo,indat,ichfg)
+
+      USE RMDDAT
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      dimension indat(*),ichfg(*)
+      COMMON /IOFILE/ IR,IW,IP,IJK,IJKT,IDAF,NAV,IODA(950)
+
+      if(irmdrun.gt.0) then
+        if(indat(1).eq.0) then
+          write(IW,*)'Sorry, that form of INDAT is not supported
+     *               for FMO-RMD runs...'
+          call flshbf(iw)
+          call abrt
+        else
+          do i=1,natfmo
+            irmddat(i)=indat(i)
+          enddo
+          do i=1,nfg
+            irmdchg(i)=ichfg(i)
+          enddo
+        endif
+      endif
+
+      RETURN
+      END
+

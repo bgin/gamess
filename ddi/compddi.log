@@ -1,0 +1,401 @@
+       Building the Distributed Data Interface library
+           started at Fri Mar 11 11:22:35 EST 2016
+ 
+Compiling for machine type linux64,
+using communication model sockets,
+System V shared memory option set true,
+with maxima of 32 processors/node and 1024 nodes.
+ 
+This compilation should produce the DDI library libddi.a
+This compilation should also produce the kick-off program ddikick.x
+ 
+ 
+Attempting to remove binary files from previous DDI build...
+rm: No match.
+ 
+Beginning the DDI compilation at Fri Mar 11 11:22:35 EST 2016
+ 
+Compiling common object: soc_create.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o soc_create.o -c soc_create.c
+unset echo
+Finished compiling: soc_create.o
+ 
+Compiling common object: std_system.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o std_system.o -c std_system.c
+unset echo
+Finished compiling: std_system.o
+ 
+Compiling common object: tcp_sockets.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o tcp_sockets.o -c tcp_sockets.c
+unset echo
+Finished compiling: tcp_sockets.o
+ 
+Compiling common object: debug.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o debug.o -c debug.c
+unset echo
+Finished compiling: debug.o
+ 
+Compiling common object: parse_node_args.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o parse_node_args.o -c parse_node_args.c
+unset echo
+Finished compiling: parse_node_args.o
+ 
+Compiling DDI object: ddi.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi.o -c ddi.c
+endif
+unset echo
+Finished compiling: ddi.o
+ 
+Compiling DDI object: ddi_send.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_send.o -c ddi_send.c
+endif
+unset echo
+Finished compiling: ddi_send.o
+ 
+Compiling DDI object: ddi_recv.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_recv.o -c ddi_recv.c
+endif
+unset echo
+Finished compiling: ddi_recv.o
+ 
+Compiling DDI object: ddi_get.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_get.o -c ddi_get.c
+endif
+unset echo
+Finished compiling: ddi_get.o
+ 
+Compiling DDI object: ddi_put.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_put.o -c ddi_put.c
+endif
+unset echo
+Finished compiling: ddi_put.o
+ 
+Compiling DDI object: ddi_acc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_acc.o -c ddi_acc.c
+endif
+unset echo
+Finished compiling: ddi_acc.o
+ 
+Compiling DDI object: ddi_getacc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_getacc.o -c ddi_getacc.c
+endif
+unset echo
+Finished compiling: ddi_getacc.o
+ 
+Compiling DDI object: ddi_distrib.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_distrib.o -c ddi_distrib.c
+endif
+unset echo
+Finished compiling: ddi_distrib.o
+ 
+Compiling DDI object: ddi_subpatch.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_subpatch.o -c ddi_subpatch.c
+endif
+unset echo
+Finished compiling: ddi_subpatch.o
+ 
+Compiling DDI object: ddi_index.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_index.o -c ddi_index.c
+endif
+unset echo
+Finished compiling: ddi_index.o
+ 
+Compiling DDI object: ddi_recvany.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_recvany.o -c ddi_recvany.c
+endif
+unset echo
+Finished compiling: ddi_recvany.o
+ 
+Compiling DDI object: ddi_create.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_create.o -c ddi_create.c
+endif
+unset echo
+Finished compiling: ddi_create.o
+ 
+Compiling DDI object: ddi_destroy.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_destroy.o -c ddi_destroy.c
+endif
+unset echo
+Finished compiling: ddi_destroy.o
+ 
+Compiling DDI object: ddi_server.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_server.o -c ddi_server.c
+endif
+unset echo
+Finished compiling: ddi_server.o
+ 
+Compiling DDI object: ddi_finalize.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_finalize.o -c ddi_finalize.c
+endif
+unset echo
+Finished compiling: ddi_finalize.o
+ 
+Compiling DDI object: ddi_memory.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_memory.o -c ddi_memory.c
+endif
+unset echo
+Finished compiling: ddi_memory.o
+ 
+Compiling DDI object: ddi_lapi.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_lapi.o -c ddi_lapi.c
+endif
+unset echo
+Finished compiling: ddi_lapi.o
+ 
+Compiling DDI object: ddi_isend.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_isend.o -c ddi_isend.c
+endif
+unset echo
+Finished compiling: ddi_isend.o
+ 
+Compiling DDI object: ddi_irecv.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_irecv.o -c ddi_irecv.c
+endif
+unset echo
+Finished compiling: ddi_irecv.o
+ 
+Compiling DDI object: ddi_wait.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_wait.o -c ddi_wait.c
+endif
+unset echo
+Finished compiling: ddi_wait.o
+ 
+Compiling DDI object: ddi_signals.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_signals.o -c ddi_signals.c
+endif
+unset echo
+Finished compiling: ddi_signals.o
+ 
+Compiling DDI object: ddi_id.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_id.o -c ddi_id.c
+endif
+unset echo
+Finished compiling: ddi_id.o
+ 
+Compiling DDI object: ddi_timer.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_timer.o -c ddi_timer.c
+endif
+unset echo
+Finished compiling: ddi_timer.o
+ 
+Compiling DDI object: ddi_gdlb.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_gdlb.o -c ddi_gdlb.c
+endif
+unset echo
+Finished compiling: ddi_gdlb.o
+ 
+Compiling DDI object: ddi_dlb.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_dlb.o -c ddi_dlb.c
+endif
+unset echo
+Finished compiling: ddi_dlb.o
+ 
+Compiling DDI object: ddi_dlb_proc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_dlb_proc.o -c ddi_dlb_proc.c
+endif
+unset echo
+Finished compiling: ddi_dlb_proc.o
+ 
+Compiling DDI object: ddi_init.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_init.o -c ddi_init.c
+endif
+unset echo
+Finished compiling: ddi_init.o
+ 
+Compiling DDI object: sysv_ipc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o sysv_ipc.o -c sysv_ipc.c
+endif
+unset echo
+Finished compiling: sysv_ipc.o
+ 
+Compiling DDI object: ddi_comm.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm.o -c ddi_comm.c
+endif
+unset echo
+Finished compiling: ddi_comm.o
+ 
+Compiling DDI object: ddi_comm_group.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_group.o -c ddi_comm_group.c
+endif
+unset echo
+Finished compiling: ddi_comm_group.o
+ 
+Compiling DDI object: ddi_comm_send.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_send.o -c ddi_comm_send.c
+endif
+unset echo
+Finished compiling: ddi_comm_send.o
+ 
+Compiling DDI object: ddi_comm_recv.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_recv.o -c ddi_comm_recv.c
+endif
+unset echo
+Finished compiling: ddi_comm_recv.o
+ 
+Compiling DDI object: ddi_comm_sync.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_sync.o -c ddi_comm_sync.c
+endif
+unset echo
+Finished compiling: ddi_comm_sync.o
+ 
+Compiling DDI object: ddi_comm_gsum.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_gsum.o -c ddi_comm_gsum.c
+endif
+unset echo
+Finished compiling: ddi_comm_gsum.o
+ 
+Compiling DDI object: ddi_comm_bcast.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_bcast.o -c ddi_comm_bcast.c
+endif
+unset echo
+Finished compiling: ddi_comm_bcast.o
+ 
+Compiling DDI object: ddi_smp.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_smp.o -c ddi_smp.c
+endif
+unset echo
+Finished compiling: ddi_smp.o
+ 
+Compiling DDI object: ddi_comm_create.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_create.o -c ddi_comm_create.c
+endif
+unset echo
+Finished compiling: ddi_comm_create.o
+ 
+Compiling DDI object: ddi_comm_nproc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_nproc.o -c ddi_comm_nproc.c
+endif
+unset echo
+Finished compiling: ddi_comm_nproc.o
+ 
+Compiling DDI object: ddi_comm_nnode.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_comm_nnode.o -c ddi_comm_nnode.c
+endif
+unset echo
+Finished compiling: ddi_comm_nnode.o
+ 
+Compiling DDI object: ddi_util.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_util.o -c ddi_util.c
+endif
+unset echo
+Finished compiling: ddi_util.o
+ 
+Compiling DDI object: mmath.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o mmath.o -c mmath.c
+endif
+unset echo
+Finished compiling: mmath.o
+ 
+Compiling DDI object: ddi_arr.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr.o -c ddi_arr.c
+endif
+unset echo
+Finished compiling: ddi_arr.o
+ 
+Compiling DDI object: ddi_arr_acc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr_acc.o -c ddi_arr_acc.c
+endif
+unset echo
+Finished compiling: ddi_arr_acc.o
+ 
+Compiling DDI object: ddi_arr_add.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr_add.o -c ddi_arr_add.c
+endif
+unset echo
+Finished compiling: ddi_arr_add.o
+ 
+Compiling DDI object: ddi_arr_dot.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr_dot.o -c ddi_arr_dot.c
+endif
+unset echo
+Finished compiling: ddi_arr_dot.o
+ 
+Compiling DDI object: ddi_arr_scalar.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr_scalar.o -c ddi_arr_scalar.c
+endif
+unset echo
+Finished compiling: ddi_arr_scalar.o
+ 
+Compiling DDI object: ddi_arr_select.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_arr_select.o -c ddi_arr_select.c
+endif
+unset echo
+Finished compiling: ddi_arr_select.o
+ 
+Compiling DDI object: ddi_scattered_data.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_scattered_data.o -c ddi_scattered_data.c
+endif
+unset echo
+Finished compiling: ddi_scattered_data.o
+ 
+Compiling DDI object: ddi_scatter_acc.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ddi_scatter_acc.o -c ddi_scatter_acc.c
+endif
+unset echo
+Finished compiling: ddi_scatter_acc.o
+ 
+Compiling FORTRAN wrappers for DDI
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -DINT_SIZE=long -D_UNDERSCORES=1 -o ddi_fortran.o -c ddi_fortran.c
+unset echo
+Finished compiling: ddi_fortran.o
+ 
+Creating DDI test program, ddi_test.x
+gfortran -O2 -m64 -fdefault-integer-8 -std=legacy -o ../ddi_test.x ddi_test.f ../libddi.a -lpthread
+ddi_test.f:489.28:
+
+      call smp_test_routine(addr(locsm),lensm,valsum)                   
+                            1
+Warning: Type mismatch in argument 'shared' at (1); passed CHARACTER(1) to REAL(8)
+unset echo
+ 
+Creating standalone DDI data server program, data_server.x
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -o ../data_server.x data_server.c ../libddi.a -lpthread
+unset echo
+ 
+TCP/IP communications uses a special kickoff program, ddikick.x
+ 
+Compiling ddikick object: ddikick.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c ddikick.c
+unset echo
+Finished compiling: ddikick.o
+ 
+Compiling ddikick object: ddikick_error.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c ddikick_error.c
+unset echo
+Finished compiling: ddikick_error.o
+ 
+Compiling ddikick object: accept_tasks.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c accept_tasks.c
+unset echo
+Finished compiling: accept_tasks.o
+ 
+Compiling ddikick object: finalize_tasks.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c finalize_tasks.c
+unset echo
+Finished compiling: finalize_tasks.o
+ 
+Compiling ddikick object: kickoff_local.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c kickoff_local.c
+unset echo
+Finished compiling: kickoff_local.o
+ 
+Compiling ddikick object: kickoff_remote.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c kickoff_remote.c
+unset echo
+Finished compiling: kickoff_remote.o
+ 
+Compiling ddikick object: kickoff_pbs.o
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -I../src -c kickoff_pbs.c
+unset echo
+Finished compiling: kickoff_pbs.o
+ 
+Linking DDI kickoff program, ddikick.x
+gcc -DLINUX -m64 -O3 -fstrict-aliasing -I./ -Dgetarg_=_gfortran_getarg_i4 -Diargc_=_gfortran_iargc -DDDI_SOC -DUSE_SYSV -DMAX_SMP_PROCS=32 -DMAX_NODES=1024 -o ../ddikick.x ddikick.o libddikick.a -lpthread
+unset echo
+ 
+Don't forget to move ddikick.x up one directory level,
+by a   'mv ddikick.x ..'   command.
+ 
+DDI compilation ended successfully.
+Fri Mar 11 11:22:41 EST 2016
+4.474u 1.086s 0:05.53 100.3%	0+0k 0+21776io 0pf+0w

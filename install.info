@@ -1,0 +1,19 @@
+#!/bin/csh
+#   compilation configuration for GAMESS
+#   generated on qmc8
+#   generated at Fri Mar 11 11:22:14 EST 2016
+setenv GMS_PATH            /home/junhao/gamess/gamess_tmp
+setenv GMS_BUILD_DIR       /home/junhao/gamess/gamess_tmp
+#         machine type
+setenv GMS_TARGET          linux64
+#         FORTRAN compiler setup
+setenv GMS_FORTRAN         gfortran
+setenv GMS_GFORTRAN_VERNO  4.8
+#         mathematical library setup
+setenv GMS_MATHLIB         mkl
+setenv GMS_MATHLIB_PATH    /opt/intel/mkl/lib/intel64
+setenv GMS_MKL_VERNO       12
+#         parallel message passing model setup
+setenv GMS_DDI_COMM        sockets
+#         LIBCCHEM CPU/GPU code interface
+setenv GMS_LIBCCHEM        false

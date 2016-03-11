@@ -1,0 +1,2032 @@
+Fri Mar 11 11:23:12 EST 2016
+gcc -c -DLINUX64 -m64 -o /home/junhao/gamess/gamess_tmp/object/zunix.o /home/junhao/gamess/gamess_tmp/source/zunix.c
+unset echo
+======================== blas ==============================
+Fri Mar 11 11:23:12 EST 2016
+Copying source code, blas.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations blas.f
+unset echo
+Fri Mar 11 11:23:13 EST 2016
+0.578u 0.024s 0:00.61 96.7%	0+0k 0+448io 0pf+0w
+======================== mpcdatpm6 ==============================
+Fri Mar 11 11:23:13 EST 2016
+Copying source code, mpcdatpm6.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -ffree-line-length-none -w -fno-aggressive-loop-optimizations mpcdatpm6.f90
+unset echo
+Fri Mar 11 11:23:13 EST 2016
+0.120u 0.020s 0:00.14 100.0%	0+0k 0+1168io 0pf+0w
+======================== mpchbond ==============================
+Fri Mar 11 11:23:13 EST 2016
+Copying source code, mpchbond.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -ffree-line-length-none -w -fno-aggressive-loop-optimizations mpchbond.f90
+unset echo
+Fri Mar 11 11:23:13 EST 2016
+0.454u 0.018s 0:00.47 97.8%	0+0k 0+392io 0pf+0w
+======================== rmddat ==============================
+Fri Mar 11 11:23:13 EST 2016
+Copying source code, rmddat.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rmddat.f
+unset echo
+Fri Mar 11 11:23:13 EST 2016
+0.035u 0.011s 0:00.04 100.0%	0+0k 0+32io 0pf+0w
+======================== aldeci ==============================
+Fri Mar 11 11:23:13 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/aldeci.src to create aldeci.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations aldeci.f
+unset echo
+Fri Mar 11 11:23:17 EST 2016
+3.952u 0.063s 0:04.01 100.0%	0+0k 0+4520io 0pf+0w
+======================== algnci ==============================
+Fri Mar 11 11:23:17 EST 2016
+Copying source code, algnci.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations algnci.f
+unset echo
+Fri Mar 11 11:23:20 EST 2016
+3.077u 0.052s 0:03.13 99.6%	0+0k 0+2464io 0pf+0w
+======================== basccn ==============================
+Fri Mar 11 11:23:20 EST 2016
+Copying source code, basccn.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basccn.f
+unset echo
+Fri Mar 11 11:23:40 EST 2016
+19.005u 0.090s 0:19.10 99.9%	0+0k 0+15120io 0pf+0w
+======================== basecp ==============================
+Fri Mar 11 11:23:40 EST 2016
+Copying source code, basecp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basecp.f
+unset echo
+Fri Mar 11 11:23:40 EST 2016
+0.758u 0.012s 0:00.77 98.7%	0+0k 0+1592io 0pf+0w
+======================== basext ==============================
+Fri Mar 11 11:23:40 EST 2016
+Copying source code, basext.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basext.f
+unset echo
+Fri Mar 11 11:23:41 EST 2016
+0.588u 0.034s 0:00.63 96.8%	0+0k 0+1120io 0pf+0w
+======================== basg3l ==============================
+Fri Mar 11 11:23:41 EST 2016
+Copying source code, basg3l.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basg3l.f
+unset echo
+Fri Mar 11 11:23:41 EST 2016
+0.364u 0.034s 0:00.39 100.0%	0+0k 0+584io 0pf+0w
+======================== basg3x ==============================
+Fri Mar 11 11:23:41 EST 2016
+Copying source code, basg3x.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basg3x.f
+unset echo
+Fri Mar 11 11:23:42 EST 2016
+0.583u 0.034s 0:00.62 98.3%	0+0k 0+904io 0pf+0w
+======================== bashuz ==============================
+Fri Mar 11 11:23:42 EST 2016
+Copying source code, bashuz.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations bashuz.f
+unset echo
+Fri Mar 11 11:23:42 EST 2016
+0.496u 0.023s 0:00.51 100.0%	0+0k 0+1088io 0pf+0w
+======================== bashz2 ==============================
+Fri Mar 11 11:23:42 EST 2016
+Copying source code, bashz2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations bashz2.f
+unset echo
+Fri Mar 11 11:23:43 EST 2016
+0.527u 0.022s 0:00.55 98.1%	0+0k 0+1112io 0pf+0w
+======================== baskar ==============================
+Fri Mar 11 11:23:43 EST 2016
+Copying source code, baskar.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations baskar.f
+unset echo
+Fri Mar 11 11:23:44 EST 2016
+0.508u 0.033s 0:00.55 96.3%	0+0k 0+824io 0pf+0w
+======================== basn21 ==============================
+Fri Mar 11 11:23:44 EST 2016
+Copying source code, basn21.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basn21.f
+unset echo
+Fri Mar 11 11:23:44 EST 2016
+0.525u 0.034s 0:00.55 100.0%	0+0k 0+1168io 0pf+0w
+======================== basn31 ==============================
+Fri Mar 11 11:23:44 EST 2016
+Copying source code, basn31.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations basn31.f
+unset echo
+Fri Mar 11 11:23:45 EST 2016
+0.514u 0.042s 0:00.56 98.2%	0+0k 0+1120io 0pf+0w
+======================== baspcn ==============================
+Fri Mar 11 11:23:45 EST 2016
+Copying source code, baspcn.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations baspcn.f
+unset echo
+Fri Mar 11 11:23:48 EST 2016
+3.132u 0.036s 0:03.16 100.0%	0+0k 0+5488io 0pf+0w
+======================== bassto ==============================
+Fri Mar 11 11:23:48 EST 2016
+Copying source code, bassto.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations bassto.f
+unset echo
+Fri Mar 11 11:23:48 EST 2016
+0.283u 0.022s 0:00.30 100.0%	0+0k 0+608io 0pf+0w
+======================== casino ==============================
+Fri Mar 11 11:23:48 EST 2016
+Copying source code, casino.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations casino.f
+unset echo
+Fri Mar 11 11:23:48 EST 2016
+0.225u 0.022s 0:00.25 96.0%	0+0k 0+200io 0pf+0w
+======================== ccaux ==============================
+Fri Mar 11 11:23:48 EST 2016
+Copying source code, ccaux.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ccaux.f
+unset echo
+Fri Mar 11 11:23:49 EST 2016
+0.932u 0.039s 0:00.98 97.9%	0+0k 0+768io 0pf+0w
+======================== cchdmy ==============================
+Fri Mar 11 11:23:49 EST 2016
+Copying source code, cchdmy.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cchdmy.f
+unset echo
+Fri Mar 11 11:23:49 EST 2016
+0.043u 0.020s 0:00.06 100.0%	0+0k 0+24io 0pf+0w
+======================== ccddi ==============================
+Fri Mar 11 11:23:49 EST 2016
+Copying source code, ccddi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ccddi.f
+unset echo
+Fri Mar 11 11:23:51 EST 2016
+1.741u 0.047s 0:01.79 99.4%	0+0k 0+1864io 0pf+0w
+======================== ccqaux ==============================
+Fri Mar 11 11:23:51 EST 2016
+Copying source code, ccqaux.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ccqaux.f
+unset echo
+Fri Mar 11 11:23:52 EST 2016
+1.043u 0.025s 0:01.06 100.0%	0+0k 0+720io 0pf+0w
+======================== ccquad ==============================
+Fri Mar 11 11:23:52 EST 2016
+Copying source code, ccquad.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ccquad.f
+unset echo
+Fri Mar 11 11:23:54 EST 2016
+1.194u 0.039s 0:01.24 98.3%	0+0k 0+1632io 0pf+0w
+======================== ccsdt ==============================
+Fri Mar 11 11:23:54 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/ccsdt.src to create ccsdt.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ccsdt.f
+unset echo
+Fri Mar 11 11:23:55 EST 2016
+1.284u 0.043s 0:01.32 100.0%	0+0k 0+1696io 0pf+0w
+======================== ceeis ==============================
+Fri Mar 11 11:23:55 EST 2016
+Copying source code, ceeis.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ceeis.f
+unset echo
+Fri Mar 11 11:23:56 EST 2016
+1.073u 0.026s 0:01.09 100.0%	0+0k 0+928io 0pf+0w
+======================== cepa ==============================
+Fri Mar 11 11:23:56 EST 2016
+Copying source code, cepa.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cepa.f
+unset echo
+Fri Mar 11 11:23:58 EST 2016
+1.745u 0.055s 0:01.81 98.8%	0+0k 0+1088io 0pf+0w
+======================== chgpen ==============================
+Fri Mar 11 11:23:58 EST 2016
+Copying source code, chgpen.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations chgpen.f
+unset echo
+Fri Mar 11 11:23:59 EST 2016
+0.785u 0.032s 0:00.82 98.7%	0+0k 0+808io 0pf+0w
+======================== cimf ==============================
+Fri Mar 11 11:23:59 EST 2016
+Copying source code, cimf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cimf.f
+unset echo
+Fri Mar 11 11:23:59 EST 2016
+0.554u 0.033s 0:00.58 100.0%	0+0k 0+472io 0pf+0w
+======================== ciminf ==============================
+Fri Mar 11 11:23:59 EST 2016
+Copying source code, ciminf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ciminf.f
+unset echo
+Fri Mar 11 11:24:00 EST 2016
+0.572u 0.014s 0:00.59 98.3%	0+0k 0+704io 0pf+0w
+======================== cimi ==============================
+Fri Mar 11 11:24:00 EST 2016
+Copying source code, cimi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cimi.f
+unset echo
+Fri Mar 11 11:24:04 EST 2016
+3.772u 0.062s 0:03.84 99.7%	0+0k 0+3224io 0pf+0w
+======================== cimlib ==============================
+Fri Mar 11 11:24:04 EST 2016
+Copying source code, cimlib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cimlib.f
+unset echo
+Fri Mar 11 11:24:04 EST 2016
+0.162u 0.022s 0:00.18 100.0%	0+0k 0+168io 0pf+0w
+======================== cimsub ==============================
+Fri Mar 11 11:24:04 EST 2016
+Copying source code, cimsub.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cimsub.f
+unset echo
+Fri Mar 11 11:24:08 EST 2016
+3.731u 0.043s 0:03.78 99.7%	0+0k 0+4216io 0pf+0w
+======================== cisgrd ==============================
+Fri Mar 11 11:24:08 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/cisgrd.src to create cisgrd.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cisgrd.f
+unset echo
+Fri Mar 11 11:24:09 EST 2016
+1.090u 0.032s 0:01.12 100.0%	0+0k 0+1432io 0pf+0w
+======================== comp ==============================
+Fri Mar 11 11:24:09 EST 2016
+Copying source code, comp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations comp.f
+unset echo
+Fri Mar 11 11:24:10 EST 2016
+0.891u 0.020s 0:00.92 98.9%	0+0k 0+1256io 0pf+0w
+======================== cosmo ==============================
+Fri Mar 11 11:24:10 EST 2016
+Copying source code, cosmo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O0 -std=legacy -w -fno-aggressive-loop-optimizations cosmo.f
+unset echo
+Fri Mar 11 11:24:10 EST 2016
+0.410u 0.028s 0:00.43 100.0%	0+0k 0+1976io 0pf+0w
+======================== cosprt ==============================
+Fri Mar 11 11:24:10 EST 2016
+Copying source code, cosprt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cosprt.f
+unset echo
+Fri Mar 11 11:24:10 EST 2016
+0.100u 0.027s 0:00.12 100.0%	0+0k 0+104io 0pf+0w
+======================== cphf ==============================
+Fri Mar 11 11:24:10 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/cphf.src to create cphf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cphf.f
+unset echo
+Fri Mar 11 11:24:13 EST 2016
+2.345u 0.050s 0:02.40 99.5%	0+0k 0+2808io 0pf+0w
+======================== cpmchf ==============================
+Fri Mar 11 11:24:13 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/cpmchf.src to create cpmchf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cpmchf.f
+unset echo
+Fri Mar 11 11:24:25 EST 2016
+11.800u 0.093s 0:11.90 99.9%	0+0k 0+9208io 0pf+0w
+======================== cprohf ==============================
+Fri Mar 11 11:24:25 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/cprohf.src to create cprohf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cprohf.f
+unset echo
+Fri Mar 11 11:24:26 EST 2016
+1.040u 0.045s 0:01.08 100.0%	0+0k 0+896io 0pf+0w
+======================== cpuhf ==============================
+Fri Mar 11 11:24:26 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/cpuhf.src to create cpuhf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations cpuhf.f
+unset echo
+Fri Mar 11 11:24:27 EST 2016
+1.124u 0.042s 0:01.16 100.0%	0+0k 0+1328io 0pf+0w
+======================== dccc ==============================
+Fri Mar 11 11:24:27 EST 2016
+Copying source code, dccc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dccc.f
+unset echo
+Fri Mar 11 11:24:28 EST 2016
+0.754u 0.019s 0:00.78 97.4%	0+0k 0+792io 0pf+0w
+======================== dcgrd ==============================
+Fri Mar 11 11:24:28 EST 2016
+Copying source code, dcgrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dcgrd.f
+unset echo
+Fri Mar 11 11:24:28 EST 2016
+0.109u 0.019s 0:00.12 91.6%	0+0k 0+104io 0pf+0w
+======================== dcgues ==============================
+Fri Mar 11 11:24:28 EST 2016
+Copying source code, dcgues.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dcgues.f
+unset echo
+Fri Mar 11 11:24:28 EST 2016
+0.676u 0.027s 0:00.70 98.5%	0+0k 0+760io 0pf+0w
+======================== dcint2 ==============================
+Fri Mar 11 11:24:28 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/dcint2.src to create dcint2.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dcint2.f
+unset echo
+Fri Mar 11 11:24:29 EST 2016
+0.348u 0.029s 0:00.38 94.7%	0+0k 0+384io 0pf+0w
+======================== dclib ==============================
+Fri Mar 11 11:24:29 EST 2016
+Copying source code, dclib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dclib.f
+unset echo
+Fri Mar 11 11:24:30 EST 2016
+1.204u 0.040s 0:01.24 100.0%	0+0k 0+1232io 0pf+0w
+======================== dcmp2 ==============================
+Fri Mar 11 11:24:30 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/dcmp2.src to create dcmp2.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dcmp2.f
+unset echo
+Fri Mar 11 11:24:32 EST 2016
+1.582u 0.016s 0:01.60 99.3%	0+0k 0+2008io 0pf+0w
+======================== dcscf ==============================
+Fri Mar 11 11:24:32 EST 2016
+Copying source code, dcscf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O0 -std=legacy -w -fno-aggressive-loop-optimizations dcscf.f
+unset echo
+Fri Mar 11 11:24:32 EST 2016
+0.395u 0.027s 0:00.41 100.0%	0+0k 0+1704io 0pf+0w
+======================== dctran ==============================
+Fri Mar 11 11:24:32 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/dctran.src to create dctran.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dctran.f
+unset echo
+Fri Mar 11 11:24:33 EST 2016
+0.453u 0.020s 0:00.49 95.9%	0+0k 24+576io 0pf+0w
+======================== ddilib ==============================
+Fri Mar 11 11:24:33 EST 2016
+Copying source code, ddilib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ddilib.f
+unset echo
+Fri Mar 11 11:24:33 EST 2016
+0.103u 0.012s 0:00.11 100.0%	0+0k 0+120io 0pf+0w
+======================== delocl ==============================
+Fri Mar 11 11:24:33 EST 2016
+Copying source code, delocl.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations delocl.f
+unset echo
+Fri Mar 11 11:24:33 EST 2016
+0.472u 0.031s 0:00.50 100.0%	0+0k 0+432io 0pf+0w
+======================== demrpt ==============================
+Fri Mar 11 11:24:33 EST 2016
+Copying source code, demrpt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations demrpt.f
+unset echo
+Fri Mar 11 11:24:39 EST 2016
+5.653u 0.085s 0:05.75 99.6%	0+0k 0+2896io 0pf+0w
+======================== dft ==============================
+Fri Mar 11 11:24:39 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/dft.src to create dft.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dft.f
+unset echo
+Fri Mar 11 11:24:40 EST 2016
+0.660u 0.028s 0:00.69 98.5%	0+0k 0+944io 0pf+0w
+======================== dftaux ==============================
+Fri Mar 11 11:24:40 EST 2016
+Copying source code, dftaux.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftaux.f
+unset echo
+Fri Mar 11 11:24:41 EST 2016
+1.083u 0.038s 0:01.12 99.1%	0+0k 0+816io 0pf+0w
+======================== dftbfo ==============================
+Fri Mar 11 11:24:41 EST 2016
+Copying source code, dftbfo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftbfo.f
+unset echo
+Fri Mar 11 11:24:42 EST 2016
+0.870u 0.017s 0:00.89 98.8%	0+0k 0+864io 0pf+0w
+======================== dftbgr ==============================
+Fri Mar 11 11:24:42 EST 2016
+Copying source code, dftbgr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftbgr.f
+unset echo
+Fri Mar 11 11:24:42 EST 2016
+0.449u 0.021s 0:00.47 97.8%	0+0k 0+416io 0pf+0w
+======================== dftbhs ==============================
+Fri Mar 11 11:24:42 EST 2016
+Copying source code, dftbhs.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftbhs.f
+unset echo
+Fri Mar 11 11:24:44 EST 2016
+1.656u 0.036s 0:01.70 98.8%	0+0k 0+1584io 0pf+0w
+======================== dftblb ==============================
+Fri Mar 11 11:24:44 EST 2016
+Copying source code, dftblb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftblb.f
+unset echo
+Fri Mar 11 11:24:44 EST 2016
+0.667u 0.021s 0:00.68 100.0%	0+0k 0+824io 0pf+0w
+======================== dftbsk ==============================
+Fri Mar 11 11:24:44 EST 2016
+Copying source code, dftbsk.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftbsk.f
+unset echo
+Fri Mar 11 11:24:45 EST 2016
+0.715u 0.019s 0:00.74 97.2%	0+0k 0+720io 0pf+0w
+======================== dftbx ==============================
+Fri Mar 11 11:24:45 EST 2016
+Copying source code, dftbx.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftbx.f
+unset echo
+Fri Mar 11 11:24:48 EST 2016
+3.011u 0.039s 0:03.05 99.6%	0+0k 0+1968io 0pf+0w
+======================== dftdis ==============================
+Fri Mar 11 11:24:48 EST 2016
+Copying source code, dftdis.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftdis.f
+unset echo
+Fri Mar 11 11:24:50 EST 2016
+1.682u 0.076s 0:01.76 99.4%	0+0k 0+17872io 0pf+0w
+======================== dftfun ==============================
+Fri Mar 11 11:24:50 EST 2016
+Copying source code, dftfun.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftfun.f
+unset echo
+Fri Mar 11 11:24:51 EST 2016
+0.725u 0.025s 0:00.76 97.3%	0+0k 0+616io 0pf+0w
+======================== dftgrd ==============================
+Fri Mar 11 11:24:51 EST 2016
+Copying source code, dftgrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftgrd.f
+unset echo
+Fri Mar 11 11:24:52 EST 2016
+1.536u 0.041s 0:01.57 100.0%	0+0k 0+1664io 0pf+0w
+======================== dftint ==============================
+Fri Mar 11 11:24:52 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/dftint.src to create dftint.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftint.f
+unset echo
+Fri Mar 11 11:24:54 EST 2016
+1.253u 0.030s 0:01.29 99.2%	0+0k 0+1000io 0pf+0w
+======================== dftxca ==============================
+Fri Mar 11 11:24:54 EST 2016
+Copying source code, dftxca.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxca.f
+unset echo
+Fri Mar 11 11:24:55 EST 2016
+1.008u 0.029s 0:01.03 99.0%	0+0k 0+1688io 0pf+0w
+======================== dftxcb ==============================
+Fri Mar 11 11:24:55 EST 2016
+Copying source code, dftxcb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxcb.f
+unset echo
+Fri Mar 11 11:25:00 EST 2016
+5.689u 0.070s 0:05.76 99.8%	0+0k 0+4680io 0pf+0w
+======================== dftxcc ==============================
+Fri Mar 11 11:25:00 EST 2016
+Copying source code, dftxcc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxcc.f
+unset echo
+Fri Mar 11 11:25:01 EST 2016
+0.704u 0.030s 0:00.74 98.6%	0+0k 0+1184io 0pf+0w
+======================== dftxcd ==============================
+Fri Mar 11 11:25:01 EST 2016
+Copying source code, dftxcd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxcd.f
+unset echo
+Fri Mar 11 11:25:02 EST 2016
+1.037u 0.031s 0:01.06 100.0%	0+0k 0+984io 0pf+0w
+======================== dftxce ==============================
+Fri Mar 11 11:25:02 EST 2016
+Copying source code, dftxce.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxce.f
+unset echo
+Fri Mar 11 11:25:04 EST 2016
+2.012u 0.038s 0:02.04 100.0%	0+0k 0+2624io 0pf+0w
+======================== dftxcf ==============================
+Fri Mar 11 11:25:04 EST 2016
+Copying source code, dftxcf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxcf.f
+unset echo
+Fri Mar 11 11:25:05 EST 2016
+0.864u 0.047s 0:00.92 97.8%	0+0k 0+1256io 0pf+0w
+======================== dftxcg ==============================
+Fri Mar 11 11:25:05 EST 2016
+Copying source code, dftxcg.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dftxcg.f
+unset echo
+Fri Mar 11 11:25:06 EST 2016
+0.854u 0.024s 0:00.88 98.8%	0+0k 0+1088io 0pf+0w
+======================== diab ==============================
+Fri Mar 11 11:25:06 EST 2016
+Copying source code, diab.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations diab.f
+unset echo
+Fri Mar 11 11:25:08 EST 2016
+1.608u 0.037s 0:01.65 98.7%	0+0k 0+1704io 0pf+0w
+======================== dgeev ==============================
+Fri Mar 11 11:25:08 EST 2016
+Copying source code, dgeev.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dgeev.f
+unset echo
+Fri Mar 11 11:25:09 EST 2016
+1.417u 0.038s 0:01.45 99.3%	0+0k 0+1512io 0pf+0w
+======================== dgesvd ==============================
+Fri Mar 11 11:25:09 EST 2016
+Copying source code, dgesvd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dgesvd.f
+unset echo
+Fri Mar 11 11:25:11 EST 2016
+1.554u 0.049s 0:01.61 98.7%	0+0k 0+1824io 0pf+0w
+======================== dmulti ==============================
+Fri Mar 11 11:25:11 EST 2016
+Copying source code, dmulti.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations dmulti.f
+unset echo
+Fri Mar 11 11:25:12 EST 2016
+0.954u 0.032s 0:00.99 98.9%	0+0k 0+864io 0pf+0w
+======================== drc ==============================
+Fri Mar 11 11:25:12 EST 2016
+Copying source code, drc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations drc.f
+unset echo
+Fri Mar 11 11:25:12 EST 2016
+0.539u 0.016s 0:00.55 98.1%	0+0k 0+472io 0pf+0w
+======================== eaipcc ==============================
+Fri Mar 11 11:25:12 EST 2016
+Copying source code, eaipcc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations eaipcc.f
+unset echo
+Fri Mar 11 11:25:17 EST 2016
+4.867u 0.073s 0:04.95 99.5%	0+0k 0+5072io 0pf+0w
+======================== ecp ==============================
+Fri Mar 11 11:25:17 EST 2016
+Copying source code, ecp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ecp.f
+unset echo
+Fri Mar 11 11:25:18 EST 2016
+0.705u 0.024s 0:00.73 98.6%	0+0k 0+600io 0pf+0w
+======================== ecpder ==============================
+Fri Mar 11 11:25:18 EST 2016
+Copying source code, ecpder.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ecpder.f
+unset echo
+Fri Mar 11 11:25:19 EST 2016
+1.268u 0.020s 0:01.28 100.0%	0+0k 0+680io 0pf+0w
+======================== ecplib ==============================
+Fri Mar 11 11:25:19 EST 2016
+Copying source code, ecplib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ecplib.f
+unset echo
+Fri Mar 11 11:25:21 EST 2016
+1.187u 0.014s 0:01.21 98.3%	0+0k 0+1008io 0pf+0w
+======================== ecppot ==============================
+Fri Mar 11 11:25:21 EST 2016
+Copying source code, ecppot.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ecppot.f
+unset echo
+Fri Mar 11 11:25:21 EST 2016
+0.092u 0.028s 0:00.12 91.6%	0+0k 0+600io 0pf+0w
+======================== efchtr ==============================
+Fri Mar 11 11:25:21 EST 2016
+Copying source code, efchtr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efchtr.f
+unset echo
+Fri Mar 11 11:25:23 EST 2016
+1.950u 0.034s 0:01.99 99.4%	0+0k 0+1448io 0pf+0w
+======================== efdrvr ==============================
+Fri Mar 11 11:25:23 EST 2016
+Copying source code, efdrvr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efdrvr.f
+unset echo
+Fri Mar 11 11:25:23 EST 2016
+0.649u 0.025s 0:00.67 98.5%	0+0k 0+704io 0pf+0w
+======================== efelec ==============================
+Fri Mar 11 11:25:23 EST 2016
+Copying source code, efelec.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efelec.f
+unset echo
+Fri Mar 11 11:25:26 EST 2016
+2.211u 0.048s 0:02.27 99.1%	0+0k 0+2384io 0pf+0w
+======================== efgrd2 ==============================
+Fri Mar 11 11:25:26 EST 2016
+Copying source code, efgrd2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efgrd2.f
+unset echo
+Fri Mar 11 11:25:26 EST 2016
+0.849u 0.045s 0:00.89 98.8%	0+0k 0+720io 0pf+0w
+======================== efgrda ==============================
+Fri Mar 11 11:25:27 EST 2016
+Copying source code, efgrda.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efgrda.f
+unset echo
+Fri Mar 11 11:25:27 EST 2016
+0.702u 0.030s 0:00.74 98.6%	0+0k 0+616io 0pf+0w
+======================== efgrdb ==============================
+Fri Mar 11 11:25:27 EST 2016
+Copying source code, efgrdb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efgrdb.f
+unset echo
+Fri Mar 11 11:25:28 EST 2016
+1.029u 0.046s 0:01.07 99.0%	0+0k 0+776io 0pf+0w
+======================== efgrdc ==============================
+Fri Mar 11 11:25:28 EST 2016
+Copying source code, efgrdc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efgrdc.f
+unset echo
+Fri Mar 11 11:25:30 EST 2016
+1.966u 0.043s 0:02.00 100.0%	0+0k 0+1416io 0pf+0w
+======================== efinp ==============================
+Fri Mar 11 11:25:30 EST 2016
+Copying source code, efinp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efinp.f
+unset echo
+Fri Mar 11 11:25:34 EST 2016
+3.470u 0.062s 0:03.54 99.7%	0+0k 0+3488io 0pf+0w
+======================== efinta ==============================
+Fri Mar 11 11:25:34 EST 2016
+Copying source code, efinta.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efinta.f
+unset echo
+Fri Mar 11 11:25:36 EST 2016
+1.685u 0.054s 0:01.74 99.4%	0+0k 0+1384io 0pf+0w
+======================== efintb ==============================
+Fri Mar 11 11:25:36 EST 2016
+Copying source code, efintb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efintb.f
+unset echo
+Fri Mar 11 11:25:37 EST 2016
+1.091u 0.036s 0:01.12 100.0%	0+0k 0+1056io 0pf+0w
+======================== efmo ==============================
+Fri Mar 11 11:25:37 EST 2016
+Copying source code, efmo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efmo.f
+unset echo
+Fri Mar 11 11:25:37 EST 2016
+0.634u 0.015s 0:00.64 100.0%	0+0k 0+704io 0pf+0w
+======================== efpaul ==============================
+Fri Mar 11 11:25:37 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/efpaul.src to create efpaul.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efpaul.f
+unset echo
+Fri Mar 11 11:25:41 EST 2016
+3.167u 0.057s 0:03.23 99.3%	0+0k 0+2944io 0pf+0w
+======================== efpcm ==============================
+Fri Mar 11 11:25:41 EST 2016
+Copying source code, efpcm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efpcm.f
+unset echo
+Fri Mar 11 11:25:41 EST 2016
+0.170u 0.017s 0:00.18 100.0%	0+0k 0+160io 0pf+0w
+======================== efpcov ==============================
+Fri Mar 11 11:25:41 EST 2016
+Copying source code, efpcov.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efpcov.f
+unset echo
+Fri Mar 11 11:25:42 EST 2016
+1.201u 0.015s 0:01.21 100.0%	0+0k 0+1128io 0pf+0w
+======================== efpfmo ==============================
+Fri Mar 11 11:25:42 EST 2016
+Copying source code, efpfmo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations efpfmo.f
+unset echo
+Fri Mar 11 11:25:43 EST 2016
+0.784u 0.032s 0:00.82 98.7%	0+0k 0+840io 0pf+0w
+======================== eftei ==============================
+Fri Mar 11 11:25:43 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/eftei.src to create eftei.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations eftei.f
+unset echo
+Fri Mar 11 11:25:43 EST 2016
+0.286u 0.019s 0:00.30 96.6%	0+0k 0+496io 0pf+0w
+======================== eigen ==============================
+Fri Mar 11 11:25:43 EST 2016
+Copying source code, eigen.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations eigen.f
+unset echo
+Fri Mar 11 11:25:44 EST 2016
+0.521u 0.025s 0:00.55 98.1%	0+0k 0+504io 0pf+0w
+======================== elglib ==============================
+Fri Mar 11 11:25:44 EST 2016
+Copying source code, elglib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations elglib.f
+unset echo
+Fri Mar 11 11:25:44 EST 2016
+0.261u 0.017s 0:00.27 100.0%	0+0k 0+232io 0pf+0w
+======================== elgloc ==============================
+Fri Mar 11 11:25:44 EST 2016
+Copying source code, elgloc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations elgloc.f
+unset echo
+Fri Mar 11 11:25:45 EST 2016
+1.168u 0.024s 0:01.19 99.1%	0+0k 0+1040io 0pf+0w
+======================== elgscf ==============================
+Fri Mar 11 11:25:45 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/elgscf.src to create elgscf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations elgscf.f
+unset echo
+Fri Mar 11 11:25:49 EST 2016
+4.042u 0.045s 0:04.08 100.0%	0+0k 0+3968io 0pf+0w
+======================== excorr ==============================
+Fri Mar 11 11:25:49 EST 2016
+Copying source code, excorr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations excorr.f
+unset echo
+Fri Mar 11 11:25:51 EST 2016
+1.556u 0.041s 0:01.60 99.3%	0+0k 0+1048io 0pf+0w
+======================== eomcc ==============================
+Fri Mar 11 11:25:51 EST 2016
+Copying source code, eomcc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations eomcc.f
+unset echo
+Fri Mar 11 11:25:54 EST 2016
+2.747u 0.058s 0:02.81 99.2%	0+0k 0+2872io 0pf+0w
+======================== ewald ==============================
+Fri Mar 11 11:25:54 EST 2016
+Copying source code, ewald.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ewald.f
+unset echo
+Fri Mar 11 11:25:54 EST 2016
+0.677u 0.032s 0:00.70 100.0%	0+0k 0+704io 0pf+0w
+======================== ffield ==============================
+Fri Mar 11 11:25:54 EST 2016
+Copying source code, ffield.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ffield.f
+unset echo
+Fri Mar 11 11:25:55 EST 2016
+0.625u 0.027s 0:00.66 96.9%	0+0k 0+600io 0pf+0w
+======================== fmo ==============================
+Fri Mar 11 11:25:55 EST 2016
+Copying source code, fmo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmo.f
+unset echo
+Fri Mar 11 11:26:00 EST 2016
+4.786u 0.073s 0:04.87 99.5%	0+0k 0+3288io 0pf+0w
+======================== fmocp ==============================
+Fri Mar 11 11:26:00 EST 2016
+Copying source code, fmocp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmocp.f
+unset echo
+Fri Mar 11 11:26:01 EST 2016
+0.895u 0.039s 0:00.94 97.8%	0+0k 0+952io 0pf+0w
+======================== fmoesd ==============================
+Fri Mar 11 11:26:01 EST 2016
+Copying source code, fmoesd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoesd.f
+unset echo
+Fri Mar 11 11:26:02 EST 2016
+1.412u 0.031s 0:01.44 100.0%	0+0k 0+1328io 0pf+0w
+======================== fmogrd ==============================
+Fri Mar 11 11:26:02 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/fmogrd.src to create fmogrd.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmogrd.f
+unset echo
+Fri Mar 11 11:26:03 EST 2016
+1.138u 0.035s 0:01.17 99.1%	0+0k 0+1512io 0pf+0w
+======================== fmoh1a ==============================
+Fri Mar 11 11:26:03 EST 2016
+Copying source code, fmoh1a.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoh1a.f
+unset echo
+Fri Mar 11 11:26:05 EST 2016
+1.574u 0.031s 0:01.61 99.3%	0+0k 0+1160io 0pf+0w
+======================== fmoh2a ==============================
+Fri Mar 11 11:26:05 EST 2016
+Copying source code, fmoh2a.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoh2a.f
+unset echo
+Fri Mar 11 11:26:06 EST 2016
+0.689u 0.024s 0:00.72 97.2%	0+0k 0+664io 0pf+0w
+======================== fmoh2b ==============================
+Fri Mar 11 11:26:06 EST 2016
+Copying source code, fmoh2b.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoh2b.f
+unset echo
+Fri Mar 11 11:26:06 EST 2016
+0.226u 0.019s 0:00.24 95.8%	0+0k 0+184io 0pf+0w
+======================== fmohss ==============================
+Fri Mar 11 11:26:06 EST 2016
+Copying source code, fmohss.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmohss.f
+unset echo
+Fri Mar 11 11:26:07 EST 2016
+0.767u 0.034s 0:00.81 97.5%	0+0k 0+840io 0pf+0w
+======================== fmoint ==============================
+Fri Mar 11 11:26:07 EST 2016
+Copying source code, fmoint.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoint.f
+unset echo
+Fri Mar 11 11:26:09 EST 2016
+1.643u 0.040s 0:01.69 99.4%	0+0k 0+1696io 0pf+0w
+======================== fmoio ==============================
+Fri Mar 11 11:26:09 EST 2016
+Copying source code, fmoio.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoio.f
+unset echo
+Fri Mar 11 11:26:11 EST 2016
+2.664u 0.033s 0:02.69 100.0%	0+0k 0+2440io 0pf+0w
+======================== fmolib ==============================
+Fri Mar 11 11:26:11 EST 2016
+Copying source code, fmolib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmolib.f
+unset echo
+Fri Mar 11 11:26:13 EST 2016
+1.823u 0.050s 0:01.88 99.4%	0+0k 0+1936io 0pf+0w
+======================== fmomm ==============================
+Fri Mar 11 11:26:13 EST 2016
+Copying source code, fmomm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmomm.f
+unset echo
+Fri Mar 11 11:26:14 EST 2016
+1.238u 0.042s 0:01.28 99.2%	0+0k 0+1176io 0pf+0w
+======================== fmopbc ==============================
+Fri Mar 11 11:26:14 EST 2016
+Copying source code, fmopbc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmopbc.f
+unset echo
+Fri Mar 11 11:26:15 EST 2016
+0.399u 0.017s 0:00.42 95.2%	0+0k 0+384io 0pf+0w
+======================== fmoprp ==============================
+Fri Mar 11 11:26:15 EST 2016
+Copying source code, fmoprp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fmoprp.f
+unset echo
+Fri Mar 11 11:26:16 EST 2016
+1.425u 0.036s 0:01.46 99.3%	0+0k 0+1560io 0pf+0w
+======================== frfmt ==============================
+Fri Mar 11 11:26:16 EST 2016
+Copying source code, frfmt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations frfmt.f
+unset echo
+Fri Mar 11 11:26:16 EST 2016
+0.168u 0.023s 0:00.19 94.7%	0+0k 0+192io 0pf+0w
+======================== fsodci ==============================
+Fri Mar 11 11:26:16 EST 2016
+Copying source code, fsodci.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations fsodci.f
+unset echo
+Fri Mar 11 11:26:26 EST 2016
+8.980u 0.105s 0:09.09 99.8%	0+0k 0+4928io 0pf+0w
+======================== g3 ==============================
+Fri Mar 11 11:26:26 EST 2016
+Copying source code, g3.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations g3.f
+unset echo
+Fri Mar 11 11:26:26 EST 2016
+0.672u 0.033s 0:00.70 100.0%	0+0k 0+800io 0pf+0w
+======================== gamess ==============================
+Fri Mar 11 11:26:26 EST 2016
+Copying source code, gamess.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gamess.f
+unset echo
+Fri Mar 11 11:26:27 EST 2016
+0.788u 0.033s 0:00.82 98.7%	0+0k 0+1192io 0pf+0w
+======================== globop ==============================
+Fri Mar 11 11:26:27 EST 2016
+Copying source code, globop.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations globop.f
+unset echo
+Fri Mar 11 11:26:28 EST 2016
+1.186u 0.024s 0:01.21 99.1%	0+0k 0+1016io 0pf+0w
+======================== gmcpt ==============================
+Fri Mar 11 11:26:28 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gmcpt.src to create gmcpt.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gmcpt.f
+unset echo
+Fri Mar 11 11:26:35 EST 2016
+6.145u 0.070s 0:06.22 99.8%	0+0k 0+6872io 0pf+0w
+======================== gradex ==============================
+Fri Mar 11 11:26:35 EST 2016
+Copying source code, gradex.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gradex.f
+unset echo
+Fri Mar 11 11:26:36 EST 2016
+1.269u 0.036s 0:01.30 99.2%	0+0k 0+936io 0pf+0w
+======================== grd1 ==============================
+Fri Mar 11 11:26:36 EST 2016
+Copying source code, grd1.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations grd1.f
+unset echo
+Fri Mar 11 11:26:37 EST 2016
+0.910u 0.032s 0:00.95 98.9%	0+0k 0+848io 0pf+0w
+======================== grd2a ==============================
+Fri Mar 11 11:26:37 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/grd2a.src to create grd2a.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations grd2a.f
+unset echo
+Fri Mar 11 11:26:38 EST 2016
+1.455u 0.032s 0:01.48 100.0%	0+0k 0+1616io 0pf+0w
+======================== grd2b ==============================
+Fri Mar 11 11:26:38 EST 2016
+Copying source code, grd2b.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations grd2b.f
+unset echo
+Fri Mar 11 11:26:42 EST 2016
+3.289u 0.069s 0:03.36 99.4%	0+0k 0+872io 0pf+0w
+======================== grd2c ==============================
+Fri Mar 11 11:26:42 EST 2016
+Copying source code, grd2c.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations grd2c.f
+unset echo
+Fri Mar 11 11:26:42 EST 2016
+0.706u 0.027s 0:00.73 98.6%	0+0k 0+472io 0pf+0w
+======================== guess ==============================
+Fri Mar 11 11:26:42 EST 2016
+Copying source code, guess.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations guess.f
+unset echo
+Fri Mar 11 11:26:43 EST 2016
+1.006u 0.028s 0:01.03 99.0%	0+0k 0+1296io 0pf+0w
+======================== gugdga ==============================
+Fri Mar 11 11:26:43 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gugdga.src to create gugdga.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugdga.f
+unset echo
+Fri Mar 11 11:26:44 EST 2016
+0.506u 0.019s 0:00.53 96.2%	0+0k 0+720io 0pf+0w
+======================== gugdgb ==============================
+Fri Mar 11 11:26:44 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gugdgb.src to create gugdgb.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugdgb.f
+unset echo
+Fri Mar 11 11:26:44 EST 2016
+0.384u 0.020s 0:00.40 100.0%	0+0k 0+464io 0pf+0w
+======================== gugdm ==============================
+Fri Mar 11 11:26:44 EST 2016
+Copying source code, gugdm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugdm.f
+unset echo
+Fri Mar 11 11:26:45 EST 2016
+0.306u 0.013s 0:00.32 96.8%	0+0k 0+328io 0pf+0w
+======================== gugdm2 ==============================
+Fri Mar 11 11:26:45 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gugdm2.src to create gugdm2.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugdm2.f
+unset echo
+Fri Mar 11 11:26:45 EST 2016
+0.489u 0.014s 0:00.50 98.0%	0+0k 0+656io 0pf+0w
+======================== gugdrt ==============================
+Fri Mar 11 11:26:45 EST 2016
+Copying source code, gugdrt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugdrt.f
+unset echo
+Fri Mar 11 11:26:46 EST 2016
+1.145u 0.034s 0:01.17 100.0%	0+0k 0+1112io 0pf+0w
+======================== gugem ==============================
+Fri Mar 11 11:26:46 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gugem.src to create gugem.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugem.f
+unset echo
+Fri Mar 11 11:26:47 EST 2016
+0.439u 0.022s 0:00.47 95.7%	0+0k 0+584io 0pf+0w
+======================== gugsrt ==============================
+Fri Mar 11 11:26:47 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gugsrt.src to create gugsrt.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gugsrt.f
+unset echo
+Fri Mar 11 11:26:47 EST 2016
+0.386u 0.021s 0:00.40 100.0%	0+0k 0+472io 0pf+0w
+======================== gvb ==============================
+Fri Mar 11 11:26:47 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/gvb.src to create gvb.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations gvb.f
+unset echo
+Fri Mar 11 11:26:49 EST 2016
+1.360u 0.043s 0:01.41 99.2%	0+0k 0+1720io 0pf+0w
+======================== hess ==============================
+Fri Mar 11 11:26:49 EST 2016
+Copying source code, hess.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations hess.f
+unset echo
+Fri Mar 11 11:26:51 EST 2016
+2.394u 0.050s 0:02.44 100.0%	0+0k 0+2352io 0pf+0w
+======================== hss1a ==============================
+Fri Mar 11 11:26:51 EST 2016
+Copying source code, hss1a.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations hss1a.f
+unset echo
+Fri Mar 11 11:26:52 EST 2016
+0.437u 0.018s 0:00.46 95.6%	0+0k 0+400io 0pf+0w
+======================== hss1b ==============================
+Fri Mar 11 11:26:52 EST 2016
+Copying source code, hss1b.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations hss1b.f
+unset echo
+Fri Mar 11 11:26:52 EST 2016
+0.598u 0.036s 0:00.63 98.4%	0+0k 0+472io 0pf+0w
+======================== hss2a ==============================
+Fri Mar 11 11:26:52 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/hss2a.src to create hss2a.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations hss2a.f
+unset echo
+Fri Mar 11 11:26:54 EST 2016
+2.147u 0.054s 0:02.20 99.5%	0+0k 0+2272io 0pf+0w
+======================== hss2b ==============================
+Fri Mar 11 11:26:54 EST 2016
+Copying source code, hss2b.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations hss2b.f
+unset echo
+Fri Mar 11 11:26:56 EST 2016
+1.543u 0.031s 0:01.58 99.3%	0+0k 0+1072io 0pf+0w
+======================== inputa ==============================
+Fri Mar 11 11:26:56 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/inputa.src to create inputa.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations inputa.f
+unset echo
+Fri Mar 11 11:26:58 EST 2016
+2.467u 0.046s 0:02.51 99.6%	0+0k 0+2680io 0pf+0w
+======================== inputb ==============================
+Fri Mar 11 11:26:58 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/inputb.src to create inputb.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations inputb.f
+unset echo
+Fri Mar 11 11:27:00 EST 2016
+1.271u 0.027s 0:01.30 99.2%	0+0k 0+1624io 0pf+0w
+======================== inputc ==============================
+Fri Mar 11 11:27:00 EST 2016
+Copying source code, inputc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations inputc.f
+unset echo
+Fri Mar 11 11:27:00 EST 2016
+0.346u 0.023s 0:00.36 100.0%	0+0k 0+304io 0pf+0w
+======================== int1 ==============================
+Fri Mar 11 11:27:00 EST 2016
+Copying source code, int1.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int1.f
+unset echo
+Fri Mar 11 11:27:01 EST 2016
+0.619u 0.025s 0:00.65 96.9%	0+0k 0+680io 0pf+0w
+======================== int2a ==============================
+Fri Mar 11 11:27:01 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/int2a.src to create int2a.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2a.f
+unset echo
+Fri Mar 11 11:27:02 EST 2016
+1.022u 0.021s 0:01.04 100.0%	0+0k 0+1456io 0pf+0w
+======================== int2b ==============================
+Fri Mar 11 11:27:02 EST 2016
+Copying source code, int2b.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2b.f
+unset echo
+Fri Mar 11 11:27:03 EST 2016
+0.834u 0.027s 0:00.86 98.8%	0+0k 0+624io 0pf+0w
+======================== int2c ==============================
+Fri Mar 11 11:27:03 EST 2016
+Copying source code, int2c.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2c.f
+unset echo
+Fri Mar 11 11:27:04 EST 2016
+1.008u 0.021s 0:01.02 100.0%	0+0k 0+840io 0pf+0w
+======================== int2d ==============================
+Fri Mar 11 11:27:04 EST 2016
+Copying source code, int2d.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2d.f
+unset echo
+Fri Mar 11 11:27:06 EST 2016
+2.065u 0.035s 0:02.10 99.5%	0+0k 0+1384io 0pf+0w
+======================== int2f ==============================
+Fri Mar 11 11:27:06 EST 2016
+Copying source code, int2f.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2f.f
+unset echo
+Fri Mar 11 11:27:08 EST 2016
+1.864u 0.047s 0:01.92 98.9%	0+0k 0+1128io 0pf+0w
+======================== int2g ==============================
+Fri Mar 11 11:27:08 EST 2016
+Copying source code, int2g.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2g.f
+unset echo
+Fri Mar 11 11:27:09 EST 2016
+1.300u 0.032s 0:01.33 100.0%	0+0k 0+520io 0pf+0w
+======================== int2r ==============================
+Fri Mar 11 11:27:09 EST 2016
+Copying source code, int2r.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2r.f
+unset echo
+Fri Mar 11 11:27:13 EST 2016
+3.899u 0.065s 0:03.97 99.4%	0+0k 0+2408io 0pf+0w
+======================== int2s ==============================
+Fri Mar 11 11:27:13 EST 2016
+Copying source code, int2s.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations int2s.f
+unset echo
+Fri Mar 11 11:27:17 EST 2016
+4.185u 0.072s 0:04.25 100.0%	0+0k 0+1520io 0pf+0w
+======================== iolib ==============================
+Fri Mar 11 11:27:17 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/iolib.src to create iolib.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations iolib.f
+unset echo
+Fri Mar 11 11:27:18 EST 2016
+0.686u 0.049s 0:00.74 97.2%	0+0k 0+1128io 0pf+0w
+======================== ivocas ==============================
+Fri Mar 11 11:27:18 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/ivocas.src to create ivocas.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ivocas.f
+unset echo
+Fri Mar 11 11:27:18 EST 2016
+0.396u 0.028s 0:00.42 97.6%	0+0k 0+464io 0pf+0w
+======================== lagran ==============================
+Fri Mar 11 11:27:18 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/lagran.src to create lagran.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations lagran.f
+unset echo
+Fri Mar 11 11:27:19 EST 2016
+0.276u 0.021s 0:00.30 96.6%	0+0k 0+312io 0pf+0w
+======================== local ==============================
+Fri Mar 11 11:27:19 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/local.src to create local.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations local.f
+unset echo
+Fri Mar 11 11:27:21 EST 2016
+1.733u 0.037s 0:01.78 98.8%	0+0k 0+2176io 0pf+0w
+======================== loccd ==============================
+Fri Mar 11 11:27:21 EST 2016
+Copying source code, loccd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations loccd.f
+unset echo
+Fri Mar 11 11:27:21 EST 2016
+0.652u 0.033s 0:00.68 100.0%	0+0k 0+576io 0pf+0w
+======================== locpol ==============================
+Fri Mar 11 11:27:21 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/locpol.src to create locpol.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations locpol.f
+unset echo
+Fri Mar 11 11:27:23 EST 2016
+1.357u 0.068s 0:01.43 98.6%	0+0k 0+1560io 0pf+0w
+======================== locsvd ==============================
+Fri Mar 11 11:27:23 EST 2016
+Copying source code, locsvd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations locsvd.f
+unset echo
+Fri Mar 11 11:27:26 EST 2016
+2.920u 0.075s 0:03.00 99.6%	0+0k 0+3392io 0pf+0w
+======================== lrd ==============================
+Fri Mar 11 11:27:26 EST 2016
+Copying source code, lrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations lrd.f
+unset echo
+Fri Mar 11 11:27:26 EST 2016
+0.363u 0.028s 0:00.38 100.0%	0+0k 0+312io 0pf+0w
+======================== mccas ==============================
+Fri Mar 11 11:27:26 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mccas.src to create mccas.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mccas.f
+unset echo
+Fri Mar 11 11:27:27 EST 2016
+1.032u 0.032s 0:01.06 100.0%	0+0k 0+1216io 0pf+0w
+======================== mcjac ==============================
+Fri Mar 11 11:27:27 EST 2016
+Copying source code, mcjac.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcjac.f
+unset echo
+Fri Mar 11 11:27:28 EST 2016
+0.947u 0.059s 0:01.00 99.0%	0+0k 0+616io 0pf+0w
+======================== mcpgrd ==============================
+Fri Mar 11 11:27:28 EST 2016
+Copying source code, mcpgrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpgrd.f
+unset echo
+Fri Mar 11 11:27:32 EST 2016
+3.448u 0.062s 0:03.52 99.4%	0+0k 0+2752io 0pf+0w
+======================== mcpinp ==============================
+Fri Mar 11 11:27:32 EST 2016
+Copying source code, mcpinp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpinp.f
+unset echo
+Fri Mar 11 11:27:33 EST 2016
+0.847u 0.044s 0:00.90 97.7%	0+0k 0+776io 0pf+0w
+======================== mcpint ==============================
+Fri Mar 11 11:27:33 EST 2016
+Copying source code, mcpint.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpint.f
+unset echo
+Fri Mar 11 11:27:33 EST 2016
+0.355u 0.019s 0:00.37 97.2%	0+0k 0+264io 0pf+0w
+======================== mcpl10 ==============================
+Fri Mar 11 11:27:33 EST 2016
+Copying source code, mcpl10.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl10.f
+unset echo
+Fri Mar 11 11:27:33 EST 2016
+0.249u 0.021s 0:00.26 100.0%	0+0k 0+488io 0pf+0w
+======================== mcpl20 ==============================
+Fri Mar 11 11:27:33 EST 2016
+Copying source code, mcpl20.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl20.f
+unset echo
+Fri Mar 11 11:27:34 EST 2016
+0.643u 0.014s 0:00.66 98.4%	0+0k 0+928io 0pf+0w
+======================== mcpl30 ==============================
+Fri Mar 11 11:27:34 EST 2016
+Copying source code, mcpl30.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl30.f
+unset echo
+Fri Mar 11 11:27:35 EST 2016
+1.208u 0.023s 0:01.23 99.1%	0+0k 0+1224io 0pf+0w
+======================== mcpl40 ==============================
+Fri Mar 11 11:27:35 EST 2016
+Copying source code, mcpl40.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl40.f
+unset echo
+Fri Mar 11 11:27:37 EST 2016
+2.150u 0.017s 0:02.16 100.0%	0+0k 0+1680io 0pf+0w
+======================== mcpl50 ==============================
+Fri Mar 11 11:27:37 EST 2016
+Copying source code, mcpl50.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl50.f
+unset echo
+Fri Mar 11 11:27:38 EST 2016
+0.658u 0.029s 0:00.69 97.1%	0+0k 0+1008io 0pf+0w
+======================== mcpl60 ==============================
+Fri Mar 11 11:27:38 EST 2016
+Copying source code, mcpl60.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl60.f
+unset echo
+Fri Mar 11 11:27:39 EST 2016
+1.487u 0.022s 0:01.50 100.0%	0+0k 0+1560io 0pf+0w
+======================== mcpl70 ==============================
+Fri Mar 11 11:27:39 EST 2016
+Copying source code, mcpl70.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl70.f
+unset echo
+Fri Mar 11 11:27:42 EST 2016
+2.614u 0.029s 0:02.65 99.2%	0+0k 0+2120io 0pf+0w
+======================== mcpl80 ==============================
+Fri Mar 11 11:27:42 EST 2016
+Copying source code, mcpl80.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcpl80.f
+unset echo
+Fri Mar 11 11:27:44 EST 2016
+1.577u 0.021s 0:01.60 99.3%	0+0k 0+1728io 0pf+0w
+======================== mcqdpt ==============================
+Fri Mar 11 11:27:44 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mcqdpt.src to create mcqdpt.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcqdpt.f
+unset echo
+Fri Mar 11 11:27:50 EST 2016
+6.353u 0.090s 0:06.44 100.0%	0+0k 0+6584io 0pf+0w
+======================== mcqdwt ==============================
+Fri Mar 11 11:27:50 EST 2016
+Copying source code, mcqdwt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcqdwt.f
+unset echo
+Fri Mar 11 11:27:53 EST 2016
+3.242u 0.043s 0:03.28 100.0%	0+0k 0+1736io 0pf+0w
+======================== mcqud ==============================
+Fri Mar 11 11:27:53 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mcqud.src to create mcqud.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcqud.f
+unset echo
+Fri Mar 11 11:27:55 EST 2016
+1.341u 0.025s 0:01.37 99.2%	0+0k 0+1664io 0pf+0w
+======================== mcscf ==============================
+Fri Mar 11 11:27:55 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mcscf.src to create mcscf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mcscf.f
+unset echo
+Fri Mar 11 11:27:57 EST 2016
+1.774u 0.033s 0:01.81 99.4%	0+0k 0+2432io 0pf+0w
+======================== mctwo ==============================
+Fri Mar 11 11:27:57 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mctwo.src to create mctwo.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mctwo.f
+unset echo
+Fri Mar 11 11:27:59 EST 2016
+2.529u 0.035s 0:02.56 99.6%	0+0k 0+1776io 0pf+0w
+======================== mdefp ==============================
+Fri Mar 11 11:27:59 EST 2016
+Copying source code, mdefp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mdefp.f
+unset echo
+Fri Mar 11 11:28:01 EST 2016
+2.030u 0.050s 0:02.08 100.0%	0+0k 0+2200io 0pf+0w
+======================== mexing ==============================
+Fri Mar 11 11:28:01 EST 2016
+Copying source code, mexing.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mexing.f
+unset echo
+Fri Mar 11 11:28:02 EST 2016
+0.480u 0.022s 0:00.51 98.0%	0+0k 0+552io 0pf+0w
+======================== mltfmo ==============================
+Fri Mar 11 11:28:02 EST 2016
+Copying source code, mltfmo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mltfmo.f
+unset echo
+Fri Mar 11 11:28:02 EST 2016
+0.368u 0.017s 0:00.38 97.3%	0+0k 0+416io 0pf+0w
+======================== mm23 ==============================
+Fri Mar 11 11:28:02 EST 2016
+Copying source code, mm23.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mm23.f
+unset echo
+Fri Mar 11 11:28:08 EST 2016
+5.972u 0.072s 0:06.04 100.0%	0+0k 0+4816io 0pf+0w
+======================== mnsol ==============================
+Fri Mar 11 11:28:08 EST 2016
+Copying source code, mnsol.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mnsol.f
+unset echo
+Fri Mar 11 11:28:09 EST 2016
+0.902u 0.023s 0:00.93 98.9%	0+0k 0+912io 0pf+0w
+======================== morokm ==============================
+Fri Mar 11 11:28:09 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/morokm.src to create morokm.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations morokm.f
+unset echo
+Fri Mar 11 11:28:12 EST 2016
+3.083u 0.070s 0:03.15 100.0%	0+0k 0+2880io 0pf+0w
+======================== mp2 ==============================
+Fri Mar 11 11:28:12 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mp2.src to create mp2.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mp2.f
+unset echo
+Fri Mar 11 11:28:14 EST 2016
+1.513u 0.033s 0:01.55 99.3%	0+0k 0+1928io 0pf+0w
+======================== mp2ddi ==============================
+Fri Mar 11 11:28:14 EST 2016
+Copying source code, mp2ddi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mp2ddi.f
+unset echo
+Fri Mar 11 11:28:16 EST 2016
+2.408u 0.028s 0:02.43 99.5%	0+0k 0+2432io 0pf+0w
+======================== mp2grd ==============================
+Fri Mar 11 11:28:16 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/mp2grd.src to create mp2grd.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mp2grd.f
+unset echo
+Fri Mar 11 11:28:18 EST 2016
+1.856u 0.023s 0:01.88 99.4%	0+0k 0+2248io 0pf+0w
+======================== mp2gr2 ==============================
+Fri Mar 11 11:28:18 EST 2016
+Copying source code, mp2gr2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mp2gr2.f
+unset echo
+Fri Mar 11 11:28:20 EST 2016
+1.738u 0.066s 0:01.81 98.8%	0+0k 0+1512io 0pf+0w
+======================== mp2ims ==============================
+Fri Mar 11 11:28:20 EST 2016
+Copying source code, mp2ims.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mp2ims.f
+unset echo
+Fri Mar 11 11:28:21 EST 2016
+0.636u 0.023s 0:00.66 98.4%	0+0k 0+544io 0pf+0w
+======================== mpcdat ==============================
+Fri Mar 11 11:28:21 EST 2016
+Copying source code, mpcdat.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcdat.f
+unset echo
+Fri Mar 11 11:28:21 EST 2016
+0.179u 0.026s 0:00.20 95.0%	0+0k 0+1056io 0pf+0w
+======================== mpcgrd ==============================
+Fri Mar 11 11:28:21 EST 2016
+Copying source code, mpcgrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcgrd.f
+unset echo
+Fri Mar 11 11:28:21 EST 2016
+0.579u 0.051s 0:00.62 100.0%	0+0k 0+544io 0pf+0w
+======================== mpcint ==============================
+Fri Mar 11 11:28:22 EST 2016
+Copying source code, mpcint.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcint.f
+unset echo
+Fri Mar 11 11:28:22 EST 2016
+0.655u 0.025s 0:00.69 97.1%	0+0k 0+616io 0pf+0w
+======================== mpcmol ==============================
+Fri Mar 11 11:28:22 EST 2016
+Copying source code, mpcmol.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcmol.f
+unset echo
+Fri Mar 11 11:28:23 EST 2016
+0.375u 0.024s 0:00.40 97.5%	0+0k 0+368io 0pf+0w
+======================== mpcmsc ==============================
+Fri Mar 11 11:28:23 EST 2016
+Copying source code, mpcmsc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcmsc.f
+unset echo
+Fri Mar 11 11:28:23 EST 2016
+0.475u 0.014s 0:00.48 100.0%	0+0k 0+424io 0pf+0w
+======================== mpcpcm ==============================
+Fri Mar 11 11:28:23 EST 2016
+Copying source code, mpcpcm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpcpcm.f
+unset echo
+Fri Mar 11 11:28:23 EST 2016
+0.212u 0.019s 0:00.23 95.6%	0+0k 0+176io 0pf+0w
+======================== mpqcst ==============================
+Fri Mar 11 11:28:23 EST 2016
+Copying source code, mpqcst.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mpqcst.f
+unset echo
+Fri Mar 11 11:28:23 EST 2016
+0.050u 0.008s 0:00.05 100.0%	0+0k 0+24io 0pf+0w
+======================== mthlib ==============================
+Fri Mar 11 11:28:23 EST 2016
+Compiling matrix multiply routines to use a system BLAS library...
+Activating /home/junhao/gamess/gamess_tmp/source/mthlib.src to create mthlib.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations mthlib.f
+unset echo
+Fri Mar 11 11:28:25 EST 2016
+1.536u 0.020s 0:01.56 99.3%	0+0k 0+2704io 0pf+0w
+======================== nameio ==============================
+Fri Mar 11 11:28:25 EST 2016
+Copying source code, nameio.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations nameio.f
+unset echo
+Fri Mar 11 11:28:25 EST 2016
+0.278u 0.034s 0:00.31 96.7%	0+0k 0+304io 0pf+0w
+======================== nbostb ==============================
+Fri Mar 11 11:28:25 EST 2016
+Copying source code, nbostb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations nbostb.f
+unset echo
+Fri Mar 11 11:28:25 EST 2016
+0.036u 0.017s 0:00.05 80.0%	0+0k 0+24io 0pf+0w
+======================== neostb ==============================
+Fri Mar 11 11:28:25 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/neostb.src to create neostb.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations neostb.f
+unset echo
+Fri Mar 11 11:28:25 EST 2016
+0.117u 0.029s 0:00.14 92.8%	0+0k 0+152io 0pf+0w
+======================== nmr ==============================
+Fri Mar 11 11:28:25 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/nmr.src to create nmr.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations nmr.f
+unset echo
+Fri Mar 11 11:28:29 EST 2016
+3.084u 0.067s 0:03.16 99.3%	0+0k 0+2928io 0pf+0w
+======================== optcix ==============================
+Fri Mar 11 11:28:29 EST 2016
+Copying source code, optcix.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations optcix.f
+unset echo
+Fri Mar 11 11:28:29 EST 2016
+0.475u 0.016s 0:00.49 97.9%	0+0k 0+552io 0pf+0w
+======================== ordint ==============================
+Fri Mar 11 11:28:29 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/ordint.src to create ordint.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ordint.f
+unset echo
+Fri Mar 11 11:28:29 EST 2016
+0.248u 0.017s 0:00.26 96.1%	0+0k 0+304io 0pf+0w
+======================== ormas1 ==============================
+Fri Mar 11 11:28:29 EST 2016
+Copying source code, ormas1.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ormas1.f
+unset echo
+Fri Mar 11 11:28:36 EST 2016
+6.548u 0.104s 0:06.66 99.6%	0+0k 0+4096io 0pf+0w
+======================== ormpt2 ==============================
+Fri Mar 11 11:28:36 EST 2016
+Copying source code, ormpt2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ormpt2.f
+unset echo
+Fri Mar 11 11:28:40 EST 2016
+4.339u 0.092s 0:04.43 99.7%	0+0k 0+3816io 0pf+0w
+======================== parley ==============================
+Fri Mar 11 11:28:40 EST 2016
+Copying source code, parley.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations parley.f
+unset echo
+Fri Mar 11 11:28:42 EST 2016
+1.042u 0.016s 0:01.06 99.0%	0+0k 0+984io 0pf+0w
+======================== pcm ==============================
+Fri Mar 11 11:28:42 EST 2016
+Copying source code, pcm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcm.f
+unset echo
+Fri Mar 11 11:28:43 EST 2016
+1.255u 0.042s 0:01.29 100.0%	0+0k 0+1504io 0pf+0w
+======================== pcmcav ==============================
+Fri Mar 11 11:28:43 EST 2016
+Copying source code, pcmcav.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmcav.f
+unset echo
+Fri Mar 11 11:28:44 EST 2016
+0.822u 0.029s 0:00.86 97.6%	0+0k 0+824io 0pf+0w
+======================== pcmcv2 ==============================
+Fri Mar 11 11:28:44 EST 2016
+Copying source code, pcmcv2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmcv2.f
+unset echo
+Fri Mar 11 11:28:45 EST 2016
+1.763u 0.047s 0:01.81 99.4%	0+0k 0+1536io 0pf+0w
+======================== pcmder ==============================
+Fri Mar 11 11:28:45 EST 2016
+Copying source code, pcmder.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmder.f
+unset echo
+Fri Mar 11 11:28:46 EST 2016
+0.966u 0.043s 0:01.01 99.0%	0+0k 0+824io 0pf+0w
+======================== pcmdis ==============================
+Fri Mar 11 11:28:47 EST 2016
+Copying source code, pcmdis.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmdis.f
+unset echo
+Fri Mar 11 11:28:47 EST 2016
+0.464u 0.026s 0:00.50 96.0%	0+0k 0+392io 0pf+0w
+======================== pcmief ==============================
+Fri Mar 11 11:28:47 EST 2016
+Copying source code, pcmief.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmief.f
+unset echo
+Fri Mar 11 11:28:49 EST 2016
+1.577u 0.032s 0:01.62 98.7%	0+0k 0+1408io 0pf+0w
+======================== pcmpol ==============================
+Fri Mar 11 11:28:49 EST 2016
+Copying source code, pcmpol.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmpol.f
+unset echo
+Fri Mar 11 11:28:50 EST 2016
+0.993u 0.019s 0:01.01 99.0%	0+0k 0+720io 0pf+0w
+======================== pcmvch ==============================
+Fri Mar 11 11:28:50 EST 2016
+Copying source code, pcmvch.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations pcmvch.f
+unset echo
+Fri Mar 11 11:28:50 EST 2016
+0.462u 0.025s 0:00.48 100.0%	0+0k 0+408io 0pf+0w
+======================== prpamm ==============================
+Fri Mar 11 11:28:50 EST 2016
+Copying source code, prpamm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations prpamm.f
+unset echo
+Fri Mar 11 11:28:50 EST 2016
+0.296u 0.015s 0:00.31 96.7%	0+0k 0+240io 0pf+0w
+======================== prpel ==============================
+Fri Mar 11 11:28:50 EST 2016
+Copying source code, prpel.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations prpel.f
+unset echo
+Fri Mar 11 11:28:52 EST 2016
+1.670u 0.059s 0:01.74 98.8%	0+0k 0+1584io 0pf+0w
+======================== prplib ==============================
+Fri Mar 11 11:28:52 EST 2016
+Copying source code, prplib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations prplib.f
+unset echo
+Fri Mar 11 11:28:53 EST 2016
+0.627u 0.020s 0:00.65 98.4%	0+0k 0+760io 0pf+0w
+======================== prppop ==============================
+Fri Mar 11 11:28:53 EST 2016
+Copying source code, prppop.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations prppop.f
+unset echo
+Fri Mar 11 11:28:55 EST 2016
+2.021u 0.010s 0:02.03 100.0%	0+0k 0+1904io 0pf+0w
+======================== qeigen ==============================
+Fri Mar 11 11:28:55 EST 2016
+Copying source code, qeigen.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations qeigen.f
+unset echo
+Fri Mar 11 11:28:55 EST 2016
+0.316u 0.020s 0:00.33 100.0%	0+0k 0+296io 0pf+0w
+======================== qfmm ==============================
+Fri Mar 11 11:28:55 EST 2016
+Copying source code, qfmm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations qfmm.f
+unset echo
+Fri Mar 11 11:28:56 EST 2016
+1.015u 0.017s 0:01.02 100.0%	0+0k 0+736io 0pf+0w
+======================== qmfm ==============================
+Fri Mar 11 11:28:56 EST 2016
+Copying source code, qmfm.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations qmfm.f
+unset echo
+Fri Mar 11 11:28:59 EST 2016
+2.455u 0.062s 0:02.52 99.6%	0+0k 0+2336io 0pf+0w
+======================== qmmm ==============================
+Fri Mar 11 11:28:59 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/qmmm.src to create qmmm.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations qmmm.f
+unset echo
+Fri Mar 11 11:28:59 EST 2016
+0.084u 0.017s 0:00.09 100.0%	0+0k 0+72io 0pf+0w
+======================== qrel ==============================
+Fri Mar 11 11:28:59 EST 2016
+Copying source code, qrel.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations qrel.f
+unset echo
+Fri Mar 11 11:29:00 EST 2016
+1.145u 0.038s 0:01.18 99.1%	0+0k 0+1120io 0pf+0w
+======================== quanpo ==============================
+Fri Mar 11 11:29:00 EST 2016
+Copying source code, quanpo.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations quanpo.f
+unset echo
+Fri Mar 11 11:29:09 EST 2016
+8.725u 0.087s 0:08.82 99.7%	0+0k 0+8032io 0pf+0w
+======================== raman ==============================
+Fri Mar 11 11:29:09 EST 2016
+Copying source code, raman.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations raman.f
+unset echo
+Fri Mar 11 11:29:09 EST 2016
+0.275u 0.027s 0:00.30 96.6%	0+0k 0+312io 0pf+0w
+======================== rhfuhf ==============================
+Fri Mar 11 11:29:09 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/rhfuhf.src to create rhfuhf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rhfuhf.f
+unset echo
+Fri Mar 11 11:29:13 EST 2016
+3.692u 0.044s 0:03.74 99.7%	0+0k 0+3448io 0pf+0w
+======================== ricab ==============================
+Fri Mar 11 11:29:13 EST 2016
+Copying source code, ricab.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ricab.f
+unset echo
+Fri Mar 11 11:29:18 EST 2016
+5.568u 0.033s 0:05.60 99.8%	0+0k 0+3448io 0pf+0w
+======================== riint ==============================
+Fri Mar 11 11:29:19 EST 2016
+Copying source code, riint.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations riint.f
+unset echo
+Fri Mar 11 11:29:20 EST 2016
+0.503u 0.017s 0:01.30 39.2%	0+0k 0+336io 0pf+0w
+======================== rimp2 ==============================
+Fri Mar 11 11:29:20 EST 2016
+Copying source code, rimp2.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rimp2.f
+unset echo
+Fri Mar 11 11:29:22 EST 2016
+1.988u 0.038s 0:02.02 99.5%	0+0k 0+2064io 0pf+0w
+======================== rmd ==============================
+Fri Mar 11 11:29:22 EST 2016
+Copying source code, rmd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rmd.f
+unset echo
+Fri Mar 11 11:29:22 EST 2016
+0.070u 0.014s 0:00.08 100.0%	0+0k 0+64io 0pf+0w
+======================== rmdgen ==============================
+Fri Mar 11 11:29:22 EST 2016
+Copying source code, rmdgen.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rmdgen.f
+unset echo
+Fri Mar 11 11:29:22 EST 2016
+0.130u 0.012s 0:00.14 100.0%	0+0k 0+88io 0pf+0w
+======================== rmdwrk ==============================
+Fri Mar 11 11:29:22 EST 2016
+Copying source code, rmdwrk.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rmdwrk.f
+unset echo
+Fri Mar 11 11:29:22 EST 2016
+0.337u 0.014s 0:00.35 97.1%	0+0k 0+208io 0pf+0w
+======================== roeom ==============================
+Fri Mar 11 11:29:22 EST 2016
+Copying source code, roeom.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations roeom.f
+unset echo
+Fri Mar 11 11:29:24 EST 2016
+1.932u 0.030s 0:01.97 99.4%	0+0k 0+1584io 0pf+0w
+======================== rohfcc ==============================
+Fri Mar 11 11:29:24 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/rohfcc.src to create rohfcc.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rohfcc.f
+unset echo
+Fri Mar 11 11:29:28 EST 2016
+3.794u 0.070s 0:03.87 99.7%	0+0k 0+4480io 0pf+0w
+======================== rxncrd ==============================
+Fri Mar 11 11:29:28 EST 2016
+Copying source code, rxncrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations rxncrd.f
+unset echo
+Fri Mar 11 11:29:29 EST 2016
+1.084u 0.030s 0:01.11 100.0%	0+0k 0+1136io 0pf+0w
+======================== ryspol ==============================
+Fri Mar 11 11:29:29 EST 2016
+Copying source code, ryspol.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations ryspol.f
+unset echo
+Fri Mar 11 11:29:30 EST 2016
+0.476u 0.015s 0:00.49 97.9%	0+0k 0+992io 0pf+0w
+======================== scflib ==============================
+Fri Mar 11 11:29:30 EST 2016
+Copying source code, scflib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations scflib.f
+unset echo
+Fri Mar 11 11:29:31 EST 2016
+1.574u 0.021s 0:01.59 100.0%	0+0k 0+1528io 0pf+0w
+======================== scfmi ==============================
+Fri Mar 11 11:29:31 EST 2016
+Copying source code, scfmi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations scfmi.f
+unset echo
+Fri Mar 11 11:29:33 EST 2016
+1.037u 0.030s 0:01.07 99.0%	0+0k 0+816io 0pf+0w
+======================== scrf ==============================
+Fri Mar 11 11:29:33 EST 2016
+Copying source code, scrf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations scrf.f
+unset echo
+Fri Mar 11 11:29:33 EST 2016
+0.526u 0.045s 0:00.57 98.2%	0+0k 0+408io 0pf+0w
+======================== sfdft ==============================
+Fri Mar 11 11:29:33 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/sfdft.src to create sfdft.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations sfdft.f
+unset echo
+Fri Mar 11 11:29:34 EST 2016
+0.607u 0.022s 0:00.63 98.4%	0+0k 0+800io 0pf+0w
+======================== sfgrad ==============================
+Fri Mar 11 11:29:34 EST 2016
+Copying source code, sfgrad.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations sfgrad.f
+unset echo
+Fri Mar 11 11:29:35 EST 2016
+1.124u 0.040s 0:01.16 100.0%	0+0k 0+1176io 0pf+0w
+======================== sobrt ==============================
+Fri Mar 11 11:29:35 EST 2016
+Copying source code, sobrt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations sobrt.f
+unset echo
+Fri Mar 11 11:29:36 EST 2016
+1.046u 0.037s 0:01.08 99.0%	0+0k 0+1016io 0pf+0w
+======================== soffac ==============================
+Fri Mar 11 11:29:36 EST 2016
+Copying source code, soffac.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations soffac.f
+unset echo
+Fri Mar 11 11:29:36 EST 2016
+0.466u 0.029s 0:00.49 97.9%	0+0k 0+480io 0pf+0w
+======================== solib ==============================
+Fri Mar 11 11:29:36 EST 2016
+Copying source code, solib.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations solib.f
+unset echo
+Fri Mar 11 11:29:38 EST 2016
+1.255u 0.035s 0:01.30 98.4%	0+0k 0+1208io 0pf+0w
+======================== sozeff ==============================
+Fri Mar 11 11:29:38 EST 2016
+Copying source code, sozeff.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations sozeff.f
+unset echo
+Fri Mar 11 11:29:40 EST 2016
+2.447u 0.050s 0:02.49 100.0%	0+0k 0+1936io 0pf+0w
+======================== statpt ==============================
+Fri Mar 11 11:29:40 EST 2016
+Copying source code, statpt.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations statpt.f
+unset echo
+Fri Mar 11 11:29:43 EST 2016
+2.308u 0.035s 0:02.35 99.1%	0+0k 0+2352io 0pf+0w
+======================== surf ==============================
+Fri Mar 11 11:29:43 EST 2016
+Copying source code, surf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations surf.f
+unset echo
+Fri Mar 11 11:29:43 EST 2016
+0.189u 0.028s 0:00.23 86.9%	0+0k 16+208io 0pf+0w
+======================== svpchg ==============================
+Fri Mar 11 11:29:43 EST 2016
+Copying source code, svpchg.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations svpchg.f
+unset echo
+Fri Mar 11 11:29:46 EST 2016
+2.918u 0.070s 0:02.99 99.6%	0+0k 0+3208io 0pf+0w
+======================== svpinp ==============================
+Fri Mar 11 11:29:46 EST 2016
+Copying source code, svpinp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations svpinp.f
+unset echo
+Fri Mar 11 11:29:47 EST 2016
+0.951u 0.036s 0:00.99 98.9%	0+0k 0+1016io 0pf+0w
+======================== svpleb ==============================
+Fri Mar 11 11:29:47 EST 2016
+Copying source code, svpleb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations svpleb.f
+unset echo
+Fri Mar 11 11:29:49 EST 2016
+1.718u 0.052s 0:01.77 99.4%	0+0k 0+2872io 0pf+0w
+======================== symhi ==============================
+Fri Mar 11 11:29:49 EST 2016
+Copying source code, symhi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations symhi.f
+unset echo
+Fri Mar 11 11:29:52 EST 2016
+3.698u 0.046s 0:03.74 99.7%	0+0k 0+1640io 0pf+0w
+======================== symorb ==============================
+Fri Mar 11 11:29:52 EST 2016
+Copying source code, symorb.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations symorb.f
+unset echo
+Fri Mar 11 11:29:54 EST 2016
+1.378u 0.027s 0:01.41 98.5%	0+0k 0+1032io 0pf+0w
+======================== symslc ==============================
+Fri Mar 11 11:29:54 EST 2016
+Copying source code, symslc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations symslc.f
+unset echo
+Fri Mar 11 11:29:56 EST 2016
+1.842u 0.036s 0:01.89 98.9%	0+0k 0+1384io 0pf+0w
+======================== tddft ==============================
+Fri Mar 11 11:29:56 EST 2016
+Copying source code, tddft.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddft.f
+unset echo
+Fri Mar 11 11:29:56 EST 2016
+0.692u 0.024s 0:00.71 100.0%	0+0k 0+728io 0pf+0w
+======================== tddefp ==============================
+Fri Mar 11 11:29:56 EST 2016
+Copying source code, tddefp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddefp.f
+unset echo
+Fri Mar 11 11:29:57 EST 2016
+0.245u 0.016s 0:00.27 92.5%	0+0k 0+208io 0pf+0w
+======================== tddfun ==============================
+Fri Mar 11 11:29:57 EST 2016
+Copying source code, tddfun.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddfun.f
+unset echo
+Fri Mar 11 11:29:58 EST 2016
+1.207u 0.017s 0:01.22 99.1%	0+0k 0+1088io 0pf+0w
+======================== tddfxc ==============================
+Fri Mar 11 11:29:58 EST 2016
+Copying source code, tddfxc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddfxc.f
+unset echo
+Fri Mar 11 11:29:59 EST 2016
+0.620u 0.018s 0:00.64 98.4%	0+0k 0+528io 0pf+0w
+======================== tddgrd ==============================
+Fri Mar 11 11:29:59 EST 2016
+Copying source code, tddgrd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O0 -std=legacy -w -fno-aggressive-loop-optimizations tddgrd.f
+unset echo
+Fri Mar 11 11:29:59 EST 2016
+0.288u 0.024s 0:00.31 96.7%	0+0k 0+1184io 0pf+0w
+======================== tddint ==============================
+Fri Mar 11 11:29:59 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/tddint.src to create tddint.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddint.f
+unset echo
+Fri Mar 11 11:29:59 EST 2016
+0.333u 0.015s 0:00.34 100.0%	0+0k 0+376io 0pf+0w
+======================== tddnlr ==============================
+Fri Mar 11 11:29:59 EST 2016
+Copying source code, tddnlr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddnlr.f
+unset echo
+Fri Mar 11 11:30:00 EST 2016
+0.823u 0.019s 0:00.85 97.6%	0+0k 0+840io 0pf+0w
+======================== tddxca ==============================
+Fri Mar 11 11:30:00 EST 2016
+Copying source code, tddxca.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddxca.f
+unset echo
+Fri Mar 11 11:34:37 EST 2016
+277.397u 0.041s 4:37.41 100.0%	0+0k 0+1984io 0pf+0w
+======================== tddxcc ==============================
+Fri Mar 11 11:34:37 EST 2016
+Copying source code, tddxcc.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddxcc.f
+unset echo
+Fri Mar 11 11:34:38 EST 2016
+0.298u 0.022s 0:00.33 93.9%	0+0k 0+264io 0pf+0w
+======================== tddxcd ==============================
+Fri Mar 11 11:34:38 EST 2016
+Copying source code, tddxcd.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tddxcd.f
+unset echo
+Fri Mar 11 11:34:57 EST 2016
+18.822u 0.107s 0:18.93 99.9%	0+0k 0+10664io 0pf+0w
+======================== tdhf ==============================
+Fri Mar 11 11:34:57 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/tdhf.src to create tdhf.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdhf.f
+unset echo
+Fri Mar 11 11:34:58 EST 2016
+1.299u 0.054s 0:01.35 99.2%	0+0k 0+1832io 0pf+0w
+======================== tdx ==============================
+Fri Mar 11 11:34:58 EST 2016
+Copying source code, tdx.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdx.f
+unset echo
+Fri Mar 11 11:34:59 EST 2016
+0.636u 0.040s 0:00.68 98.5%	0+0k 0+720io 0pf+0w
+======================== tdxio ==============================
+Fri Mar 11 11:34:59 EST 2016
+Copying source code, tdxio.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdxio.f
+unset echo
+Fri Mar 11 11:34:59 EST 2016
+0.326u 0.037s 0:00.36 97.2%	0+0k 0+416io 0pf+0w
+======================== tdxitr ==============================
+Fri Mar 11 11:34:59 EST 2016
+Copying source code, tdxitr.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdxitr.f
+unset echo
+Fri Mar 11 11:35:00 EST 2016
+1.126u 0.021s 0:01.14 100.0%	0+0k 0+1232io 0pf+0w
+======================== tdxni ==============================
+Fri Mar 11 11:35:00 EST 2016
+Copying source code, tdxni.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdxni.f
+unset echo
+Fri Mar 11 11:35:02 EST 2016
+1.660u 0.041s 0:01.71 99.4%	0+0k 0+1888io 0pf+0w
+======================== tdxprp ==============================
+Fri Mar 11 11:35:02 EST 2016
+Copying source code, tdxprp.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations tdxprp.f
+unset echo
+Fri Mar 11 11:35:02 EST 2016
+0.475u 0.024s 0:00.50 98.0%	0+0k 16+520io 0pf+0w
+======================== trans ==============================
+Fri Mar 11 11:35:02 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/trans.src to create trans.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations trans.f
+unset echo
+Fri Mar 11 11:35:04 EST 2016
+1.092u 0.024s 0:01.12 99.1%	0+0k 0+1400io 0pf+0w
+======================== trfdm2 ==============================
+Fri Mar 11 11:35:04 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/trfdm2.src to create trfdm2.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations trfdm2.f
+unset echo
+Fri Mar 11 11:35:04 EST 2016
+0.675u 0.045s 0:00.71 100.0%	0+0k 0+832io 0pf+0w
+======================== trnstn ==============================
+Fri Mar 11 11:35:04 EST 2016
+Copying source code, trnstn.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations trnstn.f
+unset echo
+Fri Mar 11 11:35:06 EST 2016
+1.400u 0.020s 0:01.42 100.0%	0+0k 0+1464io 0pf+0w
+======================== trudge ==============================
+Fri Mar 11 11:35:06 EST 2016
+Copying source code, trudge.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations trudge.f
+unset echo
+Fri Mar 11 11:35:06 EST 2016
+0.541u 0.016s 0:00.55 100.0%	0+0k 0+456io 0pf+0w
+======================== umpddi ==============================
+Fri Mar 11 11:35:06 EST 2016
+Copying source code, umpddi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations umpddi.f
+unset echo
+Fri Mar 11 11:35:08 EST 2016
+1.997u 0.025s 0:02.02 100.0%	0+0k 0+1816io 0pf+0w
+======================== unport ==============================
+Fri Mar 11 11:35:08 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/unport.src to create unport.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations unport.f
+unset echo
+Fri Mar 11 11:35:08 EST 2016
+0.130u 0.029s 0:00.15 100.0%	0+0k 0+440io 0pf+0w
+======================== utddft ==============================
+Fri Mar 11 11:35:08 EST 2016
+Activating /home/junhao/gamess/gamess_tmp/source/utddft.src to create utddft.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations utddft.f
+unset echo
+Fri Mar 11 11:35:10 EST 2016
+1.256u 0.042s 0:01.30 99.2%	0+0k 0+1464io 0pf+0w
+======================== vibanl ==============================
+Fri Mar 11 11:35:10 EST 2016
+Copying source code, vibanl.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vibanl.f
+unset echo
+Fri Mar 11 11:35:11 EST 2016
+1.383u 0.041s 0:01.42 100.0%	0+0k 0+1208io 0pf+0w
+======================== vscf ==============================
+Fri Mar 11 11:35:11 EST 2016
+Copying source code, vscf.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vscf.f
+unset echo
+Fri Mar 11 11:35:14 EST 2016
+3.059u 0.065s 0:03.12 99.6%	0+0k 0+2432io 0pf+0w
+======================== vvos ==============================
+Fri Mar 11 11:35:14 EST 2016
+Copying source code, vvos.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vvos.f
+unset echo
+Fri Mar 11 11:35:17 EST 2016
+2.742u 0.036s 0:02.78 99.6%	0+0k 0+4184io 0pf+0w
+======================== zapddi ==============================
+Fri Mar 11 11:35:17 EST 2016
+Copying source code, zapddi.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations zapddi.f
+unset echo
+Fri Mar 11 11:35:19 EST 2016
+1.818u 0.027s 0:01.85 98.9%	0+0k 0+1408io 0pf+0w
+======================== zheev ==============================
+Fri Mar 11 11:35:19 EST 2016
+Copying source code, zheev.src does not require activation.
+gfortran -c -fdefault-integer-8 -O0 -std=legacy -w -fno-aggressive-loop-optimizations zheev.f
+unset echo
+Fri Mar 11 11:35:20 EST 2016
+0.529u 0.032s 0:00.57 96.4%	0+0k 0+2256io 0pf+0w
+======================== zmatrx ==============================
+Fri Mar 11 11:35:20 EST 2016
+Copying source code, zmatrx.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations zmatrx.f
+unset echo
+Fri Mar 11 11:35:20 EST 2016
+0.825u 0.033s 0:00.85 100.0%	0+0k 0+848io 0pf+0w
+======================== vb2000 ==============================
+Fri Mar 11 11:35:20 EST 2016
+Copying vb2000.src from VB2000 directory named /home/junhao/gamess/gamess_tmp/vb2000/SRC
+Copying source code, vb2000.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vb2000.f
+unset echo
+Fri Mar 11 11:35:30 EST 2016
+9.283u 0.111s 0:09.41 99.7%	0+0k 8+9320io 0pf+0w
+======================== vb2gms ==============================
+Fri Mar 11 11:35:30 EST 2016
+Copying vb2gms.src from VB2000 directory named /home/junhao/gamess/gamess_tmp/vb2000/SRC
+Activating /home/junhao/gamess/gamess_tmp/source/vb2gms.src to create vb2gms.f for target linux64...
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vb2gms.f
+unset echo
+Fri Mar 11 11:35:31 EST 2016
+0.776u 0.031s 0:00.81 98.7%	0+0k 0+1120io 0pf+0w
+======================== vbdum ==============================
+Fri Mar 11 11:35:31 EST 2016
+Copying source code, vbdum.src does not require activation.
+gfortran -c -fdefault-integer-8 -O2 -std=legacy -w -fno-aggressive-loop-optimizations vbdum.f
+unset echo
+Fri Mar 11 11:35:31 EST 2016
+0.047u 0.013s 0:00.05 100.0%	0+0k 0+24io 0pf+0w
+------------------- done with all compilations --------------------
+Fri Mar 11 11:35:31 EST 2016
+727.332u 10.795s 12:18.73 99.9%	0+0k 64+445720io 0pf+0w

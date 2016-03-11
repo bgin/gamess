@@ -1,0 +1,37 @@
+! 16 May 14 - SRP - Created common module for RMD multistate method
+!
+!> @brief      Module for RMD multistate method
+!>
+!> @author     Spencer R. Pruitt
+!>             -2014
+!>
+!> @details    Store common data
+!>
+!> @date : March 18, 2014 - Spencer R. Pruitt
+!>         Created module
+!>
+      MODULE rmddat
+      
+      IMPLICIT NONE
+      
+      SAVE
+
+!     USING A MODDULE IN F90 IS SIMILAR TO USING A COMMON BLOCK IN F77
+!     WE ARE USING THIS MODULE TO STORE DATA FOR THE RMD METHOD THAT MUST
+!     BE ACCESSED FROM MULTIPLE SUBROUTINES
+!
+!      COMMON /RMDINF/ IRMDRUN,NHOPS,HOPDST,IRMDDAT(MXATM*5),
+!     *                IRMDCHG(MXATM*5),NSCHMS,ISCHM
+!
+!     NOTICE THE "SAVE" STATEMENT ABOVE.  THIS IS CRITICAL IF YOU WANT TO 
+!     KEEP YOUR DATA ALIVE.
+
+      integer :: IRMDRUN, NHOPS, HOPDST, NSCHMS, ISCHM
+      integer :: IRMDDAT(30*2000)
+      integer :: IRMDCHG(30*2000)
+      integer :: reactive(30*2000)
+      double precision :: RMD_G(3*30*2000)
+      double precision :: RMD_E(30*2000)
+
+      END MODULE rmddat
+

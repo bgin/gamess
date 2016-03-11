@@ -1,0 +1,53 @@
+GFORTRAN module version '10' created from rmddat.f
+MD5:6dc4e424de59d8cd7ab341db13c8a922 -- If you edit this, you'll get what you deserve.
+
+(() () () () () () () () () () () () () () () () () () () () () () () ()
+() () ())
+
+()
+
+()
+
+()
+
+()
+
+()
+
+(2 'hopdst' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
+3 'irmdchg' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0 DIMENSION) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () (1 0
+EXPLICIT (CONSTANT (INTEGER 8 0 0 0 INTEGER ()) 0 '1') (CONSTANT (
+INTEGER 8 0 0 0 INTEGER ()) 0 '60000')) 0 () () () 0 0)
+4 'irmddat' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0 DIMENSION) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () (1 0
+EXPLICIT (CONSTANT (INTEGER 8 0 0 0 INTEGER ()) 0 '1') (CONSTANT (
+INTEGER 8 0 0 0 INTEGER ()) 0 '60000')) 0 () () () 0 0)
+5 'irmdrun' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
+6 'ischm' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
+7 'nhops' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
+8 'nschms' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0) (INTEGER 8 0 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
+9 'reactive' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
+UNKNOWN EXPLICIT-SAVE 0 0 DIMENSION) (INTEGER 8 0 0 0 INTEGER ()) 0 0 ()
+(1 0 EXPLICIT (CONSTANT (INTEGER 8 0 0 0 INTEGER ()) 0 '1') (CONSTANT (
+INTEGER 8 0 0 0 INTEGER ()) 0 '60000')) 0 () () () 0 0)
+10 'rmd_e' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ()) 0 0 () (1 0 EXPLICIT
+(CONSTANT (INTEGER 8 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 8 0 0 0
+INTEGER ()) 0 '60000')) 0 () () () 0 0)
+11 'rmd_g' 'rmddat' '' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+EXPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 0 REAL ()) 0 0 () (1 0 EXPLICIT
+(CONSTANT (INTEGER 8 0 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 8 0 0 0
+INTEGER ()) 0 '180000')) 0 () () () 0 0)
+12 'rmddat' 'rmddat' '' 1 ((MODULE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+UNKNOWN 0 0) (UNKNOWN 0 0 0 0 UNKNOWN ()) 0 0 () () 0 () () () 0 0)
+)
+
+('hopdst' 0 2 'irmdchg' 0 3 'irmddat' 0 4 'irmdrun' 0 5 'ischm' 0 6
+'nhops' 0 7 'nschms' 0 8 'reactive' 0 9 'rmd_e' 0 10 'rmd_g' 0 11 'rmddat'
+0 12)

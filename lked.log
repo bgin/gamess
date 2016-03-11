@@ -1,0 +1,34 @@
+Fri Mar 11 17:20:55 EST 2016
+GAMESS will be linked into the binary file gamess.00.x.
+ 
+The name of the linker on this machine is gfortran,
+and the linker options are " ".
+ 
+Object code list begins "gamess.o unport.o",
+followed by   BLAS object code " ",
+followed by LAPACK object code "dgeev.o dgesvd.o zheev.o",
+followed by VECTOR object code " ",
+followed by memory object code "zunix.o",
+followed by the standard GAMESS object code list,
+ 
+aldeci.o algnci.o basccn.o basecp.o basext.o basg3l.o bashuz.o bashz2.o baskar.o basn21.o basn31.o baspcn.o basg3x.o bassto.o casino.o ccaux.o ccddi.o ccqaux.o ccquad.o ccsdt.o ceeis.o cepa.o chgpen.o cimf.o ciminf.o cimi.o cimlib.o cimsub.o cisgrd.o comp.o cosmo.o cosprt.o cphf.o cpmchf.o cprohf.o cpuhf.o dccc.o dcgrd.o dcgues.o dcint2.o dclib.o dcmp2.o dcscf.o dctran.o ddilib.o delocl.o demrpt.o dft.o dftaux.o dftbfo.o dftbgr.o dftbhs.o dftblb.o dftbsk.o dftbx.o dftdis.o dftfun.o dftgrd.o dftint.o dftxca.o dftxcb.o dftxcc.o dftxcd.o dftxce.o dftxcf.o dftxcg.o diab.o dmulti.o drc.o eaipcc.o ecp.o ecpder.o ecplib.o ecppot.o efchtr.o efdrvr.o efelec.o efgrd2.o efgrda.o efgrdb.o efgrdc.o efinp.o efinta.o efintb.o efmo.o efpaul.o efpcm.o efpcov.o efpfmo.o eftei.o eigen.o elglib.o elgloc.o elgscf.o eomcc.o ewald.o excorr.o ffield.o fmo.o fmocp.o fmoesd.o fmogrd.o fmoh1a.o fmoh2a.o fmoh2b.o fmohss.o fmoint.o fmoio.o fmolib.o fmomm.o fmopbc.o fmoprp.o
+frfmt.o fsodci.o g3.o globop.o gmcpt.o gradex.o guess.o grd1.o grd2a.o grd2b.o grd2c.o gugdga.o gugdgb.o gugdm.o gugdm2.o gugdrt.o gugem.o gugsrt.o gvb.o hess.o hss1a.o hss1b.o hss2a.o hss2b.o inputa.o inputb.o inputc.o int1.o int2a.o int2b.o int2c.o int2d.o int2f.o int2g.o int2r.o int2s.o iolib.o ivocas.o lagran.o local.o loccd.o locpol.o locsvd.o lrd.o mcpgrd.o mcpinp.o mcpint.o mcpl10.o mcpl20.o mcpl30.o mcpl40.o mcpl50.o mcpl60.o mcpl70.o mcpl80.o mccas.o mcjac.o mcqdpt.o mcqdwt.o mcqud.o mcscf.o mctwo.o mdefp.o mexing.o mltfmo.o mm23.o morokm.o mnsol.o mp2.o mp2ddi.o mp2grd.o mp2gr2.o mp2ims.o mpcdat.o mpcdatpm6.o mpcgrd.o mpchbond.o mpcint.o mpcmol.o mpcmsc.o mpcpcm.o mthlib.o nameio.o nmr.o
+optcix.o ordint.o ormas1.o ormpt2.o parley.o pcm.o pcmcav.o pcmcv2.o pcmder.o pcmdis.o pcmief.o pcmpol.o pcmvch.o prpamm.o prpel.o prplib.o prppop.o qeigen.o qfmm.o qmfm.o qrel.o quanpo.o raman.o rhfuhf.o ricab.o riint.o rimp2.o rmd.o rmddat.o rmdgen.o rmdwrk.o roeom.o rohfcc.o rxncrd.o ryspol.o scflib.o scfmi.o scrf.o sfdft.o sfgrad.o sobrt.o soffac.o solib.o sozeff.o statpt.o surf.o svpchg.o svpinp.o svpleb.o symhi.o symorb.o symslc.o tddft.o tddefp.o tddfun.o tddfxc.o tddgrd.o tddint.o tddnlr.o tddxca.o tddxcc.o tddxcd.o tdhf.o tdx.o tdxio.o tdxitr.o tdxni.o tdxprp.o trans.o trfdm2.o trnstn.o trudge.o umpddi.o utddft.o vibanl.o vscf.o vvos.o zapddi.o zmatrx.o
+ 
+Choices for some optional plug-in codes are
+   Tinker/SIMOMM code skipped, using dummy file qmmm.o
+   Valence Bond program VB2000 object files are vb2000.o vb2gms.o
+   Nuclear Electron Orbital code skipped, using dummy file neostb.o
+   Natural Bond Orbital (NBO) code skipped, using dummy file nbostb.o
+   MPQC code skipped, using dummy file mpqcst.o
+ 
+   The message passing libraries searched are
+/home/junhao/gamess/gamess_tmp/ddi/libddi.a -lpthread
+ 
+   Other libraries, including math libraries, to be searched are
+-Wl,--start-group /opt/intel/mkl/lib/intel64/libmkl_gf_ilp64.a /opt/intel/mkl/lib/intel64/libmkl_sequential.a /opt/intel/mkl/lib/intel64/libmkl_core.a -Wl,--end-group
+ 
+Linker messages (if any) follow...
+ 
+The linking of GAMESS to binary gamess.00.x was successful.
+0.400u 0.120s 0:00.52 100.0%	0+0k 0+72128io 0pf+0w
