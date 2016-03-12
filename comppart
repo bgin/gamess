@@ -381,7 +381,7 @@ if ($GMS_DDI_COMM == serial) ./comp serial
 ./comp gugdm2
 #./comp gugdrt
 #./comp gugem
-#./comp gugsrt
+./comp gugsrt
 #./comp gvb
 #./comp hess
 #./comp hss1a
