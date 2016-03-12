@@ -346,7 +346,7 @@ if ($GMS_DDI_COMM == serial) ./comp serial
 #./comp elgloc
 #./comp elgscf
 #./comp excorr
-#./comp eomcc
+./comp eomcc
 #./comp ewald
 #./comp ffield
 #./comp fmo
