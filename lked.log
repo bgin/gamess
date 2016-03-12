@@ -1,4 +1,4 @@
-Fri Mar 11 17:20:55 EST 2016
+Sat Mar 12 11:36:32 EST 2016
 GAMESS will be linked into the binary file gamess.00.x.
  
 The name of the linker on this machine is gfortran,
@@ -31,4 +31,4 @@ Choices for some optional plug-in codes are
 Linker messages (if any) follow...
  
 The linking of GAMESS to binary gamess.00.x was successful.
-0.400u 0.120s 0:00.52 100.0%	0+0k 0+72128io 0pf+0w
+0.397u 0.106s 0:00.50 98.0%	0+0k 0+72128io 0pf+0w
